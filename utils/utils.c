@@ -1,7 +1,6 @@
-#include "mini.h"
+#include "../minishell.h"
 
-
-// t_data* read_cmds(t_data *data,char **av ,int ac)
+// t_command* read_cmds(t_command *data,char **av ,int ac)
 // {
 //     int i;
 //     i=1;
@@ -12,9 +11,10 @@
 //         data->cmds[i]=av[i];
 //         i++;
 //     }
-//     return data;
+//     return (data);
 // }
-void	print_cmd_error(char *cmd, char *msg_err, int status_code,int output_fd)
+void	print_cmd_error(char *cmd, char *msg_err, int status_code,
+		int output_fd)
 {
 	char	*my_shell;
 

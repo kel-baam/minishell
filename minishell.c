@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/08 23:17:54 by kel-baam          #+#    #+#             */
-/*   Updated: 2022/10/24 17:10:56 by kel-baam         ###   ########.fr       */
+/*   Created: 2023/03/26 14:35:45 by kel-baam          #+#    #+#             */
+/*   Updated: 2023/03/26 14:35:48 by kel-baam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "mini.h"
+#include "minishell.h"
 
-char	*ft_strchr(const char *s, int c)
+int	main(int ac, char **av, char **envs)
 {
-	int	i;
-
-	i = 0;
-	while (s[i])
+	t_command *command;
+	while(1)
 	{
-		if ((unsigned char)s[i] == (unsigned char)c)
-			return ((char *)(&s[i]));
-		i++;
+		//command=parser();
+		executer(command,envs);
 	}
-	if ((unsigned char)c == '\0')
-		return ((char *)(&s[i]));
-	return (NULL);
+	return (0);
 }

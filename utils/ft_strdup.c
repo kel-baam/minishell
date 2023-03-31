@@ -9,7 +9,7 @@
 /*   Updated: 2022/10/24 17:10:44 by kel-baam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "mini.h"
+#include "../minishell.h"
 
 char	*ft_strdup(const char *s1)
 {

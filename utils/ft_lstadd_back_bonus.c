@@ -9,7 +9,7 @@
 /*   Updated: 2022/10/23 23:05:27 by kel-baam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "mini.h"
+#include "../minishell.h"
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {

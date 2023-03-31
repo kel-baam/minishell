@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/17 17:43:52 by kel-baam          #+#    #+#             */
-/*   Updated: 2022/10/23 23:09:51 by kel-baam         ###   ########.fr       */
+/*   Created: 2022/10/17 17:11:33 by kel-baam          #+#    #+#             */
+/*   Updated: 2022/10/21 13:11:18 by kel-baam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "mini.h"
+#include "../minishell.h"
 
-t_list	*ft_lstlast(t_list *lst)
+t_list	*ft_lstnew(void *content)
 {
-	if (!lst)
+	t_list	*elem;
+
+	elem = (t_list *)malloc(sizeof(t_list));
+	if (!elem)
 		return (NULL);
-	while (lst->next)
-	{
-		lst = lst->next;
-	}
-	return (lst);
+	elem->content = content;
+	elem->next = NULL;
+	return (elem);
 }

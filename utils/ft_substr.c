@@ -1,39 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/16 17:27:41 by kel-baam          #+#    #+#             */
-/*   Updated: 2022/10/23 23:06:58 by kel-baam         ###   ########.fr       */
+/*   Created: 2022/10/12 15:13:47 by kel-baam          #+#    #+#             */
+/*   Updated: 2022/10/23 22:59:54 by kel-baam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "mini.h"
-
-char	*ft_strjoin(char const *s1, char const *s2)
+#include "../minishell.h"
+int	ft_strlen(const char *str)
 {
-	int		i;
-	int		j;
-	char	*p;
+	int	i;
 
 	i = 0;
-	if (!s1 || !s2)
+	while (str[i])
+		i++;
+	return (i);
+}
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t			i;
+	char			*p;
+	unsigned char	size;
+
+	i = 0;
+	if (!s)
 		return (NULL);
-	p = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (start > (unsigned int)ft_strlen(s))
+		return (ft_strdup(""));
+	if (len + start > (unsigned int)ft_strlen(s))
+		len = ft_strlen(s) - start;
+	p = malloc((len + 1) * sizeof(char));
 	if (!p)
 		return (NULL);
-	while (s1[i])
+	size = len + start;
+	while (start < size)
 	{
-		p[i] = s1[i];
+		p[i] = s[start++];
 		i++;
-	}
-	j = 0;
-	while (s2[j])
-	{
-		p[i] = s2[j];
-		i++;
-		j++;
 	}
 	p[i] = '\0';
 	return (p);

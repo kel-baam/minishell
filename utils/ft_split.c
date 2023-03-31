@@ -9,7 +9,7 @@
 /*   Updated: 2022/10/23 23:07:25 by kel-baam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "mini.h"
+#include "../minishell.h"
 
 static int	len_words(char const *s, char c)
 {
@@ -77,11 +77,11 @@ static void	free_memory(char **str, int len)
 	{
 		while (i < len && str[i])
 		{
-			free (str[i]);
+			free(str[i]);
 			str[i] = NULL;
 			i++;
 		}
-		free (str);
+		free(str);
 	}
 }
 
