@@ -17,7 +17,7 @@ int	main(int ac, char **av, char **envs)
 	while(1)
 	{
 		//command=parser();
-		executerssss(command,envs);
+		executer(command,envs);
 	}
 	return (0);
 }
