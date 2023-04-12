@@ -16,11 +16,11 @@ typedef struct t_list
 typedef struct s_command
 {
 	char			*cmd;
-	char			*envs;
-	char			**paths;
 	char			**args;
-	int				redi;
+	int				redi_out;
+	int				redi_in;
 	char			*outfile;
+	char			*infile;
 }					t_command;
 t_command			*read_cmds(t_command *data, char **av, int ac);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
