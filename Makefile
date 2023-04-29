@@ -10,7 +10,7 @@ OBJ =  *.o ./executer/*.o ./parser/*.o ./utils/*.o
 all : $(NAME)
 
 $(NAME) :$(SUB)
-	${CC} ${CFLAGS} ${SUB}   -o ${NAME}
+	${CC} ${CFLAGS} -lreadline ${SUB}   -o ${NAME}
 
 
 clean :
