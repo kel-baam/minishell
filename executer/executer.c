@@ -86,6 +86,7 @@ void  redirection_input(t_command *command,char *path,char **envs)
 		if(fd!=-1)
 			close(fd);
 		fd=open(command->infile[i],O_RDONLY  ,0644);
+		
 		// protection fd==-1
 		i++;
 	}
