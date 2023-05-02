@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/26 14:35:45 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/03/26 14:35:48 by kel-baam         ###   ########.fr       */
+/*   Created: 2022/10/09 14:24:19 by kel-baam          #+#    #+#             */
+/*   Updated: 2022/10/23 22:58:11 by kel-baam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "minishell.h"
+#include "../minishell.h"
 
-int	main(int ac, char **av, char **envs)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	t_command *commands;
-	while(1)
+	size_t	i;
+
+	i = 0;
+	while (i < n && (s1[i] || s2[i]))
 	{
-		//command=parser();
-		commands = init_command();
-		executer(commands,envs);
-		free(commands);
-		exit(0);
+		if ((unsigned char)s1[i] != (unsigned char)s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
 	}
 	return (0);
 }
