@@ -13,11 +13,14 @@
 
 int	main(int ac, char **av, char **envs)
 {
-	t_command *command;
+	t_command *commands;
 	while(1)
 	{
 		//command=parser();
-		executer(command,envs);
+		commands = init_command();
+		executer(commands,envs);
+		free(commands);
+		exit(0);
 	}
 	return (0);
 }

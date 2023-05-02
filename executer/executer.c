@@ -1,20 +1,6 @@
 #include "../minishell.h"
-t_command	*init_command()
-{
-	t_command	*command;
-	command = malloc(sizeof(t_command) * 1);
-	command->cmd = "echo";
-	command->args = ft_split("echo hello 1337", ' ');
-	command->redi_out=1;
-	command->redi_in=1;
-	command->append_redi=1;
-	command->herdoc_delim="end";
-	command->infile=ft_split("test.txt test2.txt test3.txt", ' ');
-	command->outfile=ft_split("test.txt test3.txt test2.txt", ' ');
-	
 
-	return (command);
-}
+
 char	*get_right_path(char *cmd, t_command *data)
 {
 	int		i;
@@ -36,6 +22,7 @@ char	*get_right_path(char *cmd, t_command *data)
 		absolute_path = NULL;
 		i++;
 	}
+	
 	return (absolute_path);
 }
 
@@ -54,63 +41,61 @@ char	*get_actual_path(char *cmd, t_command *data)
 		}
 		print_cmd_error(cmd, strerror(errno), status, STDERR_FILENO);
 	}
+	
 	return (get_right_path(cmd, data));
 }
-void  redirection_output(t_command *command,char *path,char **envs)
-{
-	int i;
-	int fd;
-	
-	i=0;
-	fd=-1;
-	while(command->outfile[i])
-	{
-		if(fd!=-1)
-			close(fd);
-		fd=open(command->outfile[i],O_WRONLY | O_CREAT | O_TRUNC ,0644);
-		// protection fd==-1
-		i++;
-	}
-		dup2(fd,STDOUT_FILENO);
-		execve(path, command->args, envs);
-}
-void  redirection_input(t_command *command,char *path,char **envs)
-{
-	int i;
-	int fd;
 
-	i=0;
-	fd =-1;
-	while(command->infile[i])
+int  get_outfile_fd(t_command *command)
+{
+	int fd;
+	t_red *tmp;
+	t_list *tmp_list=command->redir_out;
+	fd=STDOUT_FILENO;
+	while(tmp_list)
 	{
-		if(fd!=-1)
+		tmp = (t_red*) tmp_list->content;
+		if(tmp->flag)
+			fd=open(tmp->file_name,O_WRONLY | O_CREAT | O_TRUNC ,0644);
+		else
+			fd=open(tmp->file_name,O_WRONLY | O_CREAT | O_APPEND ,0644);
+		if(fd==-1)
+			print_cmd_error(tmp->file_name, strerror(errno),1, STDERR_FILENO);
+		if(tmp_list->next && fd!=STDOUT_FILENO)
 			close(fd);
-		fd=open(command->infile[i],O_RDONLY  ,0644);
-		
-		// protection fd==-1
-		i++;
+		tmp_list=tmp_list->next;
 	}
-		dup2(fd,STDIN_FILENO);
-		execve(path, command->args, envs);
+	return fd;
 }
-void  redirection_output_append(t_command *command,char *path,char **envs)
+
+int get_inputfile_fd(t_command *command)
 {
 	int i;
 	int fd;
+	t_list *tmp;
 
-	i=0;
-	fd =-1;
-	while(command->outfile[i])
+	fd=STDIN_FILENO;
+	tmp=command->redir_in;
+
+	while(tmp)
 	{
-		if(fd!=-1)
+		fd=open(tmp->content,O_RDONLY ,0644);
+		if(fd==-1)
+			print_cmd_error(tmp->content, strerror(errno),1, STDERR_FILENO);
+		if(tmp->next && fd)
 			close(fd);
-		fd=open(command->outfile[i],O_WRONLY,O_APPEND);
-		// protection fd==-1
-		i++;
+		tmp=tmp->next;
 	}
-		dup2(fd,STDOUT_FILENO);
-		execve(path, command->args, envs);
-	
+	return fd;
+}
+
+void execute_command(t_command *command,char *path,char **envs)
+{
+	int infile_fd=get_inputfile_fd(command);
+	int outfile_fd=get_outfile_fd(command);
+	dup2(infile_fd,STDIN_FILENO);
+    dup2(outfile_fd,STDOUT_FILENO);
+	execve(path,command->args,envs);
+
 }
 void redirection_herdoc(t_command *command)
 {
@@ -129,18 +114,20 @@ void redirection_herdoc(t_command *command)
 	}
 }
 
-void	executer(t_command *command,char **envs)
+void	executer(t_command *commands,char **envs)
 {	
-	command = init_command();
-	char *path = get_actual_path(command->cmd, command);
+	
+	char *path = get_actual_path(commands->cmd, commands);
 	if (!path)
-		printf("error\n");
-	//if(command->redi_in==1)
-		//redirection_input(command,path,envs);
-	//if(command->redi_out==1)
-		//redirection_output(command,path,envs);
-	//if(command->append_redi==1)
-		//redirection_output_append(command,path,envs);
-	redirection_herdoc(command);
+		return ;
+	// tmp = commands
+
+	// while(tmp)
+	
+	//pipe
+	// fork
+	//
+	execute_command(commands,path,envs);
+
 	exit(0);
 }
