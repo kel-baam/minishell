@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/26 14:35:45 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/03/26 14:35:48 by kel-baam         ###   ########.fr       */
+/*   Created: 2022/10/17 17:23:33 by kel-baam          #+#    #+#             */
+/*   Updated: 2022/10/17 17:29:26 by kel-baam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "minishell.h"
 
-int	main(int ac, char **av, char **envs)
+#include "../minishell.h"
+
+int	ft_lstsize(t_list *lst)
 {
-	t_list *commands;
-	while(1)
+	int	len;
+
+	len = 0;
+	while (lst)
 	{
-		//command=parser();
-		commands = init_commands();
-		executer(commands,envs);
-		free(commands);
-		exit(0);
+		len++;
+		lst = lst->next;
 	}
-	return (0);
+	return (len);
 }
