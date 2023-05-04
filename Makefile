@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -fsanitize=address #-Wall -Wextra -Werror
+CFLAGS =-fsanitize=address #-Wall -Wextra -Werror
 
 SUB = *.c ./executer/*.c ./parser/*.c ./utils/*.c
 
