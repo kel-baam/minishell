@@ -12,16 +12,45 @@
 
 #include "../minishell.h"
 
-char	*get_right_path(char *cmd, t_command *data)
+
+char	*get_env(char **envs, char *var)
+{
+	int		i;
+	char	**tmp_var;
+	char	*value;
+
+	i = 0;
+	value = NULL;
+	while (envs[i])
+	{
+		tmp_var = ft_split(envs[i], '=');
+		if (tmp_var)
+		{
+			if (!strcmp(tmp_var[0], var))
+			{
+				value = ft_strdup(tmp_var[1]);
+				free_double_ptr(tmp_var);
+				break ;
+			}
+		}
+		free_double_ptr(tmp_var);
+		i++;
+	}
+	return (value);
+}
+
+char	*get_right_path(char *cmd, t_command *data,char **envs)
 {
 	int		i;
 	char	*absolute_path;
-	char *envs;
-	char **paths;
+	char	*env;
+	char	**paths;
 
 	i = 0;
-	envs=getenv("PATH");
-	paths = ft_split(envs, ':');
+	env = get_env(envs,"PATH");
+	if (!env)
+		print_cmd_error(cmd, "No such file or directory", 1, STDERR_FILENO);
+	paths = ft_split(env, ':');
 	absolute_path = NULL;
 	cmd = ft_strjoin("/", cmd);
 	while (paths[i])
@@ -33,11 +62,10 @@ char	*get_right_path(char *cmd, t_command *data)
 		absolute_path = NULL;
 		i++;
 	}
-	
 	return (absolute_path);
 }
 
-char	*get_actual_path(char *cmd, t_command *data)
+char	*get_actual_path(char *cmd, t_command *data,char **envs)
 {
 	int	status;
 
@@ -52,6 +80,5 @@ char	*get_actual_path(char *cmd, t_command *data)
 		}
 		print_cmd_error(cmd, strerror(errno), status, STDERR_FILENO);
 	}
-	
-	return (get_right_path(cmd, data));
+	return (get_right_path(cmd, data,envs));
 }

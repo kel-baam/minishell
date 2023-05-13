@@ -14,38 +14,64 @@
 # define MINI_H
 
 # include <fcntl.h>
+# include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/errno.h>
+# include <sys/wait.h>
 # include <unistd.h>
- #include <sys/wait.h>
+#include <stdbool.h>
+# define TABLE_SIZE 1024
+
 typedef struct t_list
 {
 	void			*content;
 	struct t_list	*next;
 
 }					t_list;
-
+typedef struct s_pair
+{
+	char			*key;
+	char			*value;
+}					t_pair;
+typedef struct s_tree
+{
+	char *key;
+	char *value;
+	struct s_tree		*left;
+	struct s_tree		*right;
+}					t_tree;
 typedef struct t_red
 {
 	void			*file_name;
-	int flag; //1 if red out 0 if red append
-				// struct t_red *next;
+	int flag; //1 if red out 0 if red out  append
+		// struct t_red *next;
 }					t_red;
 
 typedef struct s_command
 {
 	char			*cmd;
 	char			**args;
+	t_list			*redir_in;
+	t_list			*redir_out;
+	int				status;
 	//int herdoc;         //flag for exestence of herdoc <<
 	//char *herdoc_delim; // delimiter of herdoc
 	//int append_redi;    // flag redirection >>
-	t_list			*redir_in;
-	t_list			*redir_out;
 }					t_command;
 
+typedef struct s_data
+{
+	t_list			*env_vars[TABLE_SIZE];
+	int				total_envs;
+	int				status;
+
+}					t_data;
+
+t_data				g_data;
 t_command			*read_cmds(t_command *data, char **av, int ac);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 int					ft_strlen(const char *str);
@@ -60,6 +86,14 @@ void				print_cmd_error(char *cmd, char *msg_err, int status_code,
 						int output_fd);
 void				executer(t_list *command, char **envs);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
-t_list			*init_commands();
-char	*get_actual_path(char *cmd, t_command *data);
+t_list				*init_commands();
+char				*get_actual_path(char *cmd, t_command *data, char **envs);
+void				free_double_ptr(char **ptr);
+char				*get_env();
+void				initilizer(char **envs);
+void				init_envs(char **envs);
+void				ft_env(void);
+int					find_char(char *str, char c);
+void ft_unset (char *command);
+void  ft_export();
 #endif

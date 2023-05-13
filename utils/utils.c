@@ -39,3 +39,33 @@ void	print_cmd_error(char *cmd, char *msg_err, int status_code,
 	write(output_fd, "\n", 1);
 	exit(status_code);
 } 
+
+void	free_double_ptr(char **ptr)
+{
+	int	i;
+
+	i = 0;
+	if (ptr)
+	{
+		while (ptr[i])
+		{
+			free(ptr[i]);
+			ptr[i] = NULL;
+			i++;
+		}
+		free(ptr);
+	}
+}
+int	find_char(char *str,char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			break ;
+		i++;
+	}
+	return (i);
+}

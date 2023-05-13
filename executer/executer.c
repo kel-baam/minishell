@@ -13,26 +13,23 @@
 #include "../minishell.h"
 
 
-int  get_outfile_fd(t_command *command)
+void  get_outfile_fd(int *fd,t_list *file_list)
 {
-	int fd;
-	t_red *tmp;
-	t_list *tmp_list=command->redir_out;
-	fd=STDOUT_FILENO;
-	while(tmp_list)
+	t_list *tmp=file_list;
+	t_red *tmp_redir;
+	while(tmp)
 	{
-		tmp = (t_red*) tmp_list->content;
-		if(tmp->flag)
-			fd=open(tmp->file_name,O_WRONLY | O_CREAT | O_TRUNC ,0644);
+		tmp_redir = (t_red*) tmp->content;
+		if(tmp_redir->flag)
+			*fd=open(tmp_redir->file_name,O_WRONLY | O_CREAT | O_TRUNC ,0644);
 		else
-			fd=open(tmp->file_name,O_WRONLY | O_CREAT | O_APPEND ,0644);
-		if(fd==-1)
-			print_cmd_error(tmp->file_name, strerror(errno),1, STDERR_FILENO);
-		if(tmp_list->next && fd!=STDOUT_FILENO)
-			close(fd);
-		tmp_list=tmp_list->next;
+			*fd=open(tmp_redir->file_name,O_WRONLY | O_CREAT | O_APPEND ,0644);
+		if(*fd==-1)
+			print_cmd_error(tmp_redir->file_name, strerror(errno),1, STDERR_FILENO);
+		if(tmp->next && *(fd)!=STDOUT_FILENO)
+			close(*fd);
+		tmp=tmp->next;
 	}
-	return fd;
 }
 
 void get_inputfile_fd(int *last_fd, t_list *redir_in)
@@ -50,15 +47,6 @@ void get_inputfile_fd(int *last_fd, t_list *redir_in)
 	}
 }
 
-// void execute_command(t_command *command,char *path,char **envs)
-// {
-// 	int infile_fd=get_inputfile_fd(command);
-// 	int outfile_fd=get_outfile_fd(command);
-// 	dup2(infile_fd,STDIN_FILENO);
-//     dup2(outfile_fd,STDOUT_FILENO);
-// 	execve(path,command->args,envs);
-
-// }
 // void redirection_herdoc(t_command *command)
 // {
 //     t_list *data=NULL;// herdoc fonction i didn't store the given result of this fonction in the principal struct  
@@ -75,6 +63,25 @@ void get_inputfile_fd(int *last_fd, t_list *redir_in)
 //         tmp = tmp->next;
 // 	}
 // }
+void ft_pwd(char *cmd)
+{
+	char buff[1024];
+	if(!getcwd(buff,sizeof(buff)))
+		print_cmd_error(cmd,strerror(errno),1,STDERR_FILENO);
+}
+
+void store_status_code(int status)
+{
+	t_list *tmp;
+	while(tmp)
+	{
+		g_data.status=status;
+		tmp=tmp->next;
+	}
+
+}
+
+
 
 void	executer(t_list *commands,char **envs)
 {	
@@ -82,17 +89,13 @@ void	executer(t_list *commands,char **envs)
 	int fds[2];
 	t_list *tmp;
 	tmp=commands;
+	int fd[1024];
+	int pidd[1000];
+	int i=0;
 	t_command *tmp_command;
 	int pid;
-	
-	// if (!path)
-	// 	return ;
-	
-	// tmp = commands
-
-	// read from infile if there is one
+	//last_fd means where we can read
 	int last_fd=STDIN_FILENO;
-
 	while(tmp)
 	{
 		tmp_command=(t_command*)tmp->content;
@@ -101,35 +104,51 @@ void	executer(t_list *commands,char **envs)
 			print_cmd_error(tmp_command->cmd, strerror(errno),1, STDERR_FILENO);
 		
 		pid = fork();
-		if(!pid)//child process
+		if(!pid)
 		{
 			get_inputfile_fd(&last_fd,tmp_command->redir_in);
-
-
+			get_outfile_fd(&fds[1],tmp_command->redir_out);
+			//
 			if(!(tmp_command->cmd))
 				exit(0);
-			path = get_actual_path(tmp_command->cmd, tmp_command);
-			dup2(last_fd,STDIN_FILENO);
-			if (tmp->next)
+			//get_path
+			path = get_actual_path(tmp_command->cmd, tmp_command,envs);
+			if(!path)
+				print_cmd_error(tmp_command->cmd," command not found",1,STDERR_FILENO);
+			// if there a file to read or if there is a pipe
+			if(last_fd!=STDIN_FILENO)
+			{
+				dup2(last_fd,STDIN_FILENO);
+				close(last_fd);
+			}
+			if (tmp->next || tmp_command->redir_out)
 				dup2(fds[1],STDOUT_FILENO);
+			close(fds[1]);
 			close(fds[0]);
 			if(execve(path,tmp_command->args,envs)==-1)
 				exit(1);
 		}
 		else
 		{
+			pidd[i]=pid;
+			fd[i]=fds[0];
 			last_fd = fds[0];
-			close(fds[1]);
 			tmp=tmp->next;
+			close(fds[1]);
+			i++;
 		}
 	}
+	int j=0;
+	int status;
 	if (commands)
 	{
-		close(fds[1]);
-		close(fds[0]);
-		waitpid(pid,NULL,0);
+
+		while(j<i)
+		{
+			close(fd[j]);
+			waitpid(pidd[j],&status,0);
+			store_status_code(WEXITSTATUS(status));
+			j++;
+		}
 	}
-	
-	//printf("hello");
-	exit(0);
 }
