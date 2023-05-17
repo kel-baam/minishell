@@ -27,24 +27,20 @@ t_list	*init_commands()
 {
  	t_list *commands = NULL;
 	ft_lstadd_back(&commands,ft_lstnew(generateCommand("ls","ls", NULL,NULL,1)));
-	ft_lstadd_back(&commands,ft_lstnew(generateCommand("cat","cat",NULL,NULL,0)));
+	//ft_lstadd_back(&commands,ft_lstnew(generateCommand("cat","cat",NULL,NULL,0)));
 	return commands;
 }
 
-void ft_env()
-{
-	int i=0;
-	t_list *tmp;
-	t_pair *tmp_pair;
-	while(i<TABLE_SIZE)
-	{
-		tmp=g_data.env_vars[i];
-		while(tmp)
-		{
-			tmp_pair=(t_pair*)tmp->content;
-			printf("-----%s=%s\n",tmp_pair->key,tmp_pair->value);
-			tmp=tmp->next;
-		}
-		i++;
-	}
+
+void printBST(t_node* root, int isRightChild, int depth) {
+    if (root != NULL) {
+        printBST(root->right, 1, depth + 1);
+
+        for (int i = 0; i < depth; i++) {
+            printf(" +  ");
+        }
+        printf("%s\n\n", root->key);
+
+        printBST(root->left, 0, depth + 1);
+    }
 }
