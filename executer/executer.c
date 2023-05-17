@@ -80,8 +80,25 @@ void store_status_code(int status)
 	}
 
 }
+void function(t_command *command,char *path,char **envs)
+{
+	// if(!strcmp(command->cmd,"env"))
+	// 	ft_env();
+	//else if(!strcmp(command->cmd,"echo"))
+	//	ft_echo();
+	//else if(!strcmp(command->cmd,"unset"))
+		//ft_unset();
+	//else if(!strcmp(command->cmd,"export"))
+		//ft_export();
+	//else if(!strcmp(command->cmd,"cd"))
+		//ft_cd();
+	// else
+	// {
+	// 	if(execve(path,command->args,envs)==-1)
+	// 		exit(1);
+	// }
 
-
+}
 
 void	executer(t_list *commands,char **envs)
 {	
@@ -125,8 +142,9 @@ void	executer(t_list *commands,char **envs)
 				dup2(fds[1],STDOUT_FILENO);
 			close(fds[1]);
 			close(fds[0]);
+			//function(tmp_command,path,envs);
 			if(execve(path,tmp_command->args,envs)==-1)
-				exit(1);
+			exit(1);
 		}
 		else
 		{

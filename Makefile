@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc
 
-RFLAG =-L /goinfre/.brew/Cellar/readline/8.1.1/lib
+//RFLAG =-L /goinfre/.brew/Cellar/readline/8.1.1/lib
 
 CFLAGS =-fsanitize=address #-Wall -Wextra -Werror
 

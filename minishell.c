@@ -31,9 +31,6 @@ int	main(int ac, char **av, char **envs)
 	// ignore quit
 	//signal(SIGINT,handel_Quit);
 	initilizer(envs);
-	ft_unset ("PATH");
-	ft_env();
-	//ft_export();
 	
 	 while(1)
  {
@@ -42,7 +39,7 @@ int	main(int ac, char **av, char **envs)
 	// 	//add_history(line);
 	 	executer(commands,envs);
 	 	free(commands);
-		exit(1);
+		//exit(1);
 
 	 }
 

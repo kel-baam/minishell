@@ -69,3 +69,22 @@ int	find_char(char *str,char c)
 	}
 	return (i);
 }
+void ft_free(void *ptr)
+{
+	if(ptr)
+		free(ptr);
+}
+void free_node(t_node **node)
+{
+	if(!node || !*node)
+		return;
+	ft_free((*node)->key);
+	ft_free((*node)->value);
+	(*node)->key=NULL;
+	(*node)->value=NULL;
+	(*node)->parent=NULL;
+	(*node)->left=NULL;
+	(*node)->value=NULL;
+	ft_free(*node);
+	*node=NULL;
+}

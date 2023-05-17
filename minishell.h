@@ -17,13 +17,13 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/errno.h>
 # include <sys/wait.h>
 # include <unistd.h>
-#include <stdbool.h>
 # define TABLE_SIZE 1024
 
 typedef struct t_list
@@ -32,18 +32,19 @@ typedef struct t_list
 	struct t_list	*next;
 
 }					t_list;
-typedef struct s_pair
+// typedef struct s_pair
+// {
+// 	char			*key;
+// 	char			*value;
+// }					t_pair;
+typedef struct s_node
 {
 	char			*key;
 	char			*value;
-}					t_pair;
-typedef struct s_tree
-{
-	char *key;
-	char *value;
-	struct s_tree		*left;
-	struct s_tree		*right;
-}					t_tree;
+	struct s_node   *parent;
+	struct s_node	*left;
+	struct s_node	*right;
+}					t_node;
 typedef struct t_red
 {
 	void			*file_name;
@@ -65,7 +66,7 @@ typedef struct s_command
 
 typedef struct s_data
 {
-	t_list			*env_vars[TABLE_SIZE];
+	t_node			*env_vars;
 	int				total_envs;
 	int				status;
 
@@ -94,6 +95,10 @@ void				initilizer(char **envs);
 void				init_envs(char **envs);
 void				ft_env(void);
 int					find_char(char *str, char c);
-void ft_unset (char *command);
-void  ft_export();
+void				add_node(t_node **head, char *key, char *value,t_node *parent);
+void				inorder_traversal(t_node *head);
+void			remove_node(t_node **head, char *key);
+void free_node(t_node **node);
+void ft_free(void *ptr);
+void printBST(t_node* root, int isRightChild, int depth);
 #endif
