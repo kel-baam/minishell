@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/08 23:17:54 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/05/25 23:06:28 by kjarmoum         ###   ########.fr       */
+/*   Created: 2022/10/19 21:52:05 by kjarmoum          #+#    #+#             */
+/*   Updated: 2023/05/06 18:11:25 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell.h"
 
-// char	*ft_strchr(const char *s, int c)
-// {
-// 	int	i;
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+{
+	size_t	i;
 
-// 	i = 0;
-// 	while (s[i])
-// 	{
-// 		if ((unsigned char)s[i] == (unsigned char)c)
-// 			return ((char *)(&s[i]));
-// 		i++;
-// 	}
-// 	if ((unsigned char)c == '\0')
-// 		return ((char *)(&s[i]));
-// 	return (NULL);
-// }
+	i = 0;
+	if (dstsize)
+	{
+		while (i < dstsize - 1 && src[i])
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	return (ft_strlen(src));
+}
