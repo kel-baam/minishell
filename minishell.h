@@ -14,39 +14,87 @@
 # define MINI_H
 
 # include <fcntl.h>
+# include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/errno.h>
+# include <sys/wait.h>
 # include <unistd.h>
+<<<<<<< HEAD
 # include <sys/wait.h>
 # include <readline/history.h>
 
 #include "parser/token.h"
 // in
+=======
+# define TABLE_SIZE 1024
+
+>>>>>>> 66fa37c3a86b8809a3d4b3b9b1a12645b071a271
 typedef struct t_list
 {
 	void			*content;
 	struct t_list	*next;
 
 }					t_list;
+<<<<<<< HEAD
 // out
 typedef struct t_red
 {
 	char			*file_name;
 	int				flag; //1 if red out 0 if red append
+=======
+// typedef struct s_pair
+// {
+// 	char			*key;
+// 	char			*value;
+// }					t_pair;
+typedef struct s_node
+{
+	char			*key;
+	char			*value;
+	struct s_node   *parent;
+	struct s_node	*left;
+	struct s_node	*right;
+}					t_node;
+typedef struct t_red
+{
+	void			*file_name;
+	int flag; //1 if red out 0 if red out  append
+		// struct t_red *next;
+>>>>>>> 66fa37c3a86b8809a3d4b3b9b1a12645b071a271
 }					t_red;
 
 typedef struct s_command
 {
 	char			*cmd;
 	char			**args;
+<<<<<<< HEAD
 	token_t			*tokens;
 	t_list			*redir_in;
 	t_list			*redir_out;
+=======
+	t_list			*redir_in;
+	t_list			*redir_out;
+	int				status;
+	//int herdoc;         //flag for exestence of herdoc <<
+	//char *herdoc_delim; // delimiter of herdoc
+	//int append_redi;    // flag redirection >>
+>>>>>>> 66fa37c3a86b8809a3d4b3b9b1a12645b071a271
 }					t_command;
 
+typedef struct s_data
+{
+	t_node			*env_vars;
+	int				total_envs;
+	int				status;
+
+}					t_data;
+
+t_data				g_data;
 t_command			*read_cmds(t_command *data, char **av, int ac);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 size_t				ft_strlen(const char *str);
@@ -58,6 +106,7 @@ void				print_cmd_error(char *cmd, char *msg_err, int status_code,
 						int output_fd);
 void				executer(t_list *command, char **envs);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
+<<<<<<< HEAD
 t_list			*init_commands();
 char	*get_actual_path(char *cmd, t_command *data);
 int	ft_atoi(const char *str);
@@ -68,4 +117,20 @@ void				ft_lstadd_back(t_list **lst, t_list *new);
 t_list				*ft_lstnew(void *content);
 char				*ft_strchr(const char *s, int c);
 int					ft_strchr_str(char *str, char *c);
+=======
+t_list				*init_commands();
+char				*get_actual_path(char *cmd, t_command *data, char **envs);
+void				free_double_ptr(char **ptr);
+char				*get_env();
+void				initilizer(char **envs);
+void				init_envs(char **envs);
+void				ft_env(void);
+int					find_char(char *str, char c);
+void				add_node(t_node **head, char *key, char *value,t_node *parent);
+void				inorder_traversal(t_node *head);
+void			remove_node(t_node **head, char *key);
+void free_node(t_node **node);
+void ft_free(void *ptr);
+void printBST(t_node* root, int isRightChild, int depth);
+>>>>>>> 66fa37c3a86b8809a3d4b3b9b1a12645b071a271
 #endif
