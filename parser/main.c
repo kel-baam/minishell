@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:26:25 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/05/25 23:02:44 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/05/26 23:38:28 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,12 @@ char	*tokens_cmd_to_string(token_t *token)
 
 void cmd_args_file(token_t *token_cmd, char **cmd_args, char **symb_file)
 {
+	int		i;
 	token_t	*cmd_arg;
 	token_t	*symb_fl;
 	token_t	*prev;
 
+	i = 0;
 	cmd_arg = NULL;
 	symb_fl = NULL;
 	if (token_cmd)
@@ -169,7 +171,7 @@ void insert_cmd(t_list **lst, char *cmd_args, char *symb_file)
 {
 	int			i;
 	char		*file;
-	char		**tab_file;
+	//char		**tab_file;
 	t_command	*cmd;
 
 	i = 0;
@@ -182,12 +184,6 @@ void insert_cmd(t_list **lst, char *cmd_args, char *symb_file)
 		cmd->cmd = ft_strdup(cmd->args[0]);
 		if (symb_file)
 		{
-			tab_file = ft_split(symb_file, ' ');
-			// join
-			// while (tab_file[i])
-			// {
-			// 	symb_file =
-			// }
 			while (symb_file[i])
 			{
 				if (symb_file[i] == '>' && symb_file[i + 1] == '>')
@@ -248,6 +244,7 @@ void store_one_cmd(token_t **tokens, char *symb)
 			if (ft_strchr_str(tokens_cmd_to_string(tokens_cmd), symb))
 			{
 				cmd_args_file(tokens_cmd, &cmd_args, &symb_file);
+				//printf("%s\n", symb_file);
 				//lst = init_lst();
 				insert_cmd(&lst, cmd_args, symb_file);
 				break;
@@ -261,16 +258,22 @@ void store_one_cmd(token_t **tokens, char *symb)
 
 int main()
 {
-	token_t	*token_cmd;
+	//token_t	*token_cmd;
 	lexer_t	*lexer;
 	token_t	*token;
 	char	*symb;
+	char	*types;
 
 	lexer = init_lexer(readline("minishell_1337 : $ "));
-	token = get_all_tokens(lexer);
-	symb = malloc(2);
-	symb[0] = '>';
-	symb[1] = '<';
-	token_cmd = tokens_of_one_command(&token);
-	store_one_cmd(&token, symb);
+	symb = malloc(3);
+	types = malloc(9);
+	symb = "<>";
+	types = "<>| '\"$";
+	token = get_all_tokens(lexer, types);
+	while (token)
+	{
+		printf("|%s|\n",token->value);
+		token = token->next;
+	}
+	//store_one_cmd(&token, symb);
 }
