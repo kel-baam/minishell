@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:31:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/05/26 14:13:53 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/05/26 14:35:35 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_command
 	token_t *tokens;
 	t_list *redir_in;
 	t_list *redir_out;
+
 } t_command;
 
 typedef struct s_data
@@ -56,7 +57,6 @@ typedef struct s_data
 	t_node *env_vars;
 	int total_envs;
 	int status;
-
 } t_data;
 
 t_data g_data;
