@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../minishell.h"
+
 int	ft_strlen(const char *str)
 {
 	int	i;
@@ -19,11 +20,12 @@ int	ft_strlen(const char *str)
 		i++;
 	return (i);
 }
+
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t			i;
 	char			*p;
-	unsigned char	size;
+	unsigned int	size;
 
 	i = 0;
 	if (!s)
@@ -40,6 +42,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	{
 		p[i] = s[start++];
 		i++;
+		
 	}
 	p[i] = '\0';
 	return (p);

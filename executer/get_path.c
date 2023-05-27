@@ -9,37 +9,9 @@
 /*   Updated: 2023/05/03 10:29:29 by kel-baam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../minishell.h"
 
-
-char	*get_env(char **envs, char *var)
-{
-	int		i;
-	char	**tmp_var;
-	char	*value;
-
-	i = 0;
-	value = NULL;
-	while (envs[i])
-	{
-		tmp_var = ft_split(envs[i], '=');
-		if (tmp_var)
-		{
-			if (!strcmp(tmp_var[0], var))
-			{
-				value = ft_strdup(tmp_var[1]);
-				free_double_ptr(tmp_var);
-				break ;
-			}
-		}
-		free_double_ptr(tmp_var);
-		i++;
-	}
-	return (value);
-}
-
-char	*get_right_path(char *cmd, t_command *data,char **envs)
+char	*get_right_path(char *cmd, t_command *data, char **envs)
 {
 	int		i;
 	char	*absolute_path;
@@ -47,9 +19,10 @@ char	*get_right_path(char *cmd, t_command *data,char **envs)
 	char	**paths;
 
 	i = 0;
-	env = get_env(envs,"PATH");
+	env = get_env("PATH");
+	// check _status code
 	if (!env)
-		print_cmd_error(cmd, "No such file or directory", 1, STDERR_FILENO);
+		g_data.status_code=print_cmd_error(cmd,data->args[1], "No such file or directory", 127);
 	paths = ft_split(env, ':');
 	absolute_path = NULL;
 	cmd = ft_strjoin("/", cmd);
@@ -62,10 +35,12 @@ char	*get_right_path(char *cmd, t_command *data,char **envs)
 		absolute_path = NULL;
 		i++;
 	}
+	if(!absolute_path)
+		g_data.status_code=127;
 	return (absolute_path);
 }
 
-char	*get_actual_path(char *cmd, t_command *data,char **envs)
+char	*get_actual_path(char *cmd, t_command *data, char **envs)
 {
 	int	status;
 
@@ -78,7 +53,7 @@ char	*get_actual_path(char *cmd, t_command *data,char **envs)
 				return (ft_strdup(cmd));
 			status = 126;
 		}
-		print_cmd_error(cmd, strerror(errno), status, STDERR_FILENO);
+		g_data.status_code =print_cmd_error(cmd,NULL, strerror(errno), status);
 	}
-	return (get_right_path(cmd, data,envs));
+	return (get_right_path(cmd, data, envs));
 }
