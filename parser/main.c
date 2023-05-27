@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:26:25 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/05/26 23:38:28 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/05/27 16:41:23 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ char	*tokens_cmd_to_string(token_t *token)
 		while (token)
 		{
 			buffer = ft_strjoin(buffer, token->value);
-			buffer = ft_strjoin(buffer, " ");
 			token = token->next;
 		}
 	}
@@ -118,12 +117,12 @@ char	*tokens_cmd_to_string(token_t *token)
 
 void cmd_args_file(token_t *token_cmd, char **cmd_args, char **symb_file)
 {
-	int		i;
+	int		flag;
 	token_t	*cmd_arg;
 	token_t	*symb_fl;
 	token_t	*prev;
 
-	i = 0;
+	flag = -1;
 	cmd_arg = NULL;
 	symb_fl = NULL;
 	if (token_cmd)
@@ -140,17 +139,38 @@ void cmd_args_file(token_t *token_cmd, char **cmd_args, char **symb_file)
 					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
 					token_cmd = token_cmd->next;
 				}
-				if (token_cmd->type == 3)
+				while (token_cmd && token_cmd->type == 4)
 				{
 					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
 					token_cmd = token_cmd->next;
 				}
+				while (token_cmd && token_cmd->type == 3)
+				{
+					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
+					token_cmd = token_cmd->next;
+				}
+				flag = 0;
 			}
 			else if (token_cmd->type == 3)
 			{
 				ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value, token_cmd->type));
 				token_cmd = token_cmd->next;
+				flag = 1;
 			}
+			else
+			{
+				if (flag == 0)
+				{
+					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
+					token_cmd = token_cmd->next;
+				}
+				else if (flag == 1)
+				{
+					ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value, token_cmd->type));
+					token_cmd = token_cmd->next;
+				}
+			}
+
 		}
 		*cmd_args = tokens_cmd_to_string(cmd_arg);
 		*symb_file = tokens_cmd_to_string(symb_fl);
@@ -230,7 +250,7 @@ t_list *init_lst(void)
 
 void store_one_cmd(token_t **tokens, char *symb)
 {
-	t_list		*lst;
+	//t_list		*lst;
 	char		*symb_file;
 	char		*cmd_args;
 	token_t		*tokens_cmd;
@@ -244,9 +264,11 @@ void store_one_cmd(token_t **tokens, char *symb)
 			if (ft_strchr_str(tokens_cmd_to_string(tokens_cmd), symb))
 			{
 				cmd_args_file(tokens_cmd, &cmd_args, &symb_file);
-				//printf("%s\n", symb_file);
+				printf("%s\n", cmd_args);
+				printf("%s\n", symb_file);
+				exit(1);
 				//lst = init_lst();
-				insert_cmd(&lst, cmd_args, symb_file);
+				//insert_cmd(&lst, cmd_args, symb_file);
 				break;
 			}
 			// else
@@ -270,10 +292,11 @@ int main()
 	symb = "<>";
 	types = "<>| '\"$";
 	token = get_all_tokens(lexer, types);
-	while (token)
-	{
-		printf("|%s|\n",token->value);
-		token = token->next;
-	}
+	store_one_cmd(&token, symb);
+	// while (token)
+	// {
+	// 	printf("|%s|\n",token->value);
+	// 	token = token->next;
+	// }
 	//store_one_cmd(&token, symb);
 }
