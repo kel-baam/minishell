@@ -9,36 +9,29 @@
 /*   Updated: 2023/05/03 10:30:19 by kel-baam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../minishell.h"
 
-// t_command* read_cmds(t_command *data,char **av ,int ac)
-// {
-//     int i;
-//     i=1;
-//     data->cmds=malloc(sizeof(char)*ac);
-//     while(i<ac)
-//     {
-//         data->cmds[i]=malloc(ft_strlen(av[i]));
-//         data->cmds[i]=av[i];
-//         i++;
-//     }
-//     return (data);
-// }
-void	print_cmd_error(char *cmd, char *msg_err, int status_code,
-		int output_fd)
+int	print_cmd_error(char *cmd,char *args, char *msg_err, int status_code)
 {
 	char	*my_shell;
 
 	my_shell = "my_shell";
-	write(output_fd, my_shell, ft_strlen(my_shell));
-	write(output_fd, ": ", 2);
-	write(output_fd, cmd, ft_strlen(cmd));
-	write(output_fd, ": ", 2);
-	write(output_fd, msg_err, ft_strlen(msg_err));
-	write(output_fd, "\n", 1);
-	exit(status_code);
-} 
+	write(STDERR_FILENO, my_shell, ft_strlen(my_shell));
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, cmd, ft_strlen(cmd));
+	write(STDERR_FILENO, ": ", 2);
+	if(args)
+	{
+	write(STDERR_FILENO, args, ft_strlen(args));
+	write(STDERR_FILENO, ": ", 2);
+	}
+	write(STDERR_FILENO, msg_err, ft_strlen(msg_err));
+	write(STDERR_FILENO, "\n", 1);
+	//save status code and exit in the process
+	g_data.status_code=status_code;
+	return status_code;
+	//exit(1);
+}
 
 void	free_double_ptr(char **ptr)
 {
@@ -56,7 +49,8 @@ void	free_double_ptr(char **ptr)
 		free(ptr);
 	}
 }
-int	find_char(char *str,char c)
+
+int	find_char(char *str, char c)
 {
 	int	i;
 
@@ -64,27 +58,29 @@ int	find_char(char *str,char c)
 	while (str[i])
 	{
 		if (str[i] == c)
-			break ;
+			return (i);
 		i++;
 	}
-	return (i);
+	return (-1);
 }
-void ft_free(void *ptr)
+
+void	ft_free(void *ptr)
 {
-	if(ptr)
+	if (ptr)
 		free(ptr);
 }
-void free_node(t_node **node)
+
+void	free_node(t_node **node)
 {
-	if(!node || !*node)
-		return;
+	if (!node || !*node)
+		return ;
 	ft_free((*node)->key);
 	ft_free((*node)->value);
-	(*node)->key=NULL;
-	(*node)->value=NULL;
-	(*node)->parent=NULL;
-	(*node)->left=NULL;
-	(*node)->value=NULL;
+	(*node)->key = NULL;
+	(*node)->value = NULL;
+	(*node)->parent = NULL;
+	(*node)->left = NULL;
+	(*node)->value = NULL;
 	ft_free(*node);
-	*node=NULL;
+	*node = NULL;
 }

@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/09 21:27:38 by kel-baam          #+#    #+#             */
-/*   Updated: 2022/10/24 17:10:44 by kel-baam         ###   ########.fr       */
+/*   Created: 2023/05/23 13:57:06 by kel-baam          #+#    #+#             */
+/*   Updated: 2023/05/23 13:57:08 by kel-baam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../minishell.h"
-
-char	*ft_strdup(const char *s1)
+#include "../../minishell.h"
+//final version
+int	ft_pwd(char *cmd,int fd)
 {
-	int		i;
-	int		j;
-	char	*ptr;
+	char	buff[1024];
+	int status=0;
 
-	if (!s1)
-		return (NULL);
-	i = 0;
-	j = ft_strlen(s1);
-	ptr = malloc(sizeof(char) * (j + 1));
-	if (ptr == NULL)
-		return (0);
-	while (s1[i])
-	{
-		ptr[i] = s1[i];
-		i++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
+	if (!getcwd(buff, sizeof(buff)))
+		return print_cmd_error(cmd,NULL, strerror(errno), 1);
+	write(fd,buff,ft_strlen(buff));
+	return (status);
 }
