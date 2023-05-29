@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:26:25 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/05/27 16:41:23 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/05/29 21:31:42 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ char	*tokens_cmd_to_string(token_t *token)
 			buffer = ft_strjoin(buffer, token->value);
 			token = token->next;
 		}
+		buffer = ft_strjoin(buffer, "\0");
 	}
 	return (buffer);
 }
@@ -131,10 +132,11 @@ void cmd_args_file(token_t *token_cmd, char **cmd_args, char **symb_file)
 		{
 			if (token_cmd->type == 0 || token_cmd->type == 1)
 			{
+				// printf("salam\n");
 				ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
 				prev = token_cmd;
 				token_cmd = token_cmd->next;
-				if (token_cmd->type == prev->type)
+				if (token_cmd && token_cmd->type == prev->type)
 				{
 					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
 					token_cmd = token_cmd->next;
@@ -151,13 +153,24 @@ void cmd_args_file(token_t *token_cmd, char **cmd_args, char **symb_file)
 				}
 				flag = 0;
 			}
-			else if (token_cmd->type == 3)
+			else if (token_cmd && token_cmd->type == 4)
 			{
-				ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value, token_cmd->type));
-				token_cmd = token_cmd->next;
+				while (token_cmd && token_cmd->type == 4)
+				{
+					ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value, token_cmd->type));
+					token_cmd = token_cmd->next;
+				}
+			}
+			else if (token_cmd && token_cmd->type == 3)
+			{
+				while (token_cmd && token_cmd->type == 3)
+				{
+					ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value, token_cmd->type));
+					token_cmd = token_cmd->next;
+				}
 				flag = 1;
 			}
-			else
+			else if (token_cmd)
 			{
 				if (flag == 0)
 				{
@@ -170,110 +183,160 @@ void cmd_args_file(token_t *token_cmd, char **cmd_args, char **symb_file)
 					token_cmd = token_cmd->next;
 				}
 			}
-
 		}
 		*cmd_args = tokens_cmd_to_string(cmd_arg);
 		*symb_file = tokens_cmd_to_string(symb_fl);
 	}
 }
 
-t_red	*init_red(char *file_n, int flg)
+t_red	*init_red(int flg)
 {
 	t_red	*red;
 
 	red = malloc(sizeof(t_red));
-	red->file_name = file_n;
+	red->file_name = NULL;
 	red->flag = flg;
 	return (red);
 }
 
-void insert_cmd(t_list **lst, char *cmd_args, char *symb_file)
+t_command *insert_one_cmd(char *cmd_args, char *symb_file)
 {
 	int			i;
+	int			flag;
 	char		*file;
-	//char		**tab_file;
-	t_command	*cmd;
+	t_command	*new;
 
 	i = 0;
-	cmd = NULL;
 	file = NULL;
-	if (lst && *lst && cmd_args)
+	flag = -1;
+	new = NULL;
+	if (cmd_args)
 	{
-		cmd = malloc(sizeof(t_command));
-		cmd->args = ft_split(cmd_args, ' ');
-		cmd->cmd = ft_strdup(cmd->args[0]);
-		if (symb_file)
+		new = (t_command *)(*lst)->content;
+		new->args = ft_split(cmd_args, ' ');
+		new->cmd = ft_strdup(new->args[0]);
+	}
+	if (symb_file)
+	{
+		if (symb_file[i] == '>')
 		{
-			while (symb_file[i])
+			flag = 0;
+			new->redir_out = malloc(sizeof(t_list));
+			if (symb_file[i + 1] == '>')
 			{
-				if (symb_file[i] == '>' && symb_file[i + 1] == '>')
-				{
-					cmd->redir_out->content = init_red(NULL, 0);
-					i += 2;
-				}
-				else if (symb_file[i] == '>')
-				{
-					cmd->redir_out->content = init_red(NULL, 1);
-					i++;
-				}
-				else if (symb_file[i] == '<' && symb_file[i + 1] == '<')
-				{
-					cmd->redir_in->content = init_red(NULL, 0);
-					i += 2;
-				}
-				else if (symb_file[i] == '<')
-				{
-					cmd->redir_in->content = init_red(NULL, 1);
-					i++;
-				}
-				((t_red *)cmd->redir_in->content)->file_name = ft_strdup("");
-				while (symb_file[i] && symb_file[i] != '<' && symb_file[i] != '>')
-				{
-					((t_red *)cmd->redir_in->content)->file_name = ft_strjoin(((t_red *)cmd->redir_in->content)->file_name, ft_strdup(&symb_file[i]));
-					i++;
-				}
-				//ft_lstadd_back(cmd->redin, ft_lstnew(init_red(symb[])));
+				new->redir_out->content = init_red(0);
+				i += 2;
+			}
+			else if (symb_file[i] == '>')
+			{
+				new->redir_out->content = init_red(1);
+				i++;
 			}
 		}
+		else if (symb_file[i] == '<')
+		{
+			flag = 1;
+			new->redir_in = malloc(sizeof(t_list));
+			if (symb_file[i + 1] == '<')
+			{
+				new->redir_in->content = init_red(0);
+				i += 2;
+			}
+			else if (symb_file[i] == '<')
+			{
+				new->redir_in->content = init_red(1);
+				i++;
+			}
+		}
+		file = ft_strdup("");
+		while (symb_file[i] && symb_file[i] == ' ')
+			i++;
+		while (symb_file[i] && symb_file[i] != ' ')
+		{
+			file = ft_strjoin(file, char_to_string(symb_file[i]));
+			i++;
+		}
+		if (flag == 0)
+			((t_red *)new->redir_out->content)->file_name = file;
+		else if (flag == 1)
+			((t_red *)new->redir_in->content)->file_name = file;
 	}
+	return (new)
 }
 
-t_list *init_lst(void)
+t_list *init_lst()
 {
-	t_list *lst;
+	t_list		*lst;
 
 	lst = malloc(sizeof(t_list));
-	lst->content = NULL;
+	lst->content = malloc(sizeof(t_command));
 	lst->next = NULL;
 	return (lst);
 }
 
 void store_one_cmd(token_t **tokens, char *symb)
 {
-	//t_list		*lst;
+	t_list		*lst;
+	t_command	*cmd;
 	char		*symb_file;
 	char		*cmd_args;
 	token_t		*tokens_cmd;
 
+	new_cmd    = NULL;
 	tokens_cmd = NULL;
 	if (tokens && *tokens && symb)
 	{
-		while (*tokens)
+		tokens_cmd = tokens_of_one_command(tokens);
+		lst = init_lst();
+		while (tokens_cmd)
 		{
+			cmd_args_file(tokens_cmd, &cmd_args, &symb_file);
+			new_cmd = insert_one_cmd(cmd_args, symb_file);
+			// cmd_args = NULL;
+			// symb_file = NULL;
 			tokens_cmd = tokens_of_one_command(tokens);
-			if (ft_strchr_str(tokens_cmd_to_string(tokens_cmd), symb))
+		}
+
+
+
+
+		t_list *t;
+		t = lst;
+		int i = 0;
+				/// AFFICHAGE
+		while (t)
+		{
+			//	cmd
+			printf("cmd :%s\n args :",((t_command *)(t->content))->cmd);
+			// args
+			while (((t_command *)(t->content))->args[i])
 			{
-				cmd_args_file(tokens_cmd, &cmd_args, &symb_file);
-				printf("%s\n", cmd_args);
-				printf("%s\n", symb_file);
-				exit(1);
-				//lst = init_lst();
-				//insert_cmd(&lst, cmd_args, symb_file);
-				break;
+				printf("%s ",((t_command *)(t->content))->args[i]);
+				i++;
 			}
-			// else
-			// {
-			// }
+			printf("\n");
+			// in files
+			if (((t_command *)(t->content))->redir_in != NULL)
+			{
+				while (((t_red *)((t_command *)(t->content))->redir_in))
+				{
+					printf("redir_in : %s , flag :%d\n",((t_red *)((t_command *)(t->content))->redir_in->content)->file_name
+						, ((t_red *)((t_command *)(t->content))->redir_in->content)->flag);
+					((t_command *)(t->content))->redir_in = ((t_command *)(t->content))->redir_in->next;
+				}
+			}
+			// out files
+			if (((t_command *)(t->content))->redir_out != NULL)
+			{
+				while (((t_command *)(t->content))->redir_out)
+				{
+					printf("redir_out : %s , flag :%d",((t_red *)((t_command *)(t->content))->redir_out->content)->file_name
+						, ((t_red *)((t_command *)(t->content))->redir_out->content)->flag);
+					((t_command *)(t->content))->redir_out = ((t_command *)(t->content))->redir_out->next;
+				}
+			}
+			printf("\n------------------------------------------\n");
+			t = t->next;
 		}
 	}
 }

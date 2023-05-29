@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/09 21:27:38 by kel-baam          #+#    #+#             */
-/*   Updated: 2022/10/24 17:10:44 by kel-baam         ###   ########.fr       */
+/*   Created: 2023/05/18 16:27:27 by kel-baam          #+#    #+#             */
+/*   Updated: 2023/05/18 16:27:29 by kel-baam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../minishell.h"
-
-char	*ft_strdup(const char *s1)
+#include "../../minishell.h"
+//final version
+int	ft_unset(t_command *command)
 {
-	int		i;
-	int		j;
-	char	*ptr;
+	int	i;
+	int status=0;
 
-	if (!s1)
-		return (NULL);
-	i = 0;
-	j = ft_strlen(s1);
-	ptr = malloc(sizeof(char) * (j + 1));
-	if (ptr == NULL)
-		return (0);
-	while (s1[i])
+	i = 1;
+	while (command->args && command->args[i])
 	{
-		ptr[i] = s1[i];
+		if(is_valid_key(command->args[i])==-1)
+		{
+			status=print_cmd_error(command->cmd,command->args[i], "not a valid identifier", 1);
+			i++;
+			continue;
+		}
+		remove_node(&(g_data.env_vars), command->args[i]);
 		i++;
 	}
-	ptr[i] = '\0';
-	return (ptr);
+	return (status);
 }

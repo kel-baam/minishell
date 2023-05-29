@@ -6,17 +6,16 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 15:13:47 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/05/25 23:05:58 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/05/27 18:02:11 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t			i;
 	char			*p;
-	unsigned char	size;
+	unsigned int	size;
 
 	i = 0;
 	if (!s)
@@ -33,6 +32,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	{
 		p[i] = s[start++];
 		i++;
+
 	}
 	p[i] = '\0';
 	return (p);

@@ -1,20 +1,20 @@
 NAME = minishell
-
+HOME_BREW_PATH=/Users/kel-baam/goinfre/homebrew
 CC = cc
 
-//RFLAG =-L /goinfre/.brew/Cellar/readline/8.1.1/lib
+RFLAG =-L ${HOME_BREW_PATH}/opt/readline/lib -I ${HOME_BREW_PATH}/opt/readline/include -lreadline
 
-CFLAGS =-fsanitize=address #-Wall -Wextra -Werror
+CFLAGS =#-fsanitize=address# -Wall -Wextra -Werror
 
-SUB = *.c ./executer/*.c ./parser/*.c ./utils/*.c
+SUB = *.c ./executer/*.c ./parser/*.c ./utils/*.c ./executer/builtins/*.c
 
-OBJ =  *.o ./executer/*.o ./parser/*.o ./utils/*.o
+OBJ =  *.o ./executer/*.o ./parser/*.o ./utils/*.o ./executer/builtins/*.o
 
 
 all : $(NAME)
 
-$(NAME) :$(SUB)
-	${CC} ${CFLAGS} ${RFLAG} -lreadline ${SUB}   -o ${NAME}
+$(NAME) :$(SUB)	
+	${CC} ${CFLAGS} ${SUB}  -o ${NAME} ${RFLAG} -lreadline
 
 
 clean :

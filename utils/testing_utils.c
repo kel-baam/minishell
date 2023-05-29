@@ -12,7 +12,8 @@ t_command *generateCommand(char *cmd, char *args, char *inFile,char *outfile,int
 {
 	t_command	*command;
 	command = calloc(sizeof(t_command),1);
-	command->cmd = cmd;
+	if(cmd)
+		command->cmd = cmd;
 	if(args)
 		command->args = ft_split(args, ' ');
 	if (inFile)
@@ -26,21 +27,20 @@ t_command *generateCommand(char *cmd, char *args, char *inFile,char *outfile,int
 t_list	*init_commands()
 {
  	t_list *commands = NULL;
-	ft_lstadd_back(&commands,ft_lstnew(generateCommand("ls","ls", NULL,NULL,1)));
-	//ft_lstadd_back(&commands,ft_lstnew(generateCommand("cat","cat",NULL,NULL,0)));
+	ft_lstadd_back(&commands,ft_lstnew(generateCommand("exit","exit oiii 15", NULL,NULL,1)));
 	return commands;
 }
 
-
-void printBST(t_node* root, int isRightChild, int depth) {
-    if (root != NULL) {
-        printBST(root->right, 1, depth + 1);
-
-        for (int i = 0; i < depth; i++) {
-            printf(" +  ");
-        }
-        printf("%s\n\n", root->key);
-
-        printBST(root->left, 0, depth + 1);
-    }
-}
+// void exec_herdoc(const char *delimter,int fd)
+// {
+//     t_list *data=NULL;// herdoc fonction i didn't store the given result of this fonction in the principal struct
+// 	t_list *tmp;
+// 	data=tmp;
+//     char *line;
+//     while(1)
+//     {
+// 		line=readline("> ");
+//         if(!ft_strncmp(command->herdoc_delim,line,ft_strlen(command->herdoc_delim)))
+// 			break ;
+// 	}
+// }
