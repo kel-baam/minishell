@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:26:25 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/05/29 21:31:42 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/05/30 17:49:57 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,12 +207,10 @@ t_command *insert_one_cmd(char *cmd_args, char *symb_file)
 	t_command	*new;
 
 	i = 0;
-	file = NULL;
 	flag = -1;
-	new = NULL;
+	new = malloc(sizeof(t_command));
 	if (cmd_args)
 	{
-		new = (t_command *)(*lst)->content;
 		new->args = ft_split(cmd_args, ' ');
 		new->cmd = ft_strdup(new->args[0]);
 	}
@@ -261,7 +259,7 @@ t_command *insert_one_cmd(char *cmd_args, char *symb_file)
 		else if (flag == 1)
 			((t_red *)new->redir_in->content)->file_name = file;
 	}
-	return (new)
+	return (new);
 }
 
 t_list *init_lst()
@@ -269,7 +267,7 @@ t_list *init_lst()
 	t_list		*lst;
 
 	lst = malloc(sizeof(t_list));
-	lst->content = malloc(sizeof(t_command));
+	lst->content = NULL;
 	lst->next = NULL;
 	return (lst);
 }
@@ -277,28 +275,24 @@ t_list *init_lst()
 void store_one_cmd(token_t **tokens, char *symb)
 {
 	t_list		*lst;
-	t_command	*cmd;
+	//t_command	*new;
 	char		*symb_file;
 	char		*cmd_args;
 	token_t		*tokens_cmd;
 
-	new_cmd    = NULL;
 	tokens_cmd = NULL;
 	if (tokens && *tokens && symb)
 	{
 		tokens_cmd = tokens_of_one_command(tokens);
-		lst = init_lst();
+		lst = NULL;
 		while (tokens_cmd)
 		{
 			cmd_args_file(tokens_cmd, &cmd_args, &symb_file);
-			new_cmd = insert_one_cmd(cmd_args, symb_file);
-			// cmd_args = NULL;
-			// symb_file = NULL;
+			ft_lstadd_back(&lst, ft_lstnew(insert_one_cmd(cmd_args, symb_file)));
+			cmd_args = NULL;
+			symb_file = NULL;
 			tokens_cmd = tokens_of_one_command(tokens);
 		}
-
-
-
 
 		t_list *t;
 		t = lst;
@@ -316,24 +310,18 @@ void store_one_cmd(token_t **tokens, char *symb)
 			}
 			printf("\n");
 			// in files
-			if (((t_command *)(t->content))->redir_in != NULL)
+			while (((t_red *)((t_command *)(t->content))->redir_in)  != NULL)
 			{
-				while (((t_red *)((t_command *)(t->content))->redir_in))
-				{
-					printf("redir_in : %s , flag :%d\n",((t_red *)((t_command *)(t->content))->redir_in->content)->file_name
-						, ((t_red *)((t_command *)(t->content))->redir_in->content)->flag);
-					((t_command *)(t->content))->redir_in = ((t_command *)(t->content))->redir_in->next;
-				}
+				printf("redir_in : %s , flag :%d\n",((t_red *)((t_command *)(t->content))->redir_in->content)->file_name
+					, ((t_red *)((t_command *)(t->content))->redir_in->content)->flag);
+				((t_command *)(t->content))->redir_in = ((t_command *)(t->content))->redir_in->next;
 			}
 			// out files
-			if (((t_command *)(t->content))->redir_out != NULL)
+			while (((t_red *)((t_command *)(t->content))->redir_out)  != NULL)
 			{
-				while (((t_command *)(t->content))->redir_out)
-				{
-					printf("redir_out : %s , flag :%d",((t_red *)((t_command *)(t->content))->redir_out->content)->file_name
-						, ((t_red *)((t_command *)(t->content))->redir_out->content)->flag);
-					((t_command *)(t->content))->redir_out = ((t_command *)(t->content))->redir_out->next;
-				}
+				printf("redir_out : %s , flag :%d",((t_red *)((t_command *)(t->content))->redir_out->content)->file_name
+					, ((t_red *)((t_command *)(t->content))->redir_out->content)->flag);
+				((t_command *)(t->content))->redir_out = ((t_command *)(t->content))->redir_out->next;
 			}
 			printf("\n------------------------------------------\n");
 			t = t->next;
