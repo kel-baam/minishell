@@ -24,6 +24,6 @@ int ft_exit(t_command *command)
        status=test;
 
     }
-   
+   // TO DO i should call exit 
     return status;
 }

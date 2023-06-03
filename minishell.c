@@ -15,8 +15,8 @@ char **convert_tree_to_array()
 {
 	int p=0;
 	char **envs=malloc(sizeof(char*)*g_data.count_envs);
-	store_envs(g_data.env_vars,envs,&p);
-	return envs;
+	char **store= store_envs(g_data.env_vars,envs,&p);
+	return store;
 }
 //check status code
 // still herdoc to insert in my part
@@ -25,14 +25,15 @@ char **convert_tree_to_array()
 int	main(int ac, char **av, char **env)
 {
 	t_list		*commands;
-	 
 	t_command	*data;
+	
 	char *line = NULL;
 	initilizer(env);
 	signals_for_parent();
 	while (1)
 	{
 		char **tmp_envs=convert_tree_to_array();
+
 		if(line)
 			ft_free(line);
 		tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.newTerm));
@@ -40,15 +41,12 @@ int	main(int ac, char **av, char **env)
 		if(line)
 		{
 			if(!strcmp(line,"\n"))
-			{
 				continue;
-
-			}
 			add_history(line);
 			commands = init_commands();
-			executer(commands, tmp_envs);
+			executer(commands, env);
 			add_node(&(g_data.env_vars),"?",ft_itoa(g_data.status_code),NULL);
-			//printf("%d\n",g_data.status_code);
+			printf("%d\n",g_data.status_code);
 		}
 		else
 			exit(g_data.status_code);
