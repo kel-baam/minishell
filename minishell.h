@@ -131,7 +131,7 @@ void				prompt(int sig);
 void				signals_for_child(void);
 void				signals_for_parent();
 t_node				*get_most_left(t_node *node);
-
+char	*ft_strchr(const char *s, int c);
 t_list	*parser(char *line);
 t_command       *store_one_command(token_t **token);
 #endif

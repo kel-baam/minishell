@@ -48,8 +48,8 @@ char	*get_actual_path(char *cmd, t_command *data, char **envs)
 {
 	int	status;
 
-	if (ft_strchr(cmd, '/'))
-	{
+	// if (ft_strchr(cmd, '/'))
+	// {
 		status = 127;
 		if (!access(cmd, F_OK))
 		{
@@ -57,10 +57,10 @@ char	*get_actual_path(char *cmd, t_command *data, char **envs)
 				return (ft_strdup(cmd));
 			status = 126;
 		}
-		g_data.status_code = print_cmd_error(cmd, NULL, strerror(errno),
-				status);
+		// g_data.status_code = print_cmd_error(cmd, NULL, strerror(errno),
+				// status);
 		// i call exit function here
-		exit(g_data.status_code);
-	}
+		// exit(g_data.status_code);
+	// }
 	return (get_right_path(cmd, data, envs));
 }
