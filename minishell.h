@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:31:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/05/30 19:45:33 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/05/31 15:21:48 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,28 @@ typedef struct s_command
 	t_list			*redir_out;
 }					t_command;
 
-// typedef struct s_data
-// {
-// 	t_node			*env_vars;
-// 	int				total_envs;
-// 	int				status;
 
-// }					t_data;
 
-// t_data				g_data;
+typedef struct s_node
+{
+	char			*key;
+	char			*value;
+	struct s_node	*parent;
+	struct s_node	*left;
+	struct s_node	*right;
+}					t_node;
+
+
+typedef struct s_data
+{
+	t_node			*env_vars;
+	int				total_envs;
+	int				status_code;
+	//struct termios newTerm;
+	//struct termios oldTerm;
+}					t_data;
+
+t_data				g_data;
 t_command			*read_cmds(t_command *data, char **av, int ac);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 size_t				ft_strlen(const char *str);
@@ -76,4 +89,6 @@ void				ft_lstadd_back(t_list **lst, t_list *new);
 t_list				*ft_lstnew(void *content);
 char				*ft_strchr(const char *s, int c);
 int					ft_strchr_str(char *str, char *c);
+int					print_cmd_error(char *cmd,char *args, char *msg_err, int status_code);
+
 #endif

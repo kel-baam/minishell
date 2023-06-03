@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:26:25 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/05/30 20:41:48 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/03 17:05:02 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,45 +298,189 @@ void store_one_cmd(token_t **tokens, char *symb)
 			tokens_cmd = tokens_of_one_command(tokens);
 		}
 
-		t_list *t;
-		t = lst;
-		int i;
-				/// AFFICHAGE
-		while (t)
+		// t_list *t;
+		// t = lst;
+		// int i;
+		// 		/// AFFICHAGE
+		// while (t)
+		// {
+		// 	//	cmd
+		// 	i = 0;
+		// 	printf("cmd :%s\nargs :",((t_command *)(t->content))->cmd);
+		// 	// args
+		// 	while (((t_command *)(t->content))->args[i])
+		// 	{
+		// 		printf("%s ",((t_command *)(t->content))->args[i]);
+		// 		i++;
+		// 	}
+		// 	printf("\n");
+		// 	// in files
+		// 	while (((t_red *)((t_command *)(t->content))->redir_in) != NULL)
+		// 	{
+		// 		printf("redir_in : %s , flag :%d\n",((t_red *)((t_command *)(t->content))->redir_in->content)->file_name
+		// 			, ((t_red *)((t_command *)(t->content))->redir_in->content)->flag);
+		// 		((t_command *)(t->content))->redir_in = ((t_command *)(t->content))->redir_in->next;
+		// 	}
+		// 	// out files
+		// 	while (((t_red *)((t_command *)(t->content))->redir_out) != NULL)
+		// 	{
+		// 		printf("redir_out : %s , flag :%d",((t_red *)((t_command *)(t->content))->redir_out->content)->file_name
+		// 			, ((t_red *)((t_command *)(t->content))->redir_out->content)->flag);
+		// 		((t_command *)(t->content))->redir_out = ((t_command *)(t->content))->redir_out->next;
+		// 	}
+		// 	printf("\n------------------------------------------\n");
+		// 	t = t->next;
+		// }
+	}
+}
+
+int pipe_error(token_t *tokens)
+{
+	char	*buffer;
+
+	buffer = NULL;
+	if (tokens)
+	{
+		buffer =  ft_strdup("syntax error near unexpected token `|");
+		if (tokens->next && tokens->next->value[0] == '|')
+			buffer = ft_strjoin(buffer, "|");
+		buffer = ft_strjoin(buffer, "'");
+		print_cmd_error(NULL, NULL, buffer, 258);
+		return (1);
+	}
+	return (0);
+}
+
+char	*remove_char_from_str(char *buffer, char c)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	str = ft_strdup("");
+	if (buffer)
+	{
+		while (buffer[i])
 		{
-			//	cmd
-			i = 0;
-			printf("cmd :%s\nargs :",((t_command *)(t->content))->cmd);
-			// args
-			while (((t_command *)(t->content))->args[i])
-			{
-				printf("%s ",((t_command *)(t->content))->args[i]);
-				i++;
-			}
-			printf("\n");
-			// in files
-			while (((t_red *)((t_command *)(t->content))->redir_in) != NULL)
-			{
-				printf("redir_in : %s , flag :%d\n",((t_red *)((t_command *)(t->content))->redir_in->content)->file_name
-					, ((t_red *)((t_command *)(t->content))->redir_in->content)->flag);
-				((t_command *)(t->content))->redir_in = ((t_command *)(t->content))->redir_in->next;
-			}
-			// out files
-			while (((t_red *)((t_command *)(t->content))->redir_out) != NULL)
-			{
-				printf("redir_out : %s , flag :%d",((t_red *)((t_command *)(t->content))->redir_out->content)->file_name
-					, ((t_red *)((t_command *)(t->content))->redir_out->content)->flag);
-				((t_command *)(t->content))->redir_out = ((t_command *)(t->content))->redir_out->next;
-			}
-			printf("\n------------------------------------------\n");
-			t = t->next;
+			if (buffer[i] != c)
+				str = ft_strjoin(str, char_to_string(buffer[i]));
+			i++;
 		}
 	}
+	return (str);
+}
+
+// int qoute_error(token_t *tokens)
+// {
+// 	char	to_remove;
+// 	char	*buffer;
+
+// 	buffer = ft_strdup("");
+// 	to_remove = '\0';
+// 	if (tokens)
+// 	{
+// 		buffer = ft_strjoin(buffer, tokens->value);
+// 		tokens = tokens->next;
+// 		to_remove = tokens->value[0];
+// 		while (tokens && tokens->type != 4)
+// 		{
+// 			if (tokens->type == 5 || tokens->type == 6)
+// 				buffer = ft_strjoin(buffer, tokens->value);
+// 			else if (tokens->type == 7 && tokens->next->type != 4)
+// 				buffer = ft_strjoin(buffer, char_to_string(tokens->value[0]));
+// 			tokens = tokens->next;
+// 		}
+
+// 		print_cmd_error(buffer, NULL, "command not found", 127);
+// 		return (1);
+// 	}
+// 	return (0);
+// }
+
+int qoute_error(token_t *token)
+{
+	if (token)
+		if (token->value[0] == '\'' || token->value[0] == '\"')
+			if (token->value[ft_strlen(token->value) - 1] != token->value[0])
+			{
+				print_cmd_error(NULL, NULL, "syntax error", 1);
+				return (1);
+			}
+	return (0);
+}
+
+
+
+int redir_in_error(token_t *token)
+{
+	if (token)
+	{
+		token = token->next;
+		if (!token)
+				print_cmd_error(NULL, NULL, "syntax error near unexpected token `newline'", 258);
+		while (token)
+		{
+			while (token && token->type == 4)
+				token = token->next;
+			if (!token)
+			{
+				print_cmd_error(NULL, NULL, "syntax error near unexpected token `newline'", 258);
+				return (1);
+			}
+
+			token = token->next;
+		}
+	}
+	return (0);
+}
+
+int redir_error(token_t *token, int type)
+{
+	char	*buffer;
+
+	buffer = NULL;
+	if (token)
+	{
+		if (type == 0)
+		{
+			redir_in_error(token);
+			return (1);
+		}
+		// else
+		// {
+		// 	redir_out_error();
+		// 	return (1);
+		// }
+	}
+	return (0);
+}
+
+int check_parsing_error(token_t *tokens)
+{
+	if (tokens)
+	{
+		while (tokens)
+		{
+			// return 1 if error
+			// pipe
+			if (tokens->value[0] == '|')
+				return (pipe_error(tokens));
+			else if (tokens->value[0] == '<')
+				return (redir_error(tokens , 0));
+			else if (tokens->value[0] == '>')
+				return (redir_error(tokens , 1));
+			else if (tokens->value[0] == '\'' || tokens->value[0] == '\"')
+				return (qoute_error(tokens));
+			// if (tokens->next && (tokens->next->type == 5 || tokens->next->type == 6))
+			// 	qoute_error(tokens);
+			tokens = tokens->next;
+		}
+	}
+	return (0);
 }
 
 int main()
 {
-	//token_t	*token_cmd;
 	lexer_t	*lexer;
 	token_t	*token;
 	char	*symb;
@@ -348,11 +492,7 @@ int main()
 	symb = "<>";
 	types = "<>| '\"$";
 	token = get_all_tokens(lexer, types);
+	check_parsing_error((token));
 	store_one_cmd(&token, symb);
-	// while (token)
-	// {
-	// 	printf("|%s|\n",token->value);
-	// 	token = token->next;
-	// }
-	//store_one_cmd(&token, symb);
+
 }
