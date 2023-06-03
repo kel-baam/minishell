@@ -26,7 +26,7 @@ t_command *generateCommand(char *cmd, char *args, char *infile,char *outfile,int
 t_list	*init_commands()
 {
  	t_list *commands = NULL;
-	ft_lstadd_back(&commands,ft_lstnew(generateCommand("cd","cd ", NULL,NULL,1)));
+	ft_lstadd_back(&commands,ft_lstnew(generateCommand("/bin/ls","/bin/ls -l -a -F", NULL,NULL,1)));
 	//ft_lstadd_back(&commands,ft_lstnew(generateCommand("ls","ls", NULL,NULL,1)));
 	return commands;
 }
