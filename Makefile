@@ -14,7 +14,7 @@ OBJ =  *.o ./executer/*.o ./parser/*.o ./utils/*.o ./executer/builtins/*.o
 all : $(NAME)
 
 $(NAME) :$(SUB)	
-	${CC} ${CFLAGS} ${SUB}  -o ${NAME} ${RFLAG} -lreadline
+	${CC} ${SUB}  -o ${NAME} ${RFLAG} -lreadline
 
 
 clean :

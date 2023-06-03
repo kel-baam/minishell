@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   binary_search_tree.c                               :+:      :+:    :+:   */
+/*   binary_search_tree01.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -38,6 +38,7 @@ void	add_node(t_node **head, char *key, char *value, t_node *parent)
 	{
 		*head = new_node(key, value);
 		(*head)->parent = parent;
+		g_data.count_envs++;
 		return ;
 	}
 	cmp = strcmp(key, tmp->key);
@@ -80,65 +81,4 @@ t_node	*get_most_left(t_node *node)
 		tmp = tmp->left;
 	}
 	return (tmp);
-}
-
-void	add_child_to_parent(t_node *node, t_node *child_node)
-{
-	t_node	*node_parent;
-
-	node_parent = node->parent;
-	if (node_parent)
-	{
-		if (node_parent->right == node)
-			node_parent->right = child_node;
-		else
-			node_parent->left = child_node;
-	}
-}
-
-void	switch_nodes(t_node *node_1, t_node *node_2)
-{
-	add_child_to_parent(node_1, NULL);
-	node_1->parent = node_2->parent;
-	node_1->left = node_2->left;
-	node_1->right = node_2->right;
-	add_child_to_parent(node_2, node_1);
-}
-
-void	remove_node(t_node **head, char *key)
-{
-	t_node	*to_delete_node;
-	t_node	*new_root;
-	t_node	*min_node;
-
-	if (!head)
-		return ;
-	to_delete_node = get_node(*head, key);
-	if (!to_delete_node ||(to_delete_node->key && !strcmp(to_delete_node->key,"?")))
-		return ;
-	
-	if (to_delete_node->right == NULL && to_delete_node->left == NULL)
-	{
-		add_child_to_parent(to_delete_node, NULL);
-		new_root = NULL;
-	}
-	else if (to_delete_node->right == NULL)
-	{
-		add_child_to_parent(to_delete_node, to_delete_node->left);
-		new_root = to_delete_node->left;
-	}
-	else if (to_delete_node->left == NULL)
-	{
-		add_child_to_parent(to_delete_node, to_delete_node->right);
-		new_root = to_delete_node->right;
-	}
-	else
-	{
-		min_node = get_most_left(to_delete_node->right);
-		switch_nodes(min_node, to_delete_node);
-		new_root = min_node;
-	}
-	if (*head == to_delete_node)
-		*head = new_root;
-	free_node(&to_delete_node);
 }

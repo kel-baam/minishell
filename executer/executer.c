@@ -33,25 +33,40 @@ void	get_outfile_fd(int *fd, t_list *file_list)
 		tmp = tmp->next;
 	}
 }
-void	handel2(void)
-{
-	printf("^C");
-	g_data.status_code = 130;
-	//rl_on_new_line();
-	// rl_replace_line("^C",0);
-	//rl_redisplay();
-}
 
+//tomorrow complete herdoc and check sttus code and some issues in exit status
+
+void exec_herdoc(char *del,int fd)
+{
+    char *line;
+    while(1)
+    {
+		line=readline("herdoc>");
+        if(!ft_strncmp(del,line,ft_strlen(del)))
+			break ;
+		//read(fd,line,ft_strlen(line));
+		free(line);
+	}
+}
 void	get_inputfile_fd(int *last_fd, t_list *redir_in)
 {
 	t_list	*tmp_redir_in;
 
 	tmp_redir_in = redir_in;
+	t_red	*tmp;
+
 	while (tmp_redir_in)
 	{
-		*(last_fd) = open(tmp_redir_in->content, O_RDONLY, 0644);
+		tmp = (t_red *)tmp_redir_in->content;
+		if(tmp->flag)
+			*(last_fd) = open(tmp->file_name, O_RDONLY, 0644);
 		if (*(last_fd) == -1)
-			print_cmd_error(tmp_redir_in->content,NULL, strerror(errno), 1);
+		{
+			g_data.status_code =print_cmd_error(tmp->file_name,NULL, strerror(errno), 1);
+			exit(g_data.status_code);
+		}
+		if(!(tmp->flag))
+			exec_herdoc(tmp->file_name,*last_fd);	
 		if (tmp_redir_in->next && *last_fd)
 			close(*last_fd);
 		tmp_redir_in = tmp_redir_in->next;
@@ -84,7 +99,7 @@ void	execute_command(t_command *tmp_command, char *path, char **envs)
 	else
 	{
 		if (execve(path, tmp_command->args, envs) == -1)
-			exit(1);
+			g_data.status_code=127;
 	}
 }
 
@@ -102,7 +117,16 @@ void	closing_pipe(t_list *commands, int *fd, int *pidd, int i)
 			waitpid(pidd[j], &status, 0);
 			j++;
 		}
-		g_data.status_code = WEXITSTATUS(status);
+		//128+status  when a process is terminated by a signal
+		if(status==SIGINT)
+				g_data.status_code=130;
+		else if(status==SIGQUIT)
+			{
+				g_data.status_code=131;
+				printf("Quit: 3\n");
+			}
+		 else
+		 	g_data.status_code = WEXITSTATUS(status);
 	}
 }
 
@@ -116,7 +140,7 @@ char	*get_my_path(t_command *tmp_command, char **envs)
 	{
 		path = get_actual_path(tmp_command->cmd, tmp_command, envs);
 		if (!path)
-			print_cmd_error(tmp_command->cmd,NULL, " command not found", 127);
+			g_data.status_code=print_cmd_error(tmp_command->cmd,NULL, " command not found", 127);
 	}
 	return (path);
 }
@@ -147,6 +171,7 @@ int	run_builtins(t_list *commands)
 	}
 	return (-1);
 }
+
 void	executer(t_list *commands, char **envs)
 {
 	int			fds[2];
@@ -168,22 +193,19 @@ void	executer(t_list *commands, char **envs)
 		tmp_command = (t_command *)tmp->content;
 		if (pipe(fds) == -1)
 			print_cmd_error(tmp_command->cmd,tmp_command->args[1], strerror(errno), 1);
+		
 		pid = fork();
 		if (!pid)
-		{   				
-			// tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.oldTerm));
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_DFL);
-
+		{
+			signals_for_child();
 			get_inputfile_fd(&last_fd, tmp_command->redir_in);
 			get_outfile_fd(&fds[1], tmp_command->redir_out);
 			duplicate_fds(tmp, last_fd, fds);
 			execute_command(tmp_command, get_my_path(tmp_command, envs), envs);
-			return ;
+			exit(g_data.status_code) ;
 		}
 		else
 		{
-			//signal(SIGINT, handel2);
 			pidd[i] = pid;
 			fd[i] = fds[0];
 			last_fd = fds[0];

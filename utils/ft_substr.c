@@ -32,7 +32,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	{
 		p[i] = s[start++];
 		i++;
+<<<<<<< HEAD
 
+=======
+>>>>>>> b72f58e7d321bb09cb02f23b2a6133404fb18d90
 	}
 	p[i] = '\0';
 	return (p);

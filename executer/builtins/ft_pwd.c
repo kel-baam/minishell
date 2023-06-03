@@ -10,14 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../minishell.h"
-//final version
-int	ft_pwd(char *cmd,int fd)
+
+int	ft_pwd(char *cmd, int fd)
 {
 	char	buff[1024];
-	int status=0;
+	int		status;
 
+	status = 0;
 	if (!getcwd(buff, sizeof(buff)))
-		return print_cmd_error(cmd,NULL, strerror(errno), 1);
-	write(fd,buff,ft_strlen(buff));
+		return (print_cmd_error(cmd, NULL, strerror(errno), 1));
+	write(fd, buff, ft_strlen(buff));
 	return (status);
 }
