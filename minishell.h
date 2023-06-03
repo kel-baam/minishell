@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:31:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/03 18:13:32 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/03 22:53:38 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@
 # include "parser/token.h"
 // in
 # define TABLE_SIZE 1024
+
+
+
+#include "parser/cmd.h"
+#include "parser/lexer.h"
+#include "parser/token.h"
 
 typedef struct t_list
 {
@@ -126,4 +132,7 @@ void				prompt(int sig);
 void				signals_for_child(void);
 void				signals_for_parent();
 t_node				*get_most_left(t_node *node);
+
+t_list	*parser(char *line);
+t_command       *store_one_command(token_t **token);
 #endif

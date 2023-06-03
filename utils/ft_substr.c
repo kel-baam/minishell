@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 15:13:47 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/05/27 18:02:11 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/03 18:28:50 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	{
 		p[i] = s[start++];
 		i++;
-<<<<<<< HEAD
 
-=======
->>>>>>> b72f58e7d321bb09cb02f23b2a6133404fb18d90
 	}
 	p[i] = '\0';
 	return (p);
