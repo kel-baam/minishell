@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:35:45 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/03 18:14:25 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/03 18:22:22 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,6 @@ char **convert_tree_to_array()
 	char **store= store_envs(g_data.env_vars,envs,&p);
 	return store;
 }
-//check status code
-// still herdoc to insert in my part
-//finall touch like leaks
-//finally norm
 int	main(int ac, char **av, char **env)
 {
 	t_list		*commands;
