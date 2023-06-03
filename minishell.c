@@ -29,7 +29,7 @@ int	main(int ac, char **av, char **env)
 	char *line = NULL;
 	//store envs in tree
 	initilizer(env);
-	signals_for_parent();
+	//signals_for_parent();
 	while (1)
 	{
 		char **tmp_envs=convert_tree_to_array();
@@ -48,8 +48,6 @@ int	main(int ac, char **av, char **env)
 			add_node(&(g_data.env_vars),"?",ft_itoa(g_data.status_code),NULL);
 			printf("%d\n",g_data.status_code);
 		}
-		else
-			continue;
 			//exit(g_data.status_code);
 		//free(commands);
 	}
