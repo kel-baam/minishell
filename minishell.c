@@ -6,26 +6,11 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:35:45 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/03 23:10:23 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/03 23:22:40 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-
-// int	main(int ac, char **av, char **envs)
-// {
-// 	t_list *commands;
-// 	while(1)
-// 	{
-// 		char *line=
-// 		//command=parser();
-// 		//commands = init_commands();
-// 		executer(commands,envs);
-// 		free(commands);
-// 		//exit(0);
-// 	}
-// 	return (0);
-// }
 
 #include "minishell.h"
 
