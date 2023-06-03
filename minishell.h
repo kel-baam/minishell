@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:31:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/05/31 15:21:48 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/03 18:13:32 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,27 +78,26 @@ typedef struct s_data
 }					t_data;
 
 t_data				g_data;
+
 t_command			*read_cmds(t_command *data, char **av, int ac);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 size_t				ft_strlen(const char *str);
 char				*ft_strdup(const char *s1);
 char				**ft_split(char const *s, char c);
 char				*ft_strjoin(char const *s1, char const *s2);
-char				*ft_strchr(const char *s, int c);
+void				executer(t_list *command, char **envs);
 t_list				*init_commands();
+int					ft_atoi(const char *str);
 t_list				*ft_lstlast(t_list *lst);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 t_list				*ft_lstnew(void *content);
 int					ft_strchr_str(char *str, char *c);
-
-int					print_cmd_error(char *cmd, char *args, char *msg_err,
-						int status_code);
-void				executer(t_list *command, char **envs);
+int					print_cmd_error(char *cmd,char *args, char *msg_err, int status_code);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 char				*get_actual_path(char *cmd, t_command *data, char **envs);
 void				free_double_ptr(char **ptr);
 void				initilizer(char **envs);
-void 	init_envs(char **envs);
+void 				init_envs(char **envs);
 int					ft_env(int fd);
 int					find_char(char *str, char c);
 void				add_node(t_node **head, char *key, char *value,
@@ -120,10 +119,10 @@ char				*ft_itoa(int n);
 int					is_valid_key(char *key);
 int					ft_exit(t_command *command);
 int					is_num(char *str);
-int					ft_atoi(const char *str);
 char				**store_envs(t_node *head, char **tmp, int *i);
 void				prompt(int sig);
 void				signals_for_child(void);
-void signals_for_parent();
-t_node	*get_most_left(t_node *node);
+void				signals_for_parent();
+t_node				*get_most_left(t_node *node);
+char	*ft_strchr(const char *s, int c);
 #endif

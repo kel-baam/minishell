@@ -479,20 +479,20 @@ int check_parsing_error(token_t *tokens)
 	return (0);
 }
 
-int main()
-{
-	lexer_t	*lexer;
-	token_t	*token;
-	char	*symb;
-	char	*types;
+// int main()
+// {
+// 	lexer_t	*lexer;
+// 	token_t	*token;
+// 	char	*symb;
+// 	char	*types;
 
-	lexer = init_lexer(readline("minishell_1337 : $ "));
-	symb = malloc(3);
-	types = malloc(9);
-	symb = "<>";
-	types = "<>| '\"$";
-	token = get_all_tokens(lexer, types);
-	check_parsing_error((token));
-	store_one_cmd(&token, symb);
+// 	lexer = init_lexer(readline("minishell_1337 : $ "));
+// 	symb = malloc(3);
+// 	types = malloc(9);
+// 	symb = "<>";
+// 	types = "<>| '\"$";
+// 	token = get_all_tokens(lexer, types);
+// 	check_parsing_error((token));
+// 	store_one_cmd(&token, symb);
 
-}
+// }

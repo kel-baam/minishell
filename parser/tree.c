@@ -31,32 +31,6 @@ int count_cmds(token_t *token)
 }
 
 
-t_list	*ft_lstlast(t_list *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next)
-	{
-		lst = lst->next;
-	}
-	return (lst);
-}
-
-void	ft_lstadd_back(t_list **lst, t_list *new)
-{
-	t_list	*last_node;
-
-	if (lst)
-	{
-		if (!*lst)
-			*lst = new;
-		else
-		{
-			last_node = ft_lstlast(*lst);
-			last_node->next = new;
-		}
-	}
-}
 
 t_list *init_list(t_command *cmd)
 {

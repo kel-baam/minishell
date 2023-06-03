@@ -6,37 +6,17 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:35:45 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/05/31 11:22:21 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/03 18:14:25 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 
-// int	main(int ac, char **av, char **envs)
-// {
-// 	t_list *commands;
-// 	while(1)
-// 	{
-// 		char *line=
-// 		//command=parser();
-// 		//commands = init_commands();
-// 		executer(commands,envs);
-// 		free(commands);
-// 		//exit(0);
-// 	}
-// 	return (0);
-// }
 
 #include "minishell.h"
 
 char **convert_tree_to_array()
 {
-	// //printf("\33[2K");
-	// printf("\n");
-	// rl_on_new_line();
-	// rl_replace_line("",0);
-	// rl_redisplay();
-
 	int p=0;
 	char **envs=malloc(sizeof(char*)*g_data.count_envs);
 	char **store= store_envs(g_data.env_vars,envs,&p);
@@ -49,20 +29,9 @@ char **convert_tree_to_array()
 int	main(int ac, char **av, char **env)
 {
 	t_list		*commands;
-
 	t_command	*data;
-	
-	char *line = NULL;
-	//signal(SIGINT,)
-	initilizer(envs);
-	 // Get the current terminal settings
-    tcgetattr(STDIN_FILENO, &(g_data.newTerm));
 
-	g_data.oldTerm = g_data.newTerm;
-	signal(SIGQUIT,SIG_IGN);
-    // Disable the printing of control characters
-    g_data.newTerm.c_lflag &= ~ECHOCTL;
-    // Apply the modified settings
+	char *line = NULL;
 	initilizer(env);
 	signals_for_parent();
 	while (1)
