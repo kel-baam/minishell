@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "../minishell.h"
 
-void	init_envs(char **envs)
+void 	init_envs(char **envs)
 {
 	int		i;
 	char	*key;
@@ -29,6 +29,7 @@ void	init_envs(char **envs)
 		free(value);
 		i++;
 	}
+
 }
 
 void	initilizer(char **envs)

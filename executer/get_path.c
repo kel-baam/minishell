@@ -22,7 +22,11 @@ char	*get_right_path(char *cmd, t_command *data, char **envs)
 	env = get_env("PATH");
 	// check _status code
 	if (!env)
-		g_data.status_code=print_cmd_error(cmd,data->args[1], "No such file or directory", 127);
+	{
+		g_data.status_code = print_cmd_error(cmd, data->args[1],
+				"No such file or directory", 127);
+		exit(g_data.status_code);
+	}
 	paths = ft_split(env, ':');
 	absolute_path = NULL;
 	cmd = ft_strjoin("/", cmd);
@@ -35,8 +39,8 @@ char	*get_right_path(char *cmd, t_command *data, char **envs)
 		absolute_path = NULL;
 		i++;
 	}
-	if(!absolute_path)
-		g_data.status_code=127;
+	if (!absolute_path)
+		g_data.status_code = 127;
 	return (absolute_path);
 }
 
@@ -53,7 +57,10 @@ char	*get_actual_path(char *cmd, t_command *data, char **envs)
 				return (ft_strdup(cmd));
 			status = 126;
 		}
-		g_data.status_code =print_cmd_error(cmd,NULL, strerror(errno), status);
+		g_data.status_code = print_cmd_error(cmd, NULL, strerror(errno),
+				status);
+		// i call exit function here
+		exit(g_data.status_code);
 	}
 	return (get_right_path(cmd, data, envs));
 }

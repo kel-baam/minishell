@@ -42,7 +42,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	{
 		p[i] = s[start++];
 		i++;
-		
 	}
 	p[i] = '\0';
 	return (p);

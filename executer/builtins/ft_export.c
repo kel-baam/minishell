@@ -13,30 +13,31 @@
 
 //final version
 
-void	inorder_traversal(t_node *head,int fd)
+void	inorder_traversal(t_node *head, int fd)
 {
+	char	qoute;
+
 	if (head == NULL)
 		return ;
-	char qoute='"';
-	inorder_traversal(head->left,fd);
+	qoute = '"';
+	inorder_traversal(head->left, fd);
 	if (!head->value)
 	{
-		write(fd,"declare -x ",11);
-		write(fd,head->key,ft_strlen(head->key));
-		write(fd,"\n",1);
+		write(fd, "declare -x ", 11);
+		write(fd, head->key, ft_strlen(head->key));
+		write(fd, "\n", 1);
 	}
 	else
 	{
-		write(fd,"declare -x ",11);
-		write(fd,head->key,ft_strlen(head->key));
-		write(fd,"=",1);
-		write(fd,&qoute,1);
-		write(fd,head->value,ft_strlen(head->value));
-		write(fd,&qoute,1);
-		write(fd,"\n",1);
-
+		write(fd, "declare -x ", 11);
+		write(fd, head->key, ft_strlen(head->key));
+		write(fd, "=", 1);
+		write(fd, &qoute, 1);
+		write(fd, head->value, ft_strlen(head->value));
+		write(fd, &qoute, 1);
+		write(fd, "\n", 1);
 	}
-	inorder_traversal(head->right,fd);
+	inorder_traversal(head->right, fd);
 }
 
 int	add_new_element(t_command *command)
@@ -45,28 +46,27 @@ int	add_new_element(t_command *command)
 	int		pos;
 	char	*key;
 	char	*value;
-	int status=0;
+	int		status;
+
+	status = 0;
 	i = 1;
 	while (command->args && command->args[i])
 	{
-		
 		pos = find_char(command->args[i], '=');
-		if(pos==-1 && is_valid_key(command->args[i])==-1)
+		if (pos == -1 && is_valid_key(command->args[i]) == -1)
 		{
-			status=print_cmd_error(command->cmd,command->args[i], "not a valid identifier", 1);
-				i++;
-			continue;
+			status = print_cmd_error(command->cmd, command->args[i], "not a valid identifier", 1);
+			i++;
+			continue ;
 		}
 		if (pos != -1)
 		{
 			key = ft_substr(command->args[i], 0, pos);
-			
-			if(is_valid_key(key)==-1)
+			if (is_valid_key(key) == -1)
 			{
-				
-				status=print_cmd_error(command->cmd,key, "not a valid identifier", 1);
+				status = print_cmd_error(command->cmd, key, "not a valid identifier", 1);
 				i++;
-				continue;
+				continue ;
 			}
 			value = ft_substr(command->args[i], pos + 1,
 					ft_strlen(command->args[i]));
@@ -78,19 +78,21 @@ int	add_new_element(t_command *command)
 			add_node(&(g_data.env_vars), command->args[i], NULL, NULL);
 		i++;
 	}
-return status;
+	return (status);
 }
 
-int	ft_export(t_command *command,int fd)
+int	ft_export(t_command *command, int fd)
 {
 	int	i;
-	int status;
+	int	status;
+
 	i = 1;
 	if (command->args && command->args[i])
 	{
-		status=add_new_element(command);
+		status = add_new_element(command);
+
 	}
 	else
-		inorder_traversal(g_data.env_vars,fd);
+		inorder_traversal(g_data.env_vars, fd);
 	return (status);
 }

@@ -44,3 +44,35 @@ char	*get_env(char *key)
 		return (node->value);
 	return (NULL);
 }
+
+char** store_envs(t_node* head, char** envs, int* i) 
+{
+   if (!head)
+        return envs;
+    envs[*i] = malloc((ft_strlen(head->key) + ft_strlen(head->value) + 2) * sizeof(char));
+    if(!envs)
+        return NULL;
+    int j = 0;
+    while (j < ft_strlen(head->key)) {
+        envs[*i][j] = head->key[j];
+        j++;
+    }
+    
+    envs[*i][j] = '=';
+    j++;
+    
+    int k = 0;
+    while (j < ft_strlen(head->key) + ft_strlen(head->value) + 1) {
+        envs[*i][j] = head->value[k];
+        k++;
+        j++;
+    }
+    
+    envs[*i][j] = '\0';
+    (*i)++;
+
+    envs = store_envs(head->left, envs, i);
+    envs = store_envs(head->right, envs, i);
+
+    return envs;
+}
