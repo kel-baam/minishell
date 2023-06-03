@@ -14,17 +14,20 @@
 int	ft_unset(t_command *command)
 {
 	int	i;
-	int status=0;
+	int	status;
 
+	status = 0;
 	i = 1;
 	while (command->args && command->args[i])
 	{
-		if(is_valid_key(command->args[i])==-1)
+		if (is_valid_key(command->args[i]) == -1)
 		{
-			status=print_cmd_error(command->cmd,command->args[i], "not a valid identifier", 1);
+			status = print_cmd_error(command->cmd, command->args[i],
+					"not a valid identifier", 1);
 			i++;
-			continue;
+			continue ;
 		}
+		// is this write right or not 
 		remove_node(&(g_data.env_vars), command->args[i]);
 		i++;
 	}

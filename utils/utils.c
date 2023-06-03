@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "../minishell.h"
 
-int	print_cmd_error(char *cmd,char *args, char *msg_err, int status_code)
+int	print_cmd_error(char *cmd, char *args, char *msg_err, int status_code)
 {
 	char	*my_shell;
 
@@ -20,17 +20,15 @@ int	print_cmd_error(char *cmd,char *args, char *msg_err, int status_code)
 	write(STDERR_FILENO, ": ", 2);
 	write(STDERR_FILENO, cmd, ft_strlen(cmd));
 	write(STDERR_FILENO, ": ", 2);
-	if(args)
+	if (args)
 	{
-	write(STDERR_FILENO, args, ft_strlen(args));
-	write(STDERR_FILENO, ": ", 2);
+		write(STDERR_FILENO, args, ft_strlen(args));
+		write(STDERR_FILENO, ": ", 2);
 	}
 	write(STDERR_FILENO, msg_err, ft_strlen(msg_err));
 	write(STDERR_FILENO, "\n", 1);
-	//save status code and exit in the process
-	g_data.status_code=status_code;
-	return status_code;
-	//exit(1);
+	g_data.status_code = status_code;
+	return (status_code);
 }
 
 void	free_double_ptr(char **ptr)
