@@ -1,30 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/21 13:11:43 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/05/25 23:06:36 by kjarmoum         ###   ########.fr       */
+/*   Created: 2023/05/22 17:05:59 by kjarmoum          #+#    #+#             */
+/*   Updated: 2023/05/22 23:45:52 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "token.h"
+#include "cmd.h"
+#include "lexer.h"
+#include "tree.h"
 #include "../minishell.h"
 
-// void	ft_lstadd_back(t_list **lst, t_list *new)
-// {
-// 	t_list	*last_node;
 
-// 	if (lst)
-// 	{
-// 		if (!*lst)
-// 			*lst = new;
-// 		else
-// 		{
-// 			last_node = ft_lstlast(*lst);
-// 			last_node->next = new;
-// 		}
-// 	}
-// }
 
+token_t *tokens(token_t **token)
+{
+	token_t *cpy;
+	token_t *tmp;
+	token_t *lst_node;
+
+	tmp = NULL;
+	cpy = NULL;
+	if (token && *token)
+	{
+		while ((*token && (*token)->value[0] != '|'))
+		{
+			//tmp
+			(*token) = (*token)->next;
+		}
+		if (*token)
+		{
+			lst_node = ft_lstlast_token(tmp);
+			lst_node->next = NULL;
+		}
+	}
+	return (tmp);
+}
