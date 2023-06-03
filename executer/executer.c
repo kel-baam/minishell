@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:29:18 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/05/03 10:29:21 by kel-baam         ###   ########.fr       */
+/*   Updated: 2023/06/03 23:11:15 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 #include "../minishell.h"
 
 void	get_outfile_fd(int *fd, t_list *file_list)
@@ -66,7 +68,7 @@ void	get_inputfile_fd(int *last_fd, t_list *redir_in)
 			exit(g_data.status_code);
 		}
 		if(!(tmp->flag))
-			exec_herdoc(tmp->file_name,*last_fd);	
+			exec_herdoc(tmp->file_name,*last_fd);
 		if (tmp_redir_in->next && *last_fd)
 			close(*last_fd);
 		tmp_redir_in = tmp_redir_in->next;
@@ -163,10 +165,10 @@ int	run_builtins(t_list *commands)
 		{
 			get_inputfile_fd(&infile, tmp_command->redir_in);
 			get_outfile_fd(&outfile, tmp_command->redir_out);
-			
+
 			g_data.status_code=execute_bultin(tmp_command, outfile);
 			return g_data.status_code;
-		
+
 		}
 	}
 	return (-1);
@@ -193,7 +195,7 @@ void	executer(t_list *commands, char **envs)
 		tmp_command = (t_command *)tmp->content;
 		if (pipe(fds) == -1)
 			print_cmd_error(tmp_command->cmd,tmp_command->args[1], strerror(errno), 1);
-		
+
 		pid = fork();
 		if (!pid)
 		{
