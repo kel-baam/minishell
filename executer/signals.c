@@ -19,8 +19,6 @@ void	prompt(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
-// ~means not operator
-//& means 
 void	signals_for_parent(void)
 {
 	tcgetattr(STDIN_FILENO, &(g_data.newTerm));
