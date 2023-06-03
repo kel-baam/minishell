@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:30:15 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/05/03 10:30:19 by kel-baam         ###   ########.fr       */
+/*   Updated: 2023/06/03 17:11:33 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	print_cmd_error(char *cmd, char *args, char *msg_err, int status_code)
@@ -18,9 +19,12 @@ int	print_cmd_error(char *cmd, char *args, char *msg_err, int status_code)
 	my_shell = "my_shell";
 	write(STDERR_FILENO, my_shell, ft_strlen(my_shell));
 	write(STDERR_FILENO, ": ", 2);
-	write(STDERR_FILENO, cmd, ft_strlen(cmd));
-	write(STDERR_FILENO, ": ", 2);
-	if (args)
+	if (cmd)
+	{
+		write(STDERR_FILENO, cmd, ft_strlen(cmd));
+		write(STDERR_FILENO, ": ", 2);
+	}
+	if(args)
 	{
 		write(STDERR_FILENO, args, ft_strlen(args));
 		write(STDERR_FILENO, ": ", 2);
