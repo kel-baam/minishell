@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:26:25 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/03 22:48:42 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/04 18:40:06 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -402,12 +402,21 @@ char	*remove_char_from_str(char *buffer, char c)
 int qoute_error(token_t *token)
 {
 	if (token)
+	{
 		if (token->value[0] == '\'' || token->value[0] == '\"')
-			if (token->value[ft_strlen(token->value) - 1] != token->value[0])
+		{
+			if (ft_strlen(token->value) == 1)
 			{
 				print_cmd_error(NULL, NULL, "syntax error", 1);
 				return (1);
 			}
+			else if (token->value[ft_strlen(token->value) - 1] != token->value[0])
+			{
+				print_cmd_error(NULL, NULL, "syntax error", 1);
+				return (1);
+			}
+		}
+	}
 	return (0);
 }
 
@@ -415,47 +424,89 @@ int qoute_error(token_t *token)
 
 int redir_in_error(token_t *token)
 {
+	int		i;
+	int		flag;
 	char	*buffer;
 
+	i = 0;
+	flag = -1;
 	buffer = ft_strdup("");
 	if (token)
 	{
 		token = token->next;
-		// "<" | "< + spaces" | "<<" | "<<            "
+		if (token && (token->type == 0))
+		{
+			token = token->next;
+			flag = 0;
+		}
 		if (token && (token->type == 0))
 			token = token->next;
 		while (token && token->type == 4)
 			token = token->next;
-		if (!token || (token && token->type == 1))
+		if (!token || (token && flag && token->type == 1))
 		{
 			print_cmd_error(NULL, NULL, "syntax error near unexpected token `newline'", 258);
 			return (1);
 		}
-		else
+		else if (token->type == 0 || token->type == 1 || token->type == 2)
 		{
 			buffer = "syntax error near unexpected token `";
-			print_cmd_error(NULL, NULL, ft_strjoin(ft_strjoin(buffer, token->value), "'"), 258);
+			while (token && ((token->type == 0 && i < 3) || (token->type == 1 && i < 2)))
+			{
+				buffer = ft_strjoin(buffer, token->value);
+				token = token->next;
+				i++;
+			}
+			if (token && token->type == 2)
+				buffer = ft_strjoin(buffer, token->value);
+			print_cmd_error(NULL, NULL, ft_strjoin(buffer, "'"), 258);
 			return (1);
 		}
-		// while (token)
-		// {
-		// 	if (!token)
-		// 	{
-		// 		print_cmd_error(NULL, NULL, "syntax error near unexpected token `newline'", 258);
-		// 		return (1);
-		// 	}
-
-		// 	token = token->next;
-		// }
 	}
 	return (0);
 }
 
-int redir_error(token_t *token, int type)
+int redir_out_error(token_t *token)
 {
+	int		i;
 	char	*buffer;
 
-	buffer = NULL;
+	i = 0;
+	buffer = ft_strdup("");
+	if (token)
+	{
+		token = token->next;
+		if (token && token->type == 1)
+			token = token->next;
+		while (token && token->type == 4)
+			token = token->next;
+		if (token && (token->type == 0 || token->type == 1 || token->type == 2))
+		{
+			buffer = "syntax error near unexpected token `";
+			while (token && ((i < 2 && (token->type == 2 || token->type == 1))
+				|| (i < 3 && token->type == 0)))
+			{
+				buffer = ft_strjoin(buffer, token->value);
+				token = token->next;
+				i++;
+			}
+			print_cmd_error(NULL, NULL, ft_strjoin(buffer, "'"), 258);
+			return (1);
+		}
+		if (!token)
+		{
+			print_cmd_error(NULL, NULL, "syntax error near unexpected token `newline'", 258);
+			return (1);
+		}
+	}
+	return (0);
+}
+
+
+
+
+int redir_error(token_t *token, int type)
+{
 	if (token)
 	{
 		if (type == 0)
@@ -463,11 +514,11 @@ int redir_error(token_t *token, int type)
 			redir_in_error(token);
 			return (1);
 		}
-		// else
-		// {
-		// 	redir_out_error();
-		// 	return (1);
-		// }
+		else
+		{
+			redir_out_error(token);
+			return (1);
+		}
 	}
 	return (0);
 }
@@ -478,8 +529,6 @@ int check_parsing_error(token_t *tokens)
 	{
 		while (tokens)
 		{
-			// return 1 if error
-			// pipe
 			if (tokens->value[0] == '|')
 				return (pipe_error(tokens));
 			else if (tokens->value[0] == '<')
@@ -510,7 +559,8 @@ t_list	*parser(char *line)
 	symb = "<>";
 	types = "<>| '\"$";
 	token = get_all_tokens(lexer, types);
-	//check_parsing_error((token));
+	check_parsing_error((token));
+	exit(1);
 	lst = store_one_cmd(&token, symb);
 	return (lst);
 }
