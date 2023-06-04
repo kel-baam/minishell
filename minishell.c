@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:35:45 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/03 23:10:23 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/04 15:49:06 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	main(int ac, char **av, char **env)
 				continue;
 			add_history(line);
 			commands = parser(line);
+			exit(1);
 			executer(commands, env);
 			add_node(&(g_data.env_vars),"?",ft_itoa(g_data.status_code),NULL);
 			printf("%d\n",g_data.status_code);
