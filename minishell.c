@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 #include "minishell.h"
 #include <ctype.h>
-//echo \n \0
 
 char **convert_tree_to_array()
 {
