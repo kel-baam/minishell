@@ -28,7 +28,6 @@ int ft_cd(t_command *command)
  						return print_cmd_error(command->cmd,command->args[1], strerror(errno), 1);
 		if (!getcwd(current_pwd, sizeof(current_pwd)))
  						return print_cmd_error(command->cmd,command->args[1], strerror(errno), 1);
-		printf("%s\n",current_pwd);
 		add_node(&g_data.env_vars, "OLDPWD",old_pwd, NULL);
 		add_node(&g_data.env_vars, "PWD", current_pwd, NULL);
 			return 0;
