@@ -20,7 +20,6 @@ t_list	*ft_lstnew(void *content)
 	if (!elem)
 		return (NULL);
 	elem->content = content;
-	//printf("%s\n",((t_command *)(elem->content))->cmd);
 	elem->next = NULL;
 	return (elem);
 }

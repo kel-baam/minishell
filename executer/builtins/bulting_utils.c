@@ -54,15 +54,11 @@ int	is_valid_key(char *key)
 	int	i;
 
 	i = 0;
-	while (key[i])
-	{
-		if ((key[i] >= 'a' && key[i] <= 'z') || (key[i] >= 'A'
-				&& key[i] <= 'Z'))
-			i++;
-		else
-			return (-1);
-	}
-	return (i);
+	
+	if ((key[0] >= 'a' && key[0] <= 'z') || (key[0] >= 'A' && key[0] <= 'Z'))
+		return 0;
+			
+	return (-1);
 }
 
 int	is_num(char *str)

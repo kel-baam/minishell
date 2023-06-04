@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:31:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/03 22:53:38 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/03 23:22:33 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
+
 # include <stdlib.h>
 # include <string.h>
 # include <sys/errno.h>
@@ -28,7 +29,9 @@
 # include <sys/wait.h>
 # include <readline/history.h>
 # include "parser/token.h"
-// in
+# define GREEN "\033[0;32m"
+# define RESET "\033[0m"
+# define PERPOL " \033[0;35m"
 # define TABLE_SIZE 1024
 
 
@@ -91,18 +94,16 @@ size_t				ft_strlen(const char *str);
 char				*ft_strdup(const char *s1);
 char				**ft_split(char const *s, char c);
 char				*ft_strjoin(char const *s1, char const *s2);
-void				executer(t_list *command, char **envs);
+void				executer(t_list *command);
 t_list				*init_commands();
 int					ft_atoi(const char *str);
 t_list				*ft_lstlast(t_list *lst);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 t_list				*ft_lstnew(void *content);
-char				*ft_strchr(const char *s, int c);
 int					ft_strchr_str(char *str, char *c);
 int					print_cmd_error(char *cmd,char *args, char *msg_err, int status_code);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
-t_list				*init_commands(void);
-char				*get_actual_path(char *cmd, t_command *data, char **envs);
+char				*get_actual_path(char *cmd, t_command *data);
 void				free_double_ptr(char **ptr);
 void				initilizer(char **envs);
 void 				init_envs(char **envs);
@@ -132,7 +133,8 @@ void				prompt(int sig);
 void				signals_for_child(void);
 void				signals_for_parent();
 t_node				*get_most_left(t_node *node);
-
+char	*ft_strchr(const char *s, int c);
 t_list	*parser(char *line);
 t_command       *store_one_command(token_t **token);
+char **convert_tree_to_array();
 #endif

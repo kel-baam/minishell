@@ -25,7 +25,7 @@ int	check_option(char *str)
 	}
 	return (i);
 }
-//problem in this function is when i have -n
+
 int	ft_echo(t_command *command)
 {
 	int	i = 1;
