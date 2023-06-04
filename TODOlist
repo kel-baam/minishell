@@ -1,0 +1,52 @@
+=======>    expand $
+=======> 	remove " && '
+=======> 	echo"jfldhsfkhekjl"jkhdkjgd
+
+
+// pipe errors
+
+=======>	||  -> syntax error near unexpected token `||'
+=======>	||| -> syntax error near unexpected token `||'
+=======>	|   -> syntax error near unexpected token `|'
+=======>	|>	-> syntax error near unexpected token `|'
+=======>	|<	-> syntax error near unexpected token `|'
+=======>	|/	-> syntax error near unexpected token `|'
+=======>	|$  -> syntax error near unexpected token `|'
+=======>	|\" -> syntax error near unexpected token `|'
+=======>	|\' -> syntax error near unexpected token `|'
+=======>	cmd  |   |  cmd ----> syntax error near unexpected token `|'
+
+
+// redir_in error
+
+=======>	<	-> syntax error near unexpected token `newline'
+=======>	<       -> syntax error near unexpected token `newline'
+=======>	<<	-> syntax error near unexpected token `newline'
+=======>	<<      -> syntax error near unexpected token `newline'
+=======>	<<<	-> syntax error near unexpected token `newline'
+=======>	<<<<	-> syntax error near unexpected token `<'
+=======>	<<<<<	-> syntax error near unexpected token `<<'
+=======>	<<<<<<	-> syntax error near unexpected token `<<<'
+=======>	<>	-> syntax error near unexpected token `newline'
+=======>	<<>	-> syntax error near unexpected token `>'
+=======>	<<>>	-> syntax error near unexpected token `>>'
+=======>	<<>>>>	-> syntax error near unexpected token `>>'
+
+
+// redir_out error
+
+=======>	> 	->	syntax error near unexpected token `newline'
+=======>	>      -> syntax error near unexpected token `newline'
+=======>	>>	-> syntax error near unexpected token `newline'
+=======>	>>       -> syntax error near unexpected token `newline'
+=======>	>>|    -> syntax error near unexpected token `|'
+=======>	>>||   -> syntax error near unexpected token `||'
+=======>	>>|||   -> syntax error near unexpected token `||'
+=======>	>>>		-> syntax error near unexpected token `>'
+=======>	>>>>>>> -> syntax error near unexpected token `>>'
+=======>	>><		-> syntax error near unexpected token `<'
+=======>	>><<	-> syntax error near unexpected token `<<'
+=======>	>><<<	->	syntax error near unexpected token `<<<'
+=======>	>><<<<<  -> syntax error near unexpected token `<<<'
+
+
