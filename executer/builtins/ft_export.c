@@ -52,19 +52,21 @@ int	add_new_element(t_command *command)
 	i = 1;
 	while (command->args && command->args[i])
 	{
+	
 		pos = find_char(command->args[i], '=');
 		if (pos == -1 && is_valid_key(command->args[i]) == -1)
 		{
-			status = print_cmd_error(command->cmd, command->args[i], "not a valid identifier", 1);
+			status = print_cmd_error(command->cmd, command->args[i], "not a valid identifier1", 1);
 			i++;
 			continue ;
 		}
 		if (pos != -1)
 		{
 			key = ft_substr(command->args[i], 0, pos);
+
 			if (is_valid_key(key) == -1)
 			{
-				status = print_cmd_error(command->cmd, key, "not a valid identifier", 1);
+				status = print_cmd_error(command->cmd, key, "not a valid identifier2", 1);
 				i++;
 				continue ;
 			}

@@ -47,13 +47,17 @@ char	*get_env(char *key)
 
 char** store_envs(t_node* head, char** envs, int* i) 
 {
+    int len_key;
+    int len_value;
    if (!head)
         return envs;
-    envs[*i] = malloc((ft_strlen(head->key) + ft_strlen(head->value) + 2) * sizeof(char));
-    if(!envs)
+    len_key=ft_strlen(head->key);
+    len_value=ft_strlen(head->value);
+    envs[*i] = malloc(( len_key+ len_value + 2) * sizeof(char));
+    if(!envs[*i])
         return NULL;
     int j = 0;
-    while (j < ft_strlen(head->key)) {
+    while (j < len_key) {
         envs[*i][j] = head->key[j];
         j++;
     }
@@ -62,7 +66,7 @@ char** store_envs(t_node* head, char** envs, int* i)
     j++;
     
     int k = 0;
-    while (j < ft_strlen(head->key) + ft_strlen(head->value) + 1) {
+    while (j < len_key+len_value+ 1) {
         envs[*i][j] = head->value[k];
         k++;
         j++;
@@ -73,6 +77,5 @@ char** store_envs(t_node* head, char** envs, int* i)
 
     envs = store_envs(head->left, envs, i);
     envs = store_envs(head->right, envs, i);
-
     return envs;
 }

@@ -91,7 +91,7 @@ void	duplicate_fds(t_list *tmp, int last_fd, int *fds)
 	close(fds[0]);
 }
 
-void	execute_command(t_command *tmp_command, char *path, char **envs)
+void	execute_command(t_command *tmp_command, char *path)
 {
 	if (!is_bultin(tmp_command->cmd))
 	{
@@ -99,9 +99,10 @@ void	execute_command(t_command *tmp_command, char *path, char **envs)
 		return ;
 	}
 	else
-	{
+	{ 
+		char **envs=convert_tree_to_array();
 		if (execve(path, tmp_command->args, envs) == -1)
-			g_data.status_code=127;
+			exit(127);
 	}
 }
 
@@ -132,7 +133,7 @@ void	closing_pipe(t_list *commands, int *fd, int *pidd, int i)
 	}
 }
 
-char	*get_my_path(t_command *tmp_command, char **envs)
+char	*get_my_path(t_command *tmp_command)
 {
 	char	*path;
 
@@ -140,7 +141,7 @@ char	*get_my_path(t_command *tmp_command, char **envs)
 		exit(0);
 	if (is_bultin(tmp_command->cmd))
 	{
-		path = get_actual_path(tmp_command->cmd, tmp_command, envs);
+		path = get_actual_path(tmp_command->cmd, tmp_command);
 		if (!path)
 			g_data.status_code=print_cmd_error(tmp_command->cmd,NULL, " command not found", 127);
 	}
@@ -167,6 +168,7 @@ int	run_builtins(t_list *commands)
 			get_outfile_fd(&outfile, tmp_command->redir_out);
 
 			g_data.status_code=execute_bultin(tmp_command, outfile);
+		
 			return g_data.status_code;
 
 		}
@@ -174,7 +176,7 @@ int	run_builtins(t_list *commands)
 	return (-1);
 }
 
-void	executer(t_list *commands, char **envs)
+void	executer(t_list *commands)
 {
 	int			fds[2];
 	t_list		*tmp;
@@ -203,7 +205,7 @@ void	executer(t_list *commands, char **envs)
 			get_inputfile_fd(&last_fd, tmp_command->redir_in);
 			get_outfile_fd(&fds[1], tmp_command->redir_out);
 			duplicate_fds(tmp, last_fd, fds);
-			execute_command(tmp_command, get_my_path(tmp_command, envs), envs);
+			execute_command(tmp_command, get_my_path(tmp_command));
 			exit(g_data.status_code) ;
 		}
 		else

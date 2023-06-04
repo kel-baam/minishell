@@ -9,21 +9,29 @@ int ft_exit(t_command *command)
    unsigned char test;
 
     printf("exit\n");
-    if((command->args && is_num(command->args[1])==-1 ) || ft_atoi(command->args[1])==-1 || ft_atoi(command->args[1])==0)
-        status=print_cmd_error(command->cmd,command->args[1],"numeric argument required", 255);
-    if (command->args && command->args[2] && !status)
+    if(command->args[1])
     {
-        one_arg=0;
-        status=print_cmd_error(command->cmd,NULL,"too many arguments", 1);
-    }
-    if(command->args && is_num(command->args[1]) && one_arg)
-    {
-        test=(unsigned char)ft_atoi(command->args[1]);
-       // printf("%d\n",test);
-        //const char *cast=(const char *)test;
-       status=test;
+        if((command->args[1] && is_num(command->args[1])==-1 ) || ft_atoi(command->args[1])==-1 || ft_atoi(command->args[1])==0)
+            status=print_cmd_error(command->cmd,command->args[1],"numeric argument required", 255);
+        if (command->args && command->args[2] && !status)
+        {
+            one_arg=0;
+            status=print_cmd_error(command->cmd,NULL,"too many arguments", 1);
+        }
 
+        if(command->args[1] && is_num(command->args[1]) && one_arg)
+        {
+            test=(unsigned char)ft_atoi(command->args[1]);
+            status=test;
+        }
     }
-   // TO DO i should call exit 
+     printf("%d\n",status);
+    g_data.status_code=status;
+    exit(g_data.status_code);
     return status;
 }
+
+
+//exit num
+//exit alone
+//exit hhhh

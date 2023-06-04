@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "../minishell.h"
 
-char	*get_right_path(char *cmd, t_command *data, char **envs)
+char	*get_right_path(char *cmd, t_command *data)
 {
 	int		i;
 	char	*absolute_path;
@@ -44,7 +44,7 @@ char	*get_right_path(char *cmd, t_command *data, char **envs)
 	return (absolute_path);
 }
 
-char	*get_actual_path(char *cmd, t_command *data, char **envs)
+char	*get_actual_path(char *cmd, t_command *data)
 {
 	int	status;
 
@@ -62,5 +62,5 @@ char	*get_actual_path(char *cmd, t_command *data, char **envs)
 		// i call exit function here
 		// exit(g_data.status_code);
 	// }
-	return (get_right_path(cmd, data, envs));
+	return (get_right_path(cmd, data));
 }
