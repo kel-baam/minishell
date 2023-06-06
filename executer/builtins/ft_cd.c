@@ -11,24 +11,41 @@
 /* ************************************************************************** */
 #include "../../minishell.h"
 
-int ft_cd(t_command *command)
+int	ft_cd(t_command *command)
 {
-		char		old_pwd[1024];
-		char		current_pwd[1024];
-		char         *target;
-		int i=0;
-		target=ft_strjoin("/Users/",get_env("LOGNAME"));
-		if(command->args[1] &&  command->args[1][i]=='~')
-			command->args[1]=ft_strjoin(target,&command->args[1][i+1]);
-		if((!ft_strncmp(command->args[1],"~",1) || command->args[1]==NULL))
-			command->args[1]=target;
-		if (!getcwd(old_pwd, sizeof(old_pwd)))
-					return print_cmd_error(command->cmd,command->args[1], strerror(errno), 1);
-		if (chdir(command->args[1])!=0)
- 						return print_cmd_error(command->cmd,command->args[1], strerror(errno), 1);
-		if (!getcwd(current_pwd, sizeof(current_pwd)))
- 						return print_cmd_error(command->cmd,command->args[1], strerror(errno), 1);
-		add_node(&g_data.env_vars, "OLDPWD",old_pwd, NULL);
-		add_node(&g_data.env_vars, "PWD", current_pwd, NULL);
-			return 0;
+	char	old_pwd[1024];
+	char	current_pwd[1024];
+	char	*target;
+	char	*prev;
+	char	*home;
+
+	if (command->args[1] && command->args[1][0] == '~')
+		command->args[1] = ft_strjoin(HOME, &command->args[1][1]);
+	if (command->args[1] && command->args[1][0] == '-')
+	{
+		prev = get_env("OLDPWD");
+		if (!prev)
+			return (print_cmd_error(command->cmd, NULL, "OLDPWD not set", 1));
+				command->args[1] = prev;
+		printf("%s\n", command->args[1]);
+	}
+	if (!command->args[1])
+	{
+		home = get_env("HOME");
+		if (!home)
+			return (print_cmd_error(command->cmd, NULL, "HOME not set", 1));
+		command->args[1] = home;
+	}
+	if (!getcwd(old_pwd, sizeof(old_pwd)))
+		return (print_cmd_error(command->cmd, command->args[1], strerror(errno),
+				1));
+	if (chdir(command->args[1]) != 0)
+		return (print_cmd_error(command->cmd, command->args[1], strerror(errno),
+				1));
+	if (!getcwd(current_pwd, sizeof(current_pwd)))
+		return (print_cmd_error(command->cmd, command->args[1], strerror(errno),
+				1));
+	add_node(&g_data.env_vars, "OLDPWD", old_pwd, NULL);
+	add_node(&g_data.env_vars, "PWD", current_pwd, NULL);
+	return (0);
 }

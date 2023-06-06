@@ -28,12 +28,13 @@ int	check_option(char *str)
 
 int	ft_echo(t_command *command)
 {
-	int	i = 1;
+	int	i;
 	int	option;
 	int	start;
 
+	i = 1;
 	option = 0;
-	if(!command->args[1])
+	if (!command->args[1])
 		printf("\n");
 	while (command->args && check_option(command->args[i]) != -1)
 	{

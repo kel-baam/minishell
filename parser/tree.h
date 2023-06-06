@@ -11,17 +11,11 @@
 /* ************************************************************************** */
 
 #ifndef PIPE_H
-#define PIPE_H
+# define PIPE_H
 
+# include "token.h"
 
-#include "token.h"
-
-
-
-void		init_tree(token_t **token, int cmds_size);
-int			count_cmds(token_t *token);
-
-
-
+void	init_tree(token_t **token, int cmds_size);
+int		count_cmds(token_t *token);
 
 #endif
