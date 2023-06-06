@@ -6,12 +6,16 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:35:45 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/06 13:47:51 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:58:32 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "minishell.h"
 
-char	**convert_tree_to_array(void)
+
+#include "minishell.h"
+#include <ctype.h>
+//echo \n \0
+
+char **convert_tree_to_array()
 {
 	int		p;
 	char	**envs;
@@ -32,7 +36,7 @@ int	main(int ac, char **av, char **env)
 
 	line = NULL;
 	initilizer(env);
-	////signals_for_parent();
+	//signals_for_parent();
 	while (1)
 	{
 		if (line)
@@ -48,9 +52,6 @@ int	main(int ac, char **av, char **env)
 			executer(commands);
 			add_node(&(g_data.env_vars),"?",ft_itoa(g_data.status_code),NULL);
 			//printf("%d\n",g_data.status_code);
-			add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code),
-					NULL);
-			printf("%d\n",g_data.status_code);
 		}
 		else
 			exit(g_data.status_code);
