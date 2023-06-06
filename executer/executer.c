@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:29:18 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/03 23:11:15 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/05 16:09:50 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	execute_command(t_command *tmp_command, char *path)
 		return ;
 	}
 	else
-	{ 
+	{
 		char **envs=convert_tree_to_array();
 		if (execve(path, tmp_command->args, envs) == -1)
 			exit(127);
@@ -160,7 +160,7 @@ int	run_builtins(t_list *commands)
 
 	if (commands && !commands->next)
 	{
-		if ((!strcmp(tmp_command->cmd, "unset") || !strcmp(tmp_command->cmd,
+		if (  tmp_command->cmd && (!strcmp(tmp_command->cmd, "unset") || !strcmp(tmp_command->cmd,
 					"export") || !strcmp(tmp_command->cmd, "cd")
 				|| !strcmp(tmp_command->cmd, "exit")))
 		{
@@ -168,7 +168,7 @@ int	run_builtins(t_list *commands)
 			get_outfile_fd(&outfile, tmp_command->redir_out);
 
 			g_data.status_code=execute_bultin(tmp_command, outfile);
-		
+
 			return g_data.status_code;
 
 		}
