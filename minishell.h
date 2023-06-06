@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:31:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/06 13:47:05 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:10:22 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,5 +139,10 @@ t_command			*store_one_command(token_t **token);
 char				**convert_tree_to_array();
 void				cmd_args_file(token_t *token_cmd, char **cmd_args, char **symb_file);
 t_command			*insert_one_cmd(char *cmd_args, char *symb_file);
+t_red				*init_red(int flg);
+token_t				*tokens_of_one_command(token_t **token);
+char	*tokens_cmd_to_string(token_t *token);
+
+
 
 #endif

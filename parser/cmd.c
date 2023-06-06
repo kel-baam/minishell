@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 17:02:55 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/06 13:46:52 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:10:43 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,23 @@ int str_search(char *buffer, char c)
 		}
 	}
 	return (0);
+}
+
+char	*tokens_cmd_to_string(token_t *token)
+{
+	char	*buffer;
+
+	buffer = ft_strdup("");
+	if (token)
+	{
+		while (token)
+		{
+			buffer = ft_strjoin(buffer, token->value);
+			token = token->next;
+		}
+		buffer = ft_strjoin(buffer, "\0");
+	}
+	return (buffer);
 }
 
 void cmd_args_file(token_t *token_cmd, char **cmd_args, char **symb_file)
