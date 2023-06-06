@@ -6,13 +6,18 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 15:57:07 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/03 22:52:05 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/04 18:55:40 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../minishell.h"
 
 void	prompt(int sig)
 {
+	// g_data.status_code = 1;
+	// printf("\n");
+	// rl_on_new_line();
+	// rl_replace_line("", 0);
+	// rl_redisplay();
 	// g_data.status_code = 1;
 	// printf("\n");
 	// rl_on_new_line();
