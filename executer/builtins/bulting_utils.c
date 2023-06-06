@@ -13,38 +13,38 @@
 
 int	is_bultin(char *cmd)
 {
-	if (!strcmp(cmd, "pwd"))
+	if (!ft_strncmp(cmd, "pwd",3))
 		return (0);
-	if (!strcmp(cmd, "env"))
+	if (!ft_strncmp(cmd, "env",3))
 		return (0);
-	if (!strcmp(cmd, "echo"))
+	if (!ft_strncmp(cmd, "echo",4))
 		return (0);
-	if (!strcmp(cmd, "unset"))
+	if (!ft_strncmp(cmd, "unset",5))
 		return (0);
-	if (!strcmp(cmd, "export"))
+	if (!ft_strncmp(cmd, "export",6))
 		return (0);
-	if (!strcmp(cmd, "cd"))
+	if (!ft_strncmp(cmd, "cd",2))
 		return (0);
-	if (!strcmp(cmd, "exit"))
+	if (!ft_strncmp(cmd, "exit",4))
 		return (0);
 	return (1);
 }
 
 int	execute_bultin(t_command *command, int outfile)
 {
-	if (!strcmp(command->cmd, "env"))
+	if (!ft_strncmp(command->cmd, "env",3))
 		return (ft_env(outfile));
-	else if (!strcmp(command->cmd, "echo"))
+	else if (!ft_strncmp(command->cmd, "echo",4))
 		return (ft_echo(command));
-	else if (!strcmp(command->cmd, "unset"))
+	else if (!ft_strncmp(command->cmd, "unset",5))
 		return (ft_unset(command));
-	else if (!strcmp(command->cmd, "export"))
+	else if (!ft_strncmp(command->cmd, "export",6))
 		return (ft_export(command, outfile));
-	else if (!strcmp(command->cmd, "cd"))
+	else if (!ft_strncmp(command->cmd, "cd",2))
 		return (ft_cd(command));
-	if (!strcmp(command->cmd, "pwd"))
+	if (!ft_strncmp(command->cmd, "pwd",3))
 		return (ft_pwd(command->cmd, outfile));
-	if (!strcmp(command->cmd, "exit"))
+	if (!ft_strncmp(command->cmd, "exit",4))
 		return (ft_exit(command));
 	return (0);
 }
@@ -54,10 +54,8 @@ int	is_valid_key(char *key)
 	int	i;
 
 	i = 0;
-	
 	if ((key[0] >= 'a' && key[0] <= 'z') || (key[0] >= 'A' && key[0] <= 'Z'))
-		return 0;
-			
+		return (0);
 	return (-1);
 }
 

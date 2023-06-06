@@ -10,15 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd.h"
-#include "tree.h"
-#include "token.h"
-#include "lexer.h"
 #include "../minishell.h"
+#include "cmd.h"
+#include "lexer.h"
+#include "token.h"
+#include "tree.h"
 
-int count_cmds(token_t *token)
+int	count_cmds(token_t *token)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (token)
@@ -30,14 +30,12 @@ int count_cmds(token_t *token)
 	return (i);
 }
 
-
-
-t_list *init_list(t_command *cmd)
+t_list	*init_list(t_command *cmd)
 {
-	t_list *list;
+	t_list	*list;
 
 	list = malloc(sizeof(t_list));
-	list->content = (t_command *) cmd;
+	list->content = (t_command *)cmd;
 	list->next = NULL;
 	return (list);
 }
@@ -56,8 +54,6 @@ t_list *init_list(t_command *cmd)
 // 	}
 // 	return (1);
 // }
-
-
 
 // t_list init_list_redin()
 // {
@@ -78,8 +74,6 @@ t_list *init_list(t_command *cmd)
 // 	}
 // }
 
-
-
 // t_list *add_to_list(token_t **token)
 // {
 // 	t_list		*head;
@@ -97,8 +91,6 @@ t_list *init_list(t_command *cmd)
 // 	return (head);
 // }
 
-
-
 // int count_number_of_redin(t_command *cmd)
 // {
 // 	int i;
@@ -114,7 +106,6 @@ t_list *init_list(t_command *cmd)
 // 	}
 // 	return (j);
 // }
-
 
 // void store_redin(t_list **list)
 // {

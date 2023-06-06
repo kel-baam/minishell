@@ -560,7 +560,7 @@ t_list	*parser(char *line)
 	types = "<>| '\"$";
 	token = get_all_tokens(lexer, types);
 	check_parsing_error((token));
-	exit(1);
+	//exit(1);
 	lst = store_one_cmd(&token, symb);
 	return (lst);
 }

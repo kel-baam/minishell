@@ -9,8 +9,8 @@
 /*   Updated: 2023/05/31 16:03:47 by kel-baam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../minishell.h"
+
 void	add_child_to_parent(t_node *node, t_node *child_node)
 {
 	t_node	*node_parent;
@@ -43,8 +43,8 @@ void	remove_node(t_node **head, char *key)
 	if (!head)
 		return ;
 	to_delete_node = get_node(*head, key);
-	if (!to_delete_node || (to_delete_node->key && !strcmp(to_delete_node->key,
-				"?")))
+	if (!to_delete_node || (to_delete_node->key && !ft_strncmp(to_delete_node->key,
+				"?",1)))
 		return ;
 	if (to_delete_node->right == NULL && to_delete_node->left == NULL)
 	{

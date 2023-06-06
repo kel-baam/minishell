@@ -9,7 +9,6 @@
 /*   Updated: 2023/05/25 23:06:36 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../minishell.h"
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
@@ -27,4 +26,3 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		}
 	}
 }
-
