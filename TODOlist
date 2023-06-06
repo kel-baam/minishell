@@ -50,3 +50,7 @@
 =======>	>><<<<<  -> syntax error near unexpected token `<<<'
 
 
+ls > out1 > out2
+ls >> file > file2
+ls < file < f
+ls << f <s
