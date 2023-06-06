@@ -20,14 +20,10 @@ char	*get_right_path(char *cmd, t_command *data)
 
 	i = 0;
 	env = get_env("PATH");
-	// check _status code
 	if (!env)
-	{
-		g_data.status_code = print_cmd_error(cmd, data->args[1],
-				"No such file or directory", 127);
-		exit(g_data.status_code);
-	}
-	paths = ft_split(env, ':');
+		g_data.status_code = print_cmd_error(cmd, NULL,
+			"No such file or directory", 127);
+			paths = ft_split(env, ':');
 	absolute_path = NULL;
 	cmd = ft_strjoin("/", cmd);
 	while (paths[i])
@@ -48,19 +44,12 @@ char	*get_actual_path(char *cmd, t_command *data)
 {
 	int	status;
 
-	// if (ft_strchr(cmd, '/'))
-	// {
-		status = 127;
-		if (!access(cmd, F_OK))
-		{
-			if (!access(cmd, X_OK))
-				return (ft_strdup(cmd));
-			status = 126;
-		}
-		// g_data.status_code = print_cmd_error(cmd, NULL, strerror(errno),
-				// status);
-		// i call exit function here
-		// exit(g_data.status_code);
-	// }
+	status = 127;
+	if (!access(cmd, F_OK))
+	{
+		if (!access(cmd, X_OK))
+			return (ft_strdup(cmd));
+		status = 126;
+	}
 	return (get_right_path(cmd, data));
 }

@@ -24,7 +24,7 @@ int	print_cmd_error(char *cmd, char *args, char *msg_err, int status_code)
 		write(STDERR_FILENO, cmd, ft_strlen(cmd));
 		write(STDERR_FILENO, ": ", 2);
 	}
-	if(args)
+	if (args)
 	{
 		write(STDERR_FILENO, args, ft_strlen(args));
 		write(STDERR_FILENO, ": ", 2);

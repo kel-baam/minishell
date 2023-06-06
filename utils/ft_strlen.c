@@ -9,7 +9,6 @@
 /*   Updated: 2023/05/25 23:05:10 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../minishell.h"
 
 size_t	ft_strlen(const char *s)
@@ -17,8 +16,7 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
-
-	while ( s && s[i])
+	while (s && s[i])
 		i++;
 	return (i);
 }

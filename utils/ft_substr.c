@@ -9,8 +9,8 @@
 /*   Updated: 2023/06/03 18:28:50 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../minishell.h"
+
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t			i;
@@ -32,7 +32,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	{
 		p[i] = s[start++];
 		i++;
-
 	}
 	p[i] = '\0';
 	return (p);
