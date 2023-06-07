@@ -33,8 +33,8 @@ void	signals_for_parent(void)
 
 void	signals_for_child(void)
 {
-	// g_data.newTerm.c_lflag |= ECHOCTL;
-	// tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.newTerm));
-	// signal(SIGINT, SIG_DFL);
-	// signal(SIGQUIT, SIG_DFL);
+	g_data.new_term.c_lflag |= ECHOCTL;
+	// tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }

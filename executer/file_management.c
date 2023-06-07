@@ -40,9 +40,11 @@ void	exec_herdoc(char *del, int fd)
 
 	while (1)
 	{
+		//printf("%s\n",del);
 		line = readline(CYAN "herdoc >> " RESET);
 		if (!ft_strncmp(del, line, ft_strlen(del)))
 			break ;
+		// parsing_function_for expand
 		read(fd, line, ft_strlen(line));
 	}
 }

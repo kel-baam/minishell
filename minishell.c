@@ -36,7 +36,7 @@ int	main(int ac, char **av, char **env)
 
 	line = NULL;
 	initilizer(env);
-	//signals_for_parent();
+	signals_for_parent();
 	while (1)
 	{
 		if (line)
