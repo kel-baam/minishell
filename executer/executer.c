@@ -6,11 +6,13 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:29:18 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/05 16:09:50 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:40:50 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../minishell.h"
 
+
+
+#include "../minishell.h"
 void	execute_command(t_command *tmp_command, char *path)
 {
 	char	**envs;
@@ -22,7 +24,7 @@ void	execute_command(t_command *tmp_command, char *path)
 	}
 	else
 	{
-		envs = convert_tree_to_array();
+		char **envs=convert_tree_to_array();
 		if (execve(path, tmp_command->args, envs) == -1)
 			exit(127);
 	}
@@ -81,15 +83,17 @@ int	run_builtins(t_list *commands)
 	outfile = 1;
 	if (commands && !commands->next)
 	{
-		if (tmp_command->cmd && (!ft_strncmp(tmp_command->cmd, "unset",5)
-				|| !ft_strncmp(tmp_command->cmd, "export",6)
-				|| !ft_strncmp(tmp_command->cmd, "cd",2) || !ft_strncmp(tmp_command->cmd,
-					"exit",4)))
+		if (  tmp_command->cmd && (!strcmp(tmp_command->cmd, "unset") || !strcmp(tmp_command->cmd,
+					"export") || !strcmp(tmp_command->cmd, "cd")
+				|| !strcmp(tmp_command->cmd, "exit")))
 		{
 			get_inputfile_fd(&infile, tmp_command->redir_in, 1, 0);
 			get_outfile_fd(&outfile, tmp_command->redir_out);
-			g_data.status_code = execute_bultin(tmp_command, outfile);
-			return (g_data.status_code);
+
+			g_data.status_code=execute_bultin(tmp_command, outfile);
+
+			return g_data.status_code;
+
 		}
 	}
 	return (-1);

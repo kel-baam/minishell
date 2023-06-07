@@ -6,12 +6,16 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:35:45 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/06 13:47:51 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:58:32 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "minishell.h"
 
-char	**convert_tree_to_array(void)
+
+#include "minishell.h"
+#include <ctype.h>
+//echo \n \0
+
+char **convert_tree_to_array()
 {
 	int		p;
 	char	**envs;
