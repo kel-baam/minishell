@@ -32,7 +32,7 @@ int	main(int ac, char **av, char **env)
 
 	line = NULL;
 	initilizer(env);
-	////signals_for_parent();
+	signals_for_parent();
 	while (1)
 	{
 		if (line)
@@ -48,9 +48,6 @@ int	main(int ac, char **av, char **env)
 			executer(commands);
 			add_node(&(g_data.env_vars),"?",ft_itoa(g_data.status_code),NULL);
 			//printf("%d\n",g_data.status_code);
-			add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code),
-					NULL);
-			printf("%d\n",g_data.status_code);
 		}
 		else
 			exit(g_data.status_code);

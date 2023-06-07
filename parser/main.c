@@ -162,6 +162,7 @@ t_list *store_one_cmd(token_t **tokens, char *symb)
 		while (tokens_cmd)
 		{
 			cmd_args_file(tokens_cmd, &cmd_args, &symb_file);
+	
 			ft_lstadd_back(&lst, ft_lstnew(insert_one_cmd(cmd_args, symb_file)));
 			cmd_args = NULL;
 			symb_file = NULL;

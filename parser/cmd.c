@@ -67,7 +67,6 @@ char	*tokens_cmd_to_string(token_t *token)
 	}
 	return (buffer);
 }
-
 void cmd_args_file(token_t *token_cmd, char **cmd_args, char **symb_file)
 {
 	int		flag;
@@ -82,9 +81,12 @@ void cmd_args_file(token_t *token_cmd, char **cmd_args, char **symb_file)
 	{
 		while (token_cmd)
 		{
-			if (token_cmd && (token_cmd->type == 0 || token_cmd->type == 1))
+			if (token_cmd->type == 0 || token_cmd->type == 1)
 			{
-				while (token_cmd && (token_cmd->type == 0 || token_cmd->type == 1))
+				ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
+				prev = token_cmd;
+				token_cmd = token_cmd->next;
+				if (token_cmd && token_cmd->type == prev->type)
 				{
 					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
 					token_cmd = token_cmd->next;
@@ -103,38 +105,39 @@ void cmd_args_file(token_t *token_cmd, char **cmd_args, char **symb_file)
 			}
 			else if (token_cmd && token_cmd->type == 4)
 			{
-				if ((!cmd_arg && !symb_fl) || flag == 1)
+				while (token_cmd && token_cmd->type == 4)
 				{
-					while (token_cmd && token_cmd->type == 4)
-					{
-						ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value, token_cmd->type));
-						token_cmd = token_cmd->next;
-					}
-				}
-				else if (flag == 0)
-				{
-					while (token_cmd && token_cmd->type == 4)
-					{
-						ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
-						token_cmd = token_cmd->next;
-					}
+					ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value, token_cmd->type));
+					token_cmd = token_cmd->next;
 				}
 			}
 			else if (token_cmd && token_cmd->type == 3)
 			{
-				while (token_cmd && (token_cmd->type == 3 ))
+				while (token_cmd && token_cmd->type == 3)
 				{
 					ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value, token_cmd->type));
 					token_cmd = token_cmd->next;
 				}
 				flag = 1;
 			}
+			else if (token_cmd)
+			{
+				if (flag == 0)
+				{
+					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
+					token_cmd = token_cmd->next;
+				}
+				else if (flag == 1)
+				{
+					ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value, token_cmd->type));
+					token_cmd = token_cmd->next;
+				}
+			}
 		}
 		*cmd_args = tokens_cmd_to_string(cmd_arg);
 		*symb_file = tokens_cmd_to_string(symb_fl);
 	}
 }
-
 
 t_command *insert_one_cmd(char *cmd_args, char *symb_file)
 {

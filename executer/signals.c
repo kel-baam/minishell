@@ -18,11 +18,6 @@ void	prompt(int sig)
 	// rl_on_new_line();
 	// rl_replace_line("", 0);
 	// rl_redisplay();
-	// g_data.status_code = 1;
-	// printf("\n");
-	// rl_on_new_line();
-	// rl_replace_line("", 0);
-	// rl_redisplay();
 }
 
 void	signals_for_parent(void)
@@ -37,7 +32,7 @@ void	signals_for_parent(void)
 void	signals_for_child(void)
 {
 	g_data.new_term.c_lflag |= ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
+	// tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }
