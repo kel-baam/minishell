@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:31:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/08 20:28:34 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/08 18:48:15 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_command
 {
 	char			*cmd;
 	char			**args;
-	// 1 if syntax error exist 0 if not
 	int				flg;
 	t_list			*redir_in;
 	t_list			*redir_out;
