@@ -312,37 +312,37 @@ t_list *store_one_cmd(token_t **tokens, char *symb)
 			tokens_cmd = tokens_of_one_command(tokens);
 		}
 	}
-	int i;	/// AFFICHAGE
-	while (lst && lst->content)
-	{
-		//	cmd
-		i = 0;
-		printf("cmd :%s\nargs :",((t_command *)(lst->content))->cmd);
-		// args
-		while (((t_command *)(lst->content))->args[i])
-		{
-			printf("\n\t %s \n",((t_command *)(lst->content))->args[i]);
-			i++;
-		}
-		printf("\n");
-		// in files
-		while (((t_red *)((t_command *)(lst->content))->redir_in) != NULL)
-		{
-			printf("redir_in : %s , flag :%d\n",((t_red *)((t_command *)(lst->content))->redir_in->content)->file_name
-				, ((t_red *)((t_command *)(lst->content))->redir_in->content)->flag);
-			((t_command *)(lst->content))->redir_in = ((t_command *)(lst->content))->redir_in->next;
-		}
-		// out files
-		while (((t_red *)((t_command *)(lst->content))->redir_out) != NULL)
-		{
-			printf("redir_out : %s , flag :%d\n",((t_red *)((t_command *)(lst->content))->redir_out->content)->file_name
-				, ((t_red *)((t_command *)(lst->content))->redir_out->content)->flag);
-			((t_command *)(lst->content))->redir_out = ((t_command *)(lst->content))->redir_out->next;
-		}
-		printf("\n------------------------------------------\n");
-		lst = lst->next;
-	}
-	exit(1);
+	// int i;	/// AFFICHAGE
+	// while (lst && lst->content)
+	// {
+	// 	//	cmd
+	// 	i = 0;
+	// 	printf("cmd :%s\nargs :",((t_command *)(lst->content))->cmd);
+	// 	// args
+	// 	while (((t_command *)(lst->content))->args[i])
+	// 	{
+	// 		printf("\n\t %s \n",((t_command *)(lst->content))->args[i]);
+	// 		i++;
+	// 	}
+	// 	printf("\n");
+	// 	// in files
+	// 	while (((t_red *)((t_command *)(lst->content))->redir_in) != NULL)
+	// 	{
+	// 		printf("redir_in : %s , flag :%d\n",((t_red *)((t_command *)(lst->content))->redir_in->content)->file_name
+	// 			, ((t_red *)((t_command *)(lst->content))->redir_in->content)->flag);
+	// 		((t_command *)(lst->content))->redir_in = ((t_command *)(lst->content))->redir_in->next;
+	// 	}
+	// 	// out files
+	// 	while (((t_red *)((t_command *)(lst->content))->redir_out) != NULL)
+	// 	{
+	// 		printf("redir_out : %s , flag :%d\n",((t_red *)((t_command *)(lst->content))->redir_out->content)->file_name
+	// 			, ((t_red *)((t_command *)(lst->content))->redir_out->content)->flag);
+	// 		((t_command *)(lst->content))->redir_out = ((t_command *)(lst->content))->redir_out->next;
+	// 	}
+	// 	printf("\n------------------------------------------\n");
+	// 	lst = lst->next;
+	// }
+	// exit(1);
 	return (lst);
 }
 
@@ -574,6 +574,9 @@ t_list	*parser(char *line)
 	types = "<>| '\"$";
 	token = get_all_tokens(lexer, types);
 	check_parsing_error((token));
+	
 	lst = store_one_cmd(&token, symb);
+	herdoc(lst);
 	return (lst);
 }
+
