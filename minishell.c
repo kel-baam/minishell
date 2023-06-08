@@ -56,5 +56,6 @@ int	main(int ac, char **av, char **env)
 		else
 			exit(g_data.status_code);
 	}
+	
 	return (0);
 }

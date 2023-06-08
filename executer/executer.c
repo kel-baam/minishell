@@ -124,10 +124,11 @@ void	executer(t_list *commands)
 		pid = fork();
 		if (!pid)
 		{
-			
 			signals_for_child();
-			get_inputfile_fd(&last_fd, tmp_command->redir_in, fds[1], fds[0]);
-			get_outfile_fd(&fds[1], tmp_command->redir_out);
+			if(get_inputfile_fd(&last_fd, tmp_command->redir_in, fds[1], fds[0])==1)
+				exit(g_data.status_code);
+			if(get_outfile_fd(&fds[1], tmp_command->redir_out)==1)
+				exit(g_data.status_code);
 			duplicate_fds(tmp, last_fd, fds);
 			execute_command(tmp_command, get_my_path(tmp_command));
 			exit(g_data.status_code);

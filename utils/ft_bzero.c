@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initilizer.c                                       :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/18 16:28:10 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/05/18 16:28:12 by kel-baam         ###   ########.fr       */
+/*   Created: 2022/10/06 13:30:42 by kel-baam          #+#    #+#             */
+/*   Updated: 2022/10/24 17:09:25 by kel-baam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../minishell.h"
 
-void	init_envs(char **envs)
+void	ft_bzero(void *s, size_t n)
 {
-	int		i;
-	char	*key;
-	char	*value;
-	int		pos;
+	unsigned char	*s2;
+	size_t			i;
 
 	i = 0;
-	while (envs[i])
+	s2 = (unsigned char *)s;
+	while (i < n)
 	{
-		pos = find_char(envs[i], '=');
-		key = ft_substr(envs[i], 0, pos);
-		value = ft_substr(envs[i], pos + 1, ft_strlen(envs[i]));
-		add_node(&(g_data.env_vars), key, value, NULL);
-		free(key);
-		free(value);
+		s2[i] = 0;
 		i++;
 	}
-}
-
-void	initilizer(char **envs)
-{
-	ft_bzero(&g_data, sizeof(t_data));
-	init_envs(envs);
 }

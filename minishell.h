@@ -56,6 +56,7 @@ typedef struct s_command
 	char			**args;
 	t_list			*redir_in;
 	t_list			*redir_out;
+	int 			fd_herdoc;
 
 }					t_command;
 
@@ -133,19 +134,17 @@ t_command			*store_one_command(token_t **token);
 char				**convert_tree_to_array();
 void				cmd_args_file(token_t *token_cmd, char **cmd_args, char **symb_file);
 t_command			*insert_one_cmd(char *cmd_args, char *symb_file);
-
 t_red				*init_red(int flg);
 token_t				*tokens_of_one_command(token_t **token);
 char	*tokens_cmd_to_string(token_t *token);
-
-
-
+void	ft_bzero(void *s, size_t n);
 char				*ft_strchr(const char *s, int c);
 t_list				*parser(char *line);
 t_command			*store_one_command(token_t **token);
 char				**convert_tree_to_array(void);
-void				get_inputfile_fd(int *last_fd, t_list *redir_in,
-						int write_fd1, int read_fd);
-void				get_outfile_fd(int *fd, t_list *file_list);
+int				get_inputfile_fd(int *last_fd, t_list *redir_in,						int write_fd1, int read_fd);
+int				get_outfile_fd(int *fd, t_list *file_list);
 void				duplicate_fds(t_list *tmp, int last_fd, int *fds);
+void	exec_herdoc(char *del, int fd);
+void herdoc(t_list *command_lst);
 #endif
