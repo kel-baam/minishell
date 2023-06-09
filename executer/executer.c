@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:29:18 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/09 16:29:55 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/09 17:21:27 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	executer(t_list *commands)
 		if (!pid)
 		{
 			//signals_for_child();
-			get_inputfile_fd(&last_fd, tmp_command->redir_in, fds[1], fds[0]);
+			//get_inputfile_fd(&last_fd, tmp_command->redir_in, fds[1], fds[0]);
 			get_outfile_fd(&fds[1], tmp_command->redir_out);
 			signals_for_child();
 			if (get_inputfile_fd(&last_fd, tmp_command->redir_in) == 1)
