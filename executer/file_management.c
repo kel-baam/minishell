@@ -21,8 +21,13 @@ int	get_outfile_fd(int *fd, t_list *file_list)
 	{
 		tmp_redir = (t_red *)tmp->content;
 		if (tmp_redir->flag)
+		{
+			//if(((char*)tmp_redir->file_name)[0]=='$')
+				//	return (print_cmd_error(tmp_redir->file_name, NULL, "ambiguous redirect",
+				//	1));
 			*fd = open(tmp_redir->file_name, O_WRONLY | O_CREAT | O_TRUNC,
 					0644);
+		}
 		else
 			*fd = open(tmp_redir->file_name, O_WRONLY | O_CREAT | O_APPEND,
 					0644);

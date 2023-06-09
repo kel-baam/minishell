@@ -24,6 +24,7 @@ void	execute_command(t_command *tmp_command, char *path)
 	else
 	{
 		envs = convert_tree_to_array();
+		//printf("teeeeee%s\n",path);
 		if (execve(path, tmp_command->args, envs) == -1)
 			exit(127);
 	}
