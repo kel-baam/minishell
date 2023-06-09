@@ -218,6 +218,7 @@ void cmd_args_file(token_t *token_cmd, char **cmd_args, char **symb_file)
 				}
 				else if (flag == 1|| flag == -1)
 				{//
+					
 					remove_s_d_qoute(&token_cmd->value);
 					ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value, token_cmd->type));
 					token_cmd = token_cmd->next;
