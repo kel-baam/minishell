@@ -121,8 +121,8 @@ void	executer(t_list *commands)
 		pid = fork();
 		if (!pid)
 		{
-			//signals_for_child();
-			//get_inputfile_fd(&last_fd, tmp_command->redir_in, fds[1], fds[0]);
+			signals_for_child();
+			get_inputfile_fd(&last_fd, tmp_command->redir_in);
 			get_outfile_fd(&fds[1], tmp_command->redir_out);
 			signals_for_child();
 			if (get_inputfile_fd(&last_fd, tmp_command->redir_in) == 1)
