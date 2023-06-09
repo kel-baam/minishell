@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:35:45 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/06 16:58:32 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:36:40 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -29,22 +29,26 @@ int	main(int ac, char **av, char **env)
 	t_list		*commands;
 	t_command	*data;
 	char		*line;
+	int			flg_err;
 
 	line = NULL;
 	initilizer(env);
-	signals_for_parent();
+	flg_err = 0;
+	//signals_for_parent();
 	while (1)
 	{
 		if (line)
 			ft_free(line);
-		tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
+		//tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
 		line = readline(PERPOL " 🌸 beautiful as a shell : 🌸 $ " RESET);
 		if (line)
 		{
 			if (!ft_strlen(line) || !ft_strncmp(line, "\n", 2))
 				continue ;
 			add_history(line);
-			commands = parser(line);
+			commands = parser(line, &flg_err);
+			if (flg_err == 1)
+				continue;
 			executer(commands);
 			add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code),
 				NULL);
@@ -53,5 +57,6 @@ int	main(int ac, char **av, char **env)
 		else
 			exit(g_data.status_code);
 	}
+	
 	return (0);
 }

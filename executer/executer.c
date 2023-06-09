@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:29:18 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/06 17:40:50 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/07 11:27:44 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../minishell.h"
@@ -120,11 +120,17 @@ void	executer(t_list *commands)
 		pid = fork();
 		if (!pid)
 		{
+<<<<<<< HEAD
+			//signals_for_child();
+			get_inputfile_fd(&last_fd, tmp_command->redir_in, fds[1], fds[0]);
+			get_outfile_fd(&fds[1], tmp_command->redir_out);
+=======
 			signals_for_child();
 			if (get_inputfile_fd(&last_fd, tmp_command->redir_in) == 1)
 				exit(g_data.status_code);
 			if (get_outfile_fd(&fds[1], tmp_command->redir_out) == 1)
 				exit(g_data.status_code);
+>>>>>>> c7d6c5a5030d59d3904e337a251a18f9f7f8293b
 			duplicate_fds(tmp, last_fd, fds);
 			execute_command(tmp_command, get_my_path(tmp_command));
 			exit(g_data.status_code);
