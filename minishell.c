@@ -34,12 +34,12 @@ int	main(int ac, char **av, char **env)
 	line = NULL;
 	initilizer(env);
 	flg_err = 0;
-	//signals_for_parent();
+	signals_for_parent();
 	while (1)
 	{
 		if (line)
 			ft_free(line);
-		//tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
+		tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
 		line = readline(PERPOL " 🌸 beautiful as a shell : 🌸 $ " RESET);
 		if (line)
 		{
@@ -48,15 +48,14 @@ int	main(int ac, char **av, char **env)
 			add_history(line);
 			commands = parser(line, &flg_err);
 			if (flg_err == 1)
-				continue;
+				continue ;
 			executer(commands);
 			add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code),
-				NULL);
+					NULL);
 			//printf("%d\n",g_data.status_code);
 		}
 		else
 			exit(g_data.status_code);
 	}
-	
 	return (0);
 }
