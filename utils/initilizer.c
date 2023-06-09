@@ -29,6 +29,8 @@ void	init_envs(char **envs)
 		free(value);
 		i++;
 	}
+	add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code),
+					NULL);
 }
 
 void	initilizer(char **envs)

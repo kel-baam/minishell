@@ -480,6 +480,7 @@ void	check_parsing_error(token_t *tokens, int *flg_err)
 				if (*flg_err)
 					break;
 			}
+			*flg_err = 0;
 			//------ todo--------------------------
 			// else if (tokens->type == 7)
 			// {
@@ -529,6 +530,8 @@ t_list	*parser(char *line, int *flg_err)
 	check_parsing_error(token, flg_err);
 	lst = store_one_cmd(&token, symb);
 	herdoc(lst);
+	if(*flg_err==1)
+	 	add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code),NULL);
 	return (lst);
 }
 
