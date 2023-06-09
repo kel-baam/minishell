@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:29:18 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/09 16:29:55 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/09 17:21:27 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	execute_command(t_command *tmp_command, char *path)
 	else
 	{
 		envs = convert_tree_to_array();
-		//printf("teeeeee%s\n",path);
 		if (execve(path, tmp_command->args, envs) == -1)
 			exit(127);
 	}
