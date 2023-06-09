@@ -52,7 +52,6 @@ int	main(int ac, char **av, char **env)
 			executer(commands);
 			add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code),
 					NULL);
-			//printf("%d\n",g_data.status_code);
 		}
 		else
 			exit(g_data.status_code);

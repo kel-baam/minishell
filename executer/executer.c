@@ -122,9 +122,6 @@ void	executer(t_list *commands)
 		if (!pid)
 		{
 			signals_for_child();
-			get_inputfile_fd(&last_fd, tmp_command->redir_in);
-			get_outfile_fd(&fds[1], tmp_command->redir_out);
-			signals_for_child();
 			if (get_inputfile_fd(&last_fd, tmp_command->redir_in) == 1)
 				exit(g_data.status_code);
 			if (get_outfile_fd(&fds[1], tmp_command->redir_out) == 1)

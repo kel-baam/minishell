@@ -22,6 +22,8 @@ void	exec_herdoc(char *del, int fd)
 		if (!ft_strncmp(del, line, ft_strlen(line)))
 			break ;
 		expand(&line);
+		if(line[0]=='$')
+			line=ft_strdup("");
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 	}
