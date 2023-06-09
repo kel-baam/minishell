@@ -45,6 +45,9 @@ char	*get_env(char *key)
 	return (NULL);
 }
 
+
+
+
 char	**store_envs(t_node *head, char **envs, int *i)
 {
 	int	len_key;
@@ -74,7 +77,7 @@ char	**store_envs(t_node *head, char **envs, int *i)
 		k++;
 		j++;
 	}
-	
+
 	envs[*i][j] = '\0';
 	(*i)++;
 	envs = store_envs(head->left, envs, i);
