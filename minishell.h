@@ -157,6 +157,7 @@ char				*tokens_cmd_to_string(token_t *token);
 token_t			 	*tokens_of_one_command(token_t **token);
 int					number_of_tokens_before_pipe(token_t *token);
 token_t				*copy_of_list(token_t *original, int size);
+
 void				expand(char **token);
 void				exec_herdoc(char *del, int fd);
 void				herdoc(t_list *command_lst);

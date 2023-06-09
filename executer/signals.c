@@ -14,28 +14,28 @@
 
 void	prompt(int sig)
 {
-// 	g_data.status_code = 1;
-// 	printf("\n");
-// 	rl_on_new_line();
-// 	rl_replace_line("", 0);
-// 	rl_redisplay();
+	g_data.status_code = 1;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	signals_for_parent(void)
 {
-// 	tcgetattr(STDIN_FILENO, &(g_data.new_term));
-// 	g_data.old_term = g_data.new_term;
-// 	g_data.new_term.c_lflag &= ~ECHOCTL;
-// 	// ctl C 2
-// 	signal(SIGINT, prompt);
-// 	// ctl / 3
-// 	signal(SIGQUIT, SIG_IGN);
+	tcgetattr(STDIN_FILENO, &(g_data.new_term));
+	g_data.old_term = g_data.new_term;
+	g_data.new_term.c_lflag &= ~ECHOCTL;
+	// ctl C 2
+	signal(SIGINT, prompt);
+	// ctl / 3
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	signals_for_child(void)
 {
-	// g_data.new_term.c_lflag |= ECHOCTL;
-	// tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
-	// signal(SIGINT, SIG_DFL);
-	// signal(SIGQUIT, SIG_DFL);
+	g_data.new_term.c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
