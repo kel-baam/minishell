@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:31:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/09 14:37:25 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:29:01 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,15 @@ int					get_inputfile_fd(int *last_fd, t_list *redir_in);
 int					get_outfile_fd(int *fd, t_list *file_list);
 void				duplicate_fds(t_list *tmp, int last_fd, int *fds);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
+void				exec_herdoc(char *del, int fd);
+void				herdoc(t_list *command_lst);
+token_t				*ft_lstlast_token(token_t *lst);
+void				ft_lstadd_back_token(token_t **lst, token_t *new);
+char				*tokens_cmd_to_string(token_t *token);
+token_t			 	*tokens_of_one_command(token_t **token);
+int					number_of_tokens_before_pipe(token_t *token);
+token_t				*copy_of_list(token_t *original, int size);
+
 
 void				exec_herdoc(char *del, int fd);
 void				herdoc(t_list *command_lst);

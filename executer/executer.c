@@ -6,9 +6,10 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:29:18 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/07 11:27:44 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:29:55 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	execute_command(t_command *tmp_command, char *path)

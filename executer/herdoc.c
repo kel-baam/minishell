@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:55:58 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/08 17:56:02 by kel-baam         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:28:46 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../minishell.h"
 
+
+#include "../minishell.h"
 void	exec_herdoc(char *del, int fd)
 {
 	char	*line;
