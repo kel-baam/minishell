@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:26:15 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/05/18 16:26:18 by kel-baam         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:28:25 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../../minishell.h"
 
 void	preorder_traversal(t_node *head, int fd)
