@@ -9,8 +9,8 @@
 /*   Updated: 2023/06/06 17:41:09 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../minishell.h"
+
 void	prompt(int sig)
 {
 	g_data.status_code = 1;
@@ -25,9 +25,7 @@ void	signals_for_parent(void)
 	tcgetattr(STDIN_FILENO, &(g_data.new_term));
 	g_data.old_term = g_data.new_term;
 	g_data.new_term.c_lflag &= ~ECHOCTL;
-	// ctl C 2
 	signal(SIGINT, prompt);
-	// ctl / 3
 	signal(SIGQUIT, SIG_IGN);
 }
 
