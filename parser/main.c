@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:26:25 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/08 22:01:11 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:36:26 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,13 +325,13 @@ t_list *store_one_cmd(token_t **tokens, char *symb)
 		while (tokens_cmd)
 		{
 			cmd_args_file(tokens_cmd, &cmd_args, &symb_file);
+
 			ft_lstadd_back(&lst, ft_lstnew(insert_one_cmd(cmd_args, symb_file)));
 			cmd_args = NULL;
 			symb_file = NULL;
 			tokens_cmd = tokens_of_one_command(tokens);
 		}
 	}
-	// printf("cc\n");
 	// int i;	/// AFFICHAGE
 	// while (lst && lst->content)
 	// {
@@ -631,6 +631,7 @@ t_list	*parser(char *line, int *flg_err)
 	token = get_all_tokens(lexer, types);
 	check_parsing_error(token, flg_err);
 	lst = store_one_cmd(&token, symb);
-	//lst = remove_qoute(lst);
+	herdoc(lst);
 	return (lst);
 }
+
