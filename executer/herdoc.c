@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:55:58 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/09 16:28:46 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/09 17:28:29 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	exec_herdoc(char *del, int fd)
 		line = readline(CYAN "herdoc >> " RESET);
 		if (!ft_strncmp(del, line, ft_strlen(line)))
 			break ;
+		expand(&line);
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 	}
