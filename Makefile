@@ -4,7 +4,7 @@ CC = cc
 
 RFLAG = -L ${HOME_BREW_PATH}/opt/readline/lib -I ${HOME_BREW_PATH}/opt/readline/include -lreadline
 
-CFLAGS =#-fsanitize=address# -Wall -Wextra -Werror
+CFLAGS =-fsanitize=address -Wall -Wextra -Werror
 
 SUB = *.c ./executer/*.c ./parser/*.c ./utils/*.c ./executer/builtins/*.c
 

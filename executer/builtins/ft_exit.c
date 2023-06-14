@@ -19,7 +19,7 @@ int	ft_exit(t_command *cmd)
 	int				one_arg;
 	unsigned char	test;
 
-	status = 0;
+	status = 127;
 	one_arg = 1;
 	printf("exit\n");
 	if (cmd->args[1])
