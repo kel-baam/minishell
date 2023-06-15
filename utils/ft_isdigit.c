@@ -1,39 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/17 17:23:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/15 18:37:32 by kjarmoum         ###   ########.fr       */
+/*   Created: 2022/10/19 21:41:55 by kjarmoum          #+#    #+#             */
+/*   Updated: 2023/06/10 16:41:29 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_lstsize(t_list *lst)
+int	ft_isdigit(int c)
 {
-	int	len;
-
-	len = 0;
-	while (lst)
-	{
-		len++;
-		lst = lst->next;
-	}
-	return (len);
-}
-int	ft_lstsize_token(token_t *lst)
-{
-	int	len;
-
-	len = 0;
-	while (lst)
-	{
-		if(strcmp(lst->value," "))
-			len++;
-		lst = lst->next;
-	}
-	return (len);
+	return (c >= '0' && c <= '9');
 }

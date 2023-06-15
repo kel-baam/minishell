@@ -6,9 +6,10 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:35:45 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/09 14:36:40 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/15 21:55:50 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
 char	**convert_tree_to_array(void)
@@ -33,13 +34,13 @@ int	main(int ac, char **av, char **env)
 
 	line = NULL;
 	initilizer(env);
-	flg_err = 0;
-	signals_for_parent();
+	//signals_for_parent();
+		flg_err = 0;
 	while (1)
 	{
 		if (line)
 			ft_free(line);
-		tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
+		//tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
 		line = readline(PERPOL " 🌸 beautiful as a shell : 🌸 $ " RESET);
 		if (line)
 		{
@@ -47,11 +48,11 @@ int	main(int ac, char **av, char **env)
 				continue ;
 			add_history(line);
 			commands = parser(line, &flg_err);
+			add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code),
+					NULL);
 			if (flg_err == 1)
 				continue ;
 			executer(commands);
-			add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code),
-					NULL);
 			//printf("%d\n",g_data.status_code);
 		}
 		else
