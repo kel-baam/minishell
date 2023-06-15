@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:29:18 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/15 22:05:25 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/15 22:30:04 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,16 +113,9 @@ void	executer(t_list *commands)
 	tmp = commands;
 	i = 0;
 	last_fd = STDIN_FILENO;
-<<<<<<< HEAD
-	int x=0;
-
-
-	if (run_builtins(tmp) >= 0)
-=======
 	if (run_builtins(tmp) >=0)
->>>>>>> acd60aaddc91b52f518ad0766f860278e8beb2a0
 		return ;
-	
+
 	while (tmp)
 	{
 		tmp_command = (t_command *)tmp->content;
@@ -132,13 +125,10 @@ void	executer(t_list *commands)
 		pid = fork();
 		if (!pid)
 		{
-<<<<<<< HEAD
 			//signals_for_child();
 			//get_inputfile_fd(&last_fd, tmp_command->redir_in, fds[1], fds[0]);
 
 			get_outfile_fd(&fds[1], tmp_command->redir_out);
-=======
->>>>>>> acd60aaddc91b52f518ad0766f860278e8beb2a0
 			signals_for_child();
 			if (get_inputfile_fd(&last_fd, tmp_command->redir_in) == 1)
 				exit(g_data.status_code);
