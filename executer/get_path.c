@@ -45,11 +45,22 @@ char	*get_actual_path(char *cmd, t_command *data)
 	int	status;
 
 	status = 127;
+	if(ft_strchr(cmd, '/') && access(cmd, F_OK))
+	{
+		print_cmd_error(cmd, NULL, strerror(errno),
+				status);
+		exit(status);
+
+	}
 	if (!access(cmd, F_OK))
 	{
+		if(opendir(cmd))
+			print_cmd_error(cmd,NULL,"is a directory",126);
 		if (!access(cmd, X_OK))
 			return (ft_strdup(cmd));
-		status = 126;
+	 
 	}
+
+	
 	return (get_right_path(cmd, data));
 }

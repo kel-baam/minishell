@@ -82,13 +82,16 @@ int	run_builtins(t_list *commands)
 	outfile = 1;
 	if (commands && !commands->next)
 	{
-		if (tmp_command->cmd && (!strcmp(tmp_command->cmd, "unset")
-				|| !strcmp(tmp_command->cmd, "export")
-				|| !strcmp(tmp_command->cmd, "cd") || !strcmp(tmp_command->cmd,
-					"exit")))
+		if (tmp_command->cmd && (!ft_strncmp(tmp_command->cmd, "unset",ft_strlen(tmp_command->cmd))
+				|| !ft_strncmp(tmp_command->cmd, "export",ft_strlen(tmp_command->cmd))
+				|| !ft_strncmp(tmp_command->cmd, "cd",ft_strlen(tmp_command->cmd)) || !ft_strncmp(tmp_command->cmd,
+					"exit",ft_strlen(tmp_command->cmd))))
 		{
-			get_inputfile_fd(&infile, tmp_command->redir_in);
-			get_outfile_fd(&outfile, tmp_command->redir_out);
+			if(get_inputfile_fd(&infile, tmp_command->redir_in)==1)
+					return 1;
+			if(get_outfile_fd(&outfile, tmp_command->redir_out)==1)
+					return 1;
+
 			g_data.status_code = execute_bultin(tmp_command, outfile);
 			return (g_data.status_code);
 		}
@@ -110,11 +113,16 @@ void	executer(t_list *commands)
 	tmp = commands;
 	i = 0;
 	last_fd = STDIN_FILENO;
+<<<<<<< HEAD
 	int x=0;
 
 
 	if (run_builtins(tmp) >= 0)
+=======
+	if (run_builtins(tmp) >=0)
+>>>>>>> acd60aaddc91b52f518ad0766f860278e8beb2a0
 		return ;
+	
 	while (tmp)
 	{
 		tmp_command = (t_command *)tmp->content;
@@ -124,10 +132,13 @@ void	executer(t_list *commands)
 		pid = fork();
 		if (!pid)
 		{
+<<<<<<< HEAD
 			//signals_for_child();
 			//get_inputfile_fd(&last_fd, tmp_command->redir_in, fds[1], fds[0]);
 
 			get_outfile_fd(&fds[1], tmp_command->redir_out);
+=======
+>>>>>>> acd60aaddc91b52f518ad0766f860278e8beb2a0
 			signals_for_child();
 			if (get_inputfile_fd(&last_fd, tmp_command->redir_in) == 1)
 				exit(g_data.status_code);

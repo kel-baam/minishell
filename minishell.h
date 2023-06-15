@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:31:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/15 18:32:57 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/15 22:23:41 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # include "parser/token.h"
 # include <ctype.h>
+# include <dirent.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -57,7 +58,6 @@ typedef struct s_command
 	int				flg;
 	t_list			*redir_in;
 	t_list			*redir_out;
-	int				fd_herdoc;
 
 }					t_command;
 
@@ -74,7 +74,6 @@ typedef struct s_node
 typedef struct s_data
 {
 	t_node			*env_vars;
-	int				total_envs;
 	int				status_code;
 	int				count_envs;
 	struct termios	new_term;
@@ -106,7 +105,7 @@ void				free_double_ptr(char **ptr);
 void				initilizer(char **envs);
 void				init_envs(char **envs);
 int					ft_env(int fd);
-int					find_char(char *str, char c);
+int					find_egal_position(char *str, char c);
 void				add_node(t_node **head, char *key, char *value,
 						t_node *parent);
 void				inorder_traversal(t_node *head, int fd);
@@ -154,6 +153,7 @@ void				herdoc(t_list *command_lst);
 token_t				*ft_lstlast_token(token_t *lst);
 void				ft_lstadd_back_token(token_t **lst, token_t *new);
 token_t			 	*tokens_of_one_command(token_t **token);
+char				*tokens_cmd_to_string(token_t *token);
 int					number_of_tokens_before_pipe(token_t *token);
 token_t				*copy_of_list(token_t *original, int size);
 void				expand(char **token);

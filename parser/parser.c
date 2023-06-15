@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:26:25 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/15 22:14:25 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/15 22:23:23 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,10 +264,13 @@ token_t *cmd_args_file(token_t *token_cmd,  char **symb_file)
 					expand(&token_cmd->value);
 				if (flag == 0)
 					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
-				else if (flag == 1 || flag == -1)
+				else if (flag == 1|| flag == -1)
+       			{
+					expand(&token_cmd->value);
+					remove_s_d_qoute(&token_cmd->value);
 					ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value, token_cmd->type));
 				token_cmd = token_cmd->next;
-			}
+				}
 		}
 	}
 		*symb_file = tokens_cmd_to_string(symb_fl);
@@ -429,6 +432,209 @@ t_list *store_one_cmd(token_t **tokens, char *symb)
 	return (lst);
 }
 
+int pipe_error(token_t *tokens, token_t *prev)
+{
+	char	*buffer;
+
+	buffer = NULL;
+	if (tokens)
+	{
+		tokens = tokens->next;
+		if (!prev)
+		{
+			buffer =  ft_strdup("syntax error near unexpected token `|");
+			if (tokens && tokens->value[0] == '|')
+			{
+				buffer = ft_strjoin(buffer, "|");
+				tokens = tokens->next;
+			}
+			buffer = ft_strjoin(buffer, "'");
+			print_cmd_error(NULL, NULL, buffer, 258);
+			return (1);
+		}
+		else
+		{
+			while (tokens && tokens->type == 4)
+				tokens = tokens->next;
+			if (!tokens || (tokens && tokens->type == 2))
+			{
+				print_cmd_error(NULL, NULL, ft_strdup("syntax error near unexpected token `|'"), 258);
+				return (1);
+			}
+		}
+	}
+	return (0);
+}
+
+int qoute_error(token_t *token)
+{
+	if (token)
+	{
+		if (ft_strlen(token->value) == 1)
+		{
+			print_cmd_error(NULL, NULL, "syntax error", 1);
+			return (1);
+		}
+		else if (token->value[ft_strlen(token->value) - 1] != token->value[0])
+		{
+			print_cmd_error(NULL, NULL, "syntax error", 1);
+			return (1);
+		}
+	}
+	return (0);
+}
+
+int redir_in_error(token_t *token)
+{
+	int		i;
+	int		flag;
+	char	*buffer;
+
+	i = 0;
+	flag = -1;
+	buffer = ft_strdup("");
+	if (token)
+	{
+		token = token->next;
+		if (token && (token->type == 0))
+		{
+			token = token->next;
+			flag = 0;
+		}
+		if (token && (token->type == 0))
+			token = token->next;
+		while (token && token->type == 4)
+			token = token->next;
+		if (!token || (token && flag && token->type == 1))
+		{
+			print_cmd_error(NULL, NULL, "syntax error near unexpected token `newline'", 258);
+			return (1);
+		}
+		else if (token->type == 0 || token->type == 1 || token->type == 2)
+		{
+			buffer = "syntax error near unexpected token `";
+			while (token && ((token->type == 0 && i < 3) || (token->type == 1 && i < 2)))
+			{
+				buffer = ft_strjoin(buffer, token->value);
+				token = token->next;
+				i++;
+			}
+			if (token && token->type == 2)
+				buffer = ft_strjoin(buffer, token->value);
+			print_cmd_error(NULL, NULL, ft_strjoin(buffer, "'"), 258);
+			return (1);
+		}
+	}
+	return (0);
+}
+
+int redir_out_error(token_t *token)
+{
+	int		i;
+	char	*buffer;
+
+	i = 0;
+	buffer = ft_strdup("");
+	if (token)
+	{
+		token = token->next;
+		if (token && token->type == 2)
+		{
+			token = token->next;
+			while (token && token->type == 4)
+				token = token->next;
+			if (!token)
+			{
+				print_cmd_error(NULL, NULL, "syntax error near unexpected token `newline'", 258);
+				return (1);
+			}
+			return (0);
+		}
+		if (token && token->type == 1)
+			token = token->next;
+		while (token && token->type == 4)
+			token = token->next;
+		if (token && (token->type == 0 || token->type == 1 || token->type == 2))
+		{
+			buffer = "syntax error near unexpected token `";
+			while (token && ((i < 2 && (token->type == 2 || token->type == 1))
+				|| (i < 3 && token->type == 0)))
+			{
+				buffer = ft_strjoin(buffer, token->value);
+				token = token->next;
+				i++;
+			}
+			print_cmd_error(NULL, NULL, ft_strjoin(buffer, "'"), 258);
+			return (1);
+		}
+		if (!token)
+		{
+			print_cmd_error(NULL, NULL, "syntax error near unexpected token `newline'", 258);
+			return (1);
+		}
+	}
+	return (0);
+}
+
+int redir_error(token_t *token, int type)
+{
+	if (token)
+	{
+		if (type == 0 && redir_in_error(token))
+			return (1);
+		else if (type == 1 && redir_out_error(token))
+			return (1);
+	}
+	return (0);
+}
+
+void	check_parsing_error(token_t *tokens, int *flg_err)
+{
+	token_t *prev;
+
+	prev = NULL;
+	if (tokens)
+	{
+		while (tokens)
+		{
+			if (tokens->type == 3)
+				prev = tokens;
+			else if (tokens->value[0] == '|')
+			{
+				*flg_err = pipe_error(tokens, prev);
+				if (*flg_err)
+					break;
+			}
+			else if (tokens->value[0] == '<')
+			{
+				*flg_err = redir_error(tokens , 0);
+				if (*flg_err)
+					break;
+			}
+			else if (tokens->value[0] == '>')
+			{
+				*flg_err = redir_error(tokens , 1);
+				if (*flg_err)
+					break;
+			}
+			else if (tokens->type == 5 || tokens->type == 6)
+			{
+				*flg_err = qoute_error(tokens);
+				if (*flg_err)
+					break;
+			}
+			*flg_err = 0;
+			//------ todo--------------------------
+			// else if (tokens->type == 7)
+			// {
+
+			// }
+			tokens = tokens->next;
+		}
+
+	}
+}
+
 char	*remove_char_from_str(char *buffer, char c)
 {
 	int		i;
@@ -467,8 +673,7 @@ t_list	*parser(char *line, int *flg_err)
 	lst = store_one_cmd(&token, symb);
 
 	herdoc(lst);
-	exit(1);
-	//printf("%d\n", g_data.status_code);
+	if(*flg_err==1)
+	 	add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code),NULL);
 	return (lst);
 }
-

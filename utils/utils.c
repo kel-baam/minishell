@@ -42,6 +42,9 @@ void	free_double_ptr(char **ptr)
 	i = 0;
 	if (ptr)
 	{
+		if(*ptr)
+		{
+
 		while (ptr[i])
 		{
 			free(ptr[i]);
@@ -49,10 +52,11 @@ void	free_double_ptr(char **ptr)
 			i++;
 		}
 		free(ptr);
+		}
 	}
 }
 
-int	find_char(char *str, char c)
+int	find_egal_position(char *str, char c)
 {
 	int	i;
 

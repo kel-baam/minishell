@@ -59,6 +59,7 @@ ls << f <s
 echo """"'      youness  '""""
 touch oo
 env -i ./minishell
+
 export var+=value
 cat | cat | cat | cat | cat | ls
 "ls -la"
