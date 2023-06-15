@@ -78,7 +78,10 @@ void	duplicate_fds(t_list *tmp, int last_fd, int *fds)
 		close(last_fd);
 	}
 	if (tmp->next || tmp_command->redir_out)
+	{
 		dup2(fds[1], STDOUT_FILENO);
 	close(fds[1]);
 	close(fds[0]);
+
+	}
 }

@@ -534,4 +534,3 @@ t_list	*parser(char *line, int *flg_err)
 	 	add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code),NULL);
 	return (lst);
 }
-
