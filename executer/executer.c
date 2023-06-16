@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:29:18 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/15 22:30:04 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/16 18:02:41 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,12 @@ char	*get_my_path(t_command *tmp_command)
 {
 	char	*path;
 
+	path = NULL;
 	if (!(tmp_command->cmd))
 		exit(0);
 	if (is_bultin(tmp_command->cmd))
 	{
-		path = get_actual_path(tmp_command->cmd, tmp_command);
+		path = get_actual_path(tmp_command->cmd);
 		if (!path)
 			g_data.status_code = print_cmd_error(tmp_command->cmd, NULL,
 					" command not found", 127);
@@ -84,7 +85,7 @@ int	run_builtins(t_list *commands)
 	{
 		if (tmp_command->cmd && (!strcmp(tmp_command->cmd, "unset") || !strcmp(tmp_command->cmd, "export")
 				|| !strcmp(tmp_command->cmd, "cd") || !strcmp(tmp_command->cmd,"exit")))
-		
+
 		{
 
 			if(get_inputfile_fd(&infile, tmp_command->redir_in)==1)
@@ -126,10 +127,6 @@ void	executer(t_list *commands)
 		if (!pid)
 		{
 			//signals_for_child();
-			//get_inputfile_fd(&last_fd, tmp_command->redir_in, fds[1], fds[0]);
-
-			get_outfile_fd(&fds[1], tmp_command->redir_out);
-			signals_for_child();
 			if (get_inputfile_fd(&last_fd, tmp_command->redir_in) == 1)
 				exit(g_data.status_code);
 			if (get_outfile_fd(&fds[1], tmp_command->redir_out) == 1)
