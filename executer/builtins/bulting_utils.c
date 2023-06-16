@@ -13,19 +13,19 @@
 
 int	is_bultin(char *cmd)
 {
-	if (!ft_strncmp(cmd, "pwd", ft_strlen(cmd)))
+	if (!ft_strcmp(cmd, "pwd"))
 		return (0);
-	if (!ft_strncmp(cmd, "env", ft_strlen(cmd)))
+	if (!ft_strcmp(cmd, "env"))
 		return (0);
-	if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)))
+	if (!ft_strcmp(cmd, "echo"))
 		return (0);
-	if (!ft_strncmp(cmd, "unset", ft_strlen(cmd)))
+	if (!ft_strcmp(cmd, "unset"))
 		return (0);
-	if (!ft_strncmp(cmd, "export", ft_strlen(cmd)))
+	if (!ft_strcmp(cmd, "export"))
 		return (0);
-	if (!ft_strncmp(cmd, "cd", ft_strlen(cmd)))
+	if (!ft_strcmp(cmd, "cd"))
 		return (0);
-	if (!ft_strncmp(cmd, "exit", ft_strlen(cmd)))
+	if (!ft_strcmp(cmd, "exit"))
 		return (0);
 	return (1);
 }
@@ -33,19 +33,19 @@ int	is_bultin(char *cmd)
 int	execute_bultin(t_command *command, int outfile)
 {
 	
-	if (!ft_strncmp(command->cmd, "env", ft_strlen(command->cmd)))
+	if (!ft_strcmp(command->cmd, "env"))
 		return (ft_env(outfile));
-	else if (!ft_strncmp(command->cmd, "echo", ft_strlen(command->cmd)))
+	else if (!ft_strcmp(command->cmd, "echo"))
 		return (ft_echo(command));
-	else if (!ft_strncmp(command->cmd, "unset", ft_strlen(command->cmd)))
+	else if (!ft_strcmp(command->cmd, "unset"))
 		return (ft_unset(command));
-	else if (!ft_strncmp(command->cmd, "export", ft_strlen(command->cmd)))
+	else if (!ft_strcmp(command->cmd, "export"))
 		return (ft_export(command, outfile));
-	else if (!ft_strncmp(command->cmd, "cd", ft_strlen(command->cmd)))
+	else if (!ft_strcmp(command->cmd, "cd"))
 		return (ft_cd(command));
-	if (!ft_strncmp(command->cmd, "pwd", ft_strlen(command->cmd)))
+	if (!ft_strcmp(command->cmd, "pwd"))
 		return (ft_pwd(command->cmd, outfile));
-	if (!ft_strncmp(command->cmd, "exit", ft_strlen(command->cmd)))
+	if (!ft_strcmp(command->cmd, "exit"))
 		return (ft_exit(command));
 	return (0);
 }
@@ -55,7 +55,7 @@ int	is_valid_key(char *key)
 	int	i;
 
 	i = 0;
-	while (key[i])
+	while ( key && key[i])
 	{
 		if (key[i] == '.')
 			return (-1);

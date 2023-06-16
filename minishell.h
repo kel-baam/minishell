@@ -167,7 +167,7 @@ int					qoute_error(token_t *token);
 int					pipe_error(token_t *tokens, token_t *prev);
 int					ft_isdigit(int c);
 int					ft_isalpha(int c);
-
+int ft_strcmp(char *s1,char *s2);
 char **copy_of_tab(char **str);
 int					ft_isalnum(int c);
 

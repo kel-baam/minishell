@@ -59,7 +59,7 @@ int	add_new_element(t_command *cmd)
 {
 	int		i;
 	int		pos;
-	char	*key;
+	char	*key=ft_strdup("");
 	char	*value;
 	int		flag;
 
@@ -76,8 +76,10 @@ int	add_new_element(t_command *cmd)
 			key = cmd->args[i];
 			value = NULL;
 		}
-		if(pos== -1 || pos >=0)
+		if(!flag)
 			key = ft_substr(cmd->args[i], 0, pos);
+		else
+			key=cmd->args[i];
 		if(pos >=0)
 			value = ft_substr(cmd->args[i], pos + 1, ft_strlen(cmd->args[i]));
 		if (is_valid_key(key) == -1)

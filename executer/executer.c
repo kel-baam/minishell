@@ -82,11 +82,11 @@ int	run_builtins(t_list *commands)
 	outfile = 1;
 	if (commands && !commands->next)
 	{
-		if (tmp_command->cmd && (!ft_strncmp(tmp_command->cmd, "unset",ft_strlen(tmp_command->cmd))
-				|| !ft_strncmp(tmp_command->cmd, "export",ft_strlen(tmp_command->cmd))
-				|| !ft_strncmp(tmp_command->cmd, "cd",ft_strlen(tmp_command->cmd)) || !ft_strncmp(tmp_command->cmd,
-					"exit",ft_strlen(tmp_command->cmd))))
+		if (tmp_command->cmd && (!strcmp(tmp_command->cmd, "unset") || !strcmp(tmp_command->cmd, "export")
+				|| !strcmp(tmp_command->cmd, "cd") || !strcmp(tmp_command->cmd,"exit")))
+		
 		{
+
 			if(get_inputfile_fd(&infile, tmp_command->redir_in)==1)
 					return 1;
 			if(get_outfile_fd(&outfile, tmp_command->redir_out)==1)

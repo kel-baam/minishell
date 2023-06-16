@@ -1,5 +1,5 @@
 NAME = minishell
-HOME_BREW_PATH=/Users/kel-baam/goinfre/homebrew
+HOME_BREW_PATH=/Users/kel-baam/Desktop/homebrew
 CC = cc
 
 RFLAG = -L ${HOME_BREW_PATH}/opt/readline/lib -I ${HOME_BREW_PATH}/opt/readline/include -lreadline
