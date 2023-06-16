@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:31:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/09 17:26:59 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/15 22:23:41 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_data
 t_data				g_data;
 
 t_command			*read_cmds(t_command *data, char **av, int ac);
+int					ft_lstsize_token(token_t *lst);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 size_t				ft_strlen(const char *str);
 char				*ft_strdup(const char *s1);
@@ -132,13 +133,12 @@ t_node				*get_most_left(t_node *node);
 char				*ft_strchr(const char *s, int c);
 t_command			*store_one_command(token_t **token);
 char				**convert_tree_to_array(void);
-void				cmd_args_file(token_t *token_cmd, char **cmd_args,
-						char **symb_file);
-t_command			*insert_one_cmd(char *cmd_args, char *symb_file);
+token_t				*cmd_args_file(token_t *token_cmd, char **symb_file);
+t_command *insert_one_cmd(char **cmd_args, char *symb_file);
 t_red				*init_red(int flg);
 token_t				*tokens_of_one_command(token_t **token);
 char				*tokens_cmd_to_string(token_t *token);
-char				*tokens_cmd_to_string(token_t *token);
+
 void				ft_bzero(void *s, size_t n);
 char				*ft_strchr(const char *s, int c);
 t_list				*parser(char *line, int *flg_err);
@@ -152,12 +152,25 @@ void				exec_herdoc(char *del, int fd);
 void				herdoc(t_list *command_lst);
 token_t				*ft_lstlast_token(token_t *lst);
 void				ft_lstadd_back_token(token_t **lst, token_t *new);
+token_t			 	*tokens_of_one_command(token_t **token);
 char				*tokens_cmd_to_string(token_t *token);
-token_t				*tokens_of_one_command(token_t **token);
 int					number_of_tokens_before_pipe(token_t *token);
 token_t				*copy_of_list(token_t *original, int size);
 void				expand(char **token);
 void				exec_herdoc(char *del, int fd);
 void				herdoc(t_list *command_lst);
+void				check_parsing_error(token_t *tokens, int *flg_err);
+int					redir_out_error(token_t *token);
+int					redir_error(token_t *token, int type);
+int					redir_in_error(token_t *token);
+int					qoute_error(token_t *token);
+int					pipe_error(token_t *tokens, token_t *prev);
+int					ft_isdigit(int c);
+int					ft_isalpha(int c);
+
+char **copy_of_tab(char **str);
+int					ft_isalnum(int c);
+
+
 
 #endif
