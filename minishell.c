@@ -52,7 +52,7 @@ void free_commands(t_list *commands)
 	{
 		cmd=(t_command*)tmp_commands->content;
 		ft_free(cmd->cmd);
-		//free_double_ptr(cmd->args);
+		free_double_ptr(cmd->args);
 		free_red(cmd->redir_in);
 		free_red(cmd->redir_out);
 		ft_free(cmd);
