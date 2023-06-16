@@ -70,4 +70,10 @@ export _i oo.9=o
 
 -------------segflt-------------------
 
-echo    "salam"   "rasek ki       l9ala"     m
+
+add _ on is_alnum
+
+--------kawtar errors---------
+bash: export: `34567': not a valid identifier
+cat | cat | cat |ls
+

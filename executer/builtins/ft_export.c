@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:27:09 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/05/18 16:27:11 by kel-baam         ###   ########.fr       */
+/*   Updated: 2023/06/16 19:02:00 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../../minishell.h"
+
 
 //final version
-
+#include "../../minishell.h"
 void	inorder_traversal(t_node *head, int fd)
 {
 	char	qoute;
@@ -69,14 +69,14 @@ int	add_new_element(t_command *cmd)
 	while (cmd->args && cmd->args[i])
 	{
 		pos = find_egal_position(cmd->args[i], '=');
-		if (cmd->args[i][pos - 1] == '+')
+		if (cmd->args[i] && pos >0 && cmd->args[i][pos - 1] == '+')
 			flag = 1;
 		if (pos == -1)
 		{
 			key = cmd->args[i];
 			value = NULL;
 		}
-		if(!flag)
+		if(!flag && pos >0)
 			key = ft_substr(cmd->args[i], 0, pos);
 		else
 			key=cmd->args[i];

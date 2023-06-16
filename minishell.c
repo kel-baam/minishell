@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:35:45 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/15 22:25:31 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/16 17:46:21 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	**convert_tree_to_array(void)
 	char	**store;
 
 	p = 0;
-	envs = malloc(sizeof(char *) * g_data.count_envs + 1);
+	envs = malloc(sizeof(char *) * (g_data.count_envs + 1));
 	store = store_envs(g_data.env_vars, envs, &p);
 	envs[p] = NULL;
 	return (envs);
@@ -45,14 +45,13 @@ void free_commands(t_list *commands)
 {
 	t_list *tmp_commands;
 	t_command *cmd;
-	t_list  *redir_in;
 	t_list  *next;
 	tmp_commands=commands;
 	while(tmp_commands)
 	{
 		cmd=(t_command*)tmp_commands->content;
 		ft_free(cmd->cmd);
-		free_double_ptr(cmd->args);
+		//free_double_ptr(cmd->args);
 		free_red(cmd->redir_in);
 		free_red(cmd->redir_out);
 		ft_free(cmd);
@@ -64,18 +63,20 @@ void free_commands(t_list *commands)
 int	main(int ac, char **av, char **env)
 {
 	t_list		*commands;
+	(void)ac;
+	(void)av;
 	char		*line;
 	int			flg_err;
 
 	line = NULL;
 	initilizer(env);
-	signals_for_parent();
+	//signals_for_parent();
 		flg_err = 0;
 	while (1)
 	{
 		if (line)
 			ft_free(line);
-		tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
+		//tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
 		line = readline(PERPOL " 🌸 beautiful as a shell : 🌸 $ " RESET);
 		if (line)
 		{

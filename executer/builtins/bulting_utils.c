@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   bulting_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 16:03:10 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/05/21 16:03:12 by kel-baam         ###   ########.fr       */
+/*   Updated: 2023/06/16 18:19:26 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../../minishell.h"
 
+#include "../../minishell.h"
 int	is_bultin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "pwd"))
@@ -32,7 +32,7 @@ int	is_bultin(char *cmd)
 // TO DO error in len of commands
 int	execute_bultin(t_command *command, int outfile)
 {
-	
+
 	if (!ft_strcmp(command->cmd, "env"))
 		return (ft_env(outfile));
 	else if (!ft_strcmp(command->cmd, "echo"))
@@ -61,7 +61,8 @@ int	is_valid_key(char *key)
 			return (-1);
 		i++;
 	}
-	if (key[0] == '_')
+
+	if (key[0] == '_' || key[0]=='$')
 		return (0);
 	if ((key[0] >= 'a' && key[0] <= 'z') || (key[0] >= 'A' && key[0] <= 'Z'))
 		return (0);

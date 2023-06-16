@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:31:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/15 22:23:41 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/16 19:33:32 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define PERPOL " \033[0;35m"
 # define TABLE_SIZE 1024
 # define CYAN " \033[0;36m"
-# define HOME "/Users/kel-baam"
+# define HOME "/Users/kjarmoum"
 # include "parser/cmd.h"
 # include "parser/lexer.h"
 # include "parser/token.h"
@@ -100,7 +100,7 @@ int					ft_strchr_str(char *str, char *c);
 int					print_cmd_error(char *cmd, char *args, char *msg_err,
 						int status_code);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
-char				*get_actual_path(char *cmd, t_command *data);
+char				*get_actual_path(char *cmd);
 void				free_double_ptr(char **ptr);
 void				initilizer(char **envs);
 void				init_envs(char **envs);

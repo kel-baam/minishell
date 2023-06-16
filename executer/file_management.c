@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   file_management.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:36:11 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/05 10:36:13 by kel-baam         ###   ########.fr       */
+/*   Updated: 2023/06/16 15:51:46 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../minishell.h"
 
+#include "../minishell.h"
 int	get_outfile_fd(int *fd, t_list *file_list)
 {
 	t_list	*tmp;
