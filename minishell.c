@@ -69,13 +69,13 @@ int	main(int ac, char **av, char **env)
 
 	line = NULL;
 	initilizer(env);
-	//signals_for_parent();
+	signals_for_parent();
 		flg_err = 0;
 	while (1)
 	{
 		if (line)
 			ft_free(line);
-		//tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
+		tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
 		line = readline(PERPOL " 🌸 beautiful as a shell : 🌸 $ " RESET);
 		if (line)
 		{

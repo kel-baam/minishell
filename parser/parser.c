@@ -171,7 +171,6 @@ char **token_cmd_to_args(token_t *token_cmd)
 				}
 				tmp = tmp->next;
 			}
-			// printf("I=%d\n", i);
 			tab[i] = NULL;
 		}
 	}
@@ -296,15 +295,17 @@ t_command *insert_one_cmd(char **cmd_args, char *symb_file)
 	new->redir_in = malloc(sizeof(t_list));
 	lst_redir_in = NULL;
 	lst_redir_out = NULL;
-	if (cmd_args)
+	if (cmd_args && *cmd_args)
 	{
 		new->args = copy_of_tab(cmd_args);
-		new->cmd = new->args[0];
+		new->cmd = ft_strdup(new->args[0]);
 	}
 	else
 	{
-		new->args[0] = NULL;
-		new->cmd = NULL;
+		new->args=malloc(sizeof(char*)*2);
+		new->args[0] =ft_strdup("");
+		new->args[1]=NULL;
+		new->cmd = ft_strdup("");
 	}
 	while (symb_file && symb_file[i])
 	{
@@ -384,12 +385,10 @@ t_list *store_one_cmd(token_t **tokens, char *symb)
 		{
 			cmd_arg = cmd_args_file(tokens_cmd, &symb_file);
 			tab = token_cmd_to_args(cmd_arg);
-
 			// t_list *var;
 			// var = malloc(sizeof(t_list));
 			// var->content = (t_list *)insert_one_cmd(tab, symb_file);
-			// var->next = NULL;
-
+			// var->next = NULL;	
 			ft_lstadd_back(&lst, ft_lstnew(insert_one_cmd(tab, symb_file)));
 			//printf("hh %s\n",lst->)
 			//cmd_args = NULL;
@@ -460,12 +459,11 @@ t_list	*parser(char *line, int *flg_err)
 	t_list	*lst;
 
 	lexer = init_lexer(line);
-	symb = malloc(3);
-	types = malloc(9);
-	symb = "<>";
-	types = "<>| '\"$";
+	//symb = malloc(3);
+	//types = malloc(9);
+	symb = ft_strdup("<>");
+	types = ft_strdup("<>| '\"$");
 	token = get_all_tokens(lexer, types);
-
 	check_parsing_error(token, flg_err);
 	lst = store_one_cmd(&token, symb);
 

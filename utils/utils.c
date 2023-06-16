@@ -51,7 +51,8 @@ void	free_double_ptr(char **ptr)
 			ptr[i] = NULL;
 			i++;
 		}
-		free(ptr);
+		//if(ptr)
+			free(ptr);
 		}
 	}
 }
