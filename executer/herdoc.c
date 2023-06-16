@@ -19,7 +19,7 @@ void	exec_herdoc(char *del, int fd)
 	while (1)
 	{
 		line = readline(CYAN "herdoc >> " RESET);
-		if (!ft_strncmp(del, line, ft_strlen(line)))
+		if ( !line || !ft_strcmp(del, line))
 			break ;
 		expand(&line);
 		if(line[0]=='$')

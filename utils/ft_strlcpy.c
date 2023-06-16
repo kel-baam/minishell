@@ -48,6 +48,7 @@ char **copy_of_tab(char **str)
 			dest[i]= ft_strdup(str[i]);
 			i++;
 		}
+		dest[i]=NULL;
 	}
 	return dest;
 }

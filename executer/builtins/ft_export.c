@@ -82,7 +82,6 @@ int	add_new_element(t_command *cmd)
 			key=cmd->args[i];
 		if(pos >=0)
 			value = ft_substr(cmd->args[i], pos + 1, ft_strlen(cmd->args[i]));
-		printf("%s\n",key);
 		if (is_valid_key(key) == -1)
 		{
 			g_data.status_code = print_cmd_error(cmd->cmd, key, "not a valid identifier",
