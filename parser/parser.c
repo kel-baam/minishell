@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:26:25 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/16 20:10:15 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/16 20:17:35 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,7 @@ void check_tild(token_t **token_cmd)
 		}
 	}
 }
+
 
 token_t *cmd_args_file(token_t *token_cmd,  char **symb_file)
 {
