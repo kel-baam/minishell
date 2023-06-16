@@ -55,12 +55,13 @@ int	is_valid_key(char *key)
 	int	i;
 
 	i = 0;
-	while (key[i])
+	while ( key && key[i])
 	{
 		if (key[i] == '.')
 			return (-1);
 		i++;
 	}
+	printf("Ff\n");
 	if (key[0] == '_')
 		return (0);
 	if ((key[0] >= 'a' && key[0] <= 'z') || (key[0] >= 'A' && key[0] <= 'Z'))
