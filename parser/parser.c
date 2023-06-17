@@ -10,11 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell.h"
+#include "cmd.h"
 #include "lexer.h"
 #include "token.h"
-#include "cmd.h"
-#include "../minishell.h"
-
 
 t_red	*init_red(int flg)
 {
@@ -26,9 +25,9 @@ t_red	*init_red(int flg)
 	return (red);
 }
 
-t_list *init_lst()
+t_list	*init_lst(void)
 {
-	t_list		*lst;
+	t_list	*lst;
 
 	lst = malloc(sizeof(t_list));
 	lst->content = NULL;
@@ -36,62 +35,97 @@ t_list *init_lst()
 	return (lst);
 }
 
-void remove_s_d_qoute(char **buffer)
+void	remove_s_d_qoute(char **buffer)
 {
 	char	*tmp;
+
 	if (buffer)
 	{
 		if ((*buffer)[0] == '"' || (*buffer)[0] == '\'')
 		{
 			(*buffer)++;
-			tmp=malloc(sizeof(char)*ft_strlen(*buffer));
+			tmp = malloc(sizeof(char) * ft_strlen(*buffer));
 			ft_strlcpy(tmp, *buffer, ft_strlen(*buffer));
 			*buffer = tmp;
 		}
 	}
 }
 
-void expand(char **token)
+int	pos_special_char(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isalnum(str[i]) == 0)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+void	expand(char **token)
 {
 	char	*result;
-	char	*path=NULL;
+	char	*path;
 	char	*tmp_token;
 	int		pos;
-	int		pos_eg;
-	result = NULL;
+	char	*value;
+	int		i;
+	char	**split;
+	char	*tmp_result;
+	int  pos_dollar;
+
+	path = NULL;
+	i = 0;
+	result = ft_strdup("");
 	if (token)
-	{
+	{ 
+		pos_dollar=find_egal_position(*token,'$');
+		if(pos_dollar!=-1)
+		{
+			result=ft_substr(*token,0,pos_dollar);
+			*token=ft_substr(*token,pos_dollar,ft_strlen(*token) - pos_dollar);
+		}
 		if ((*token)[0] == '$')
 		{
-			tmp_token = (*token);
-			pos = find_egal_position((*token),'/');
-			pos_eg = find_egal_position((*token),'=');
-			if (pos == -1 && pos_eg != -1)
-				pos = pos_eg;
-			else if (pos_eg != -1 && pos != -1 && pos_eg < pos)
-				pos = pos_eg;
-			if (pos != -1 )
+			split = ft_split(*token, '$');
+			while (split[i])
 			{
-				*token = ft_substr(*token, 0, pos);
-				path = ft_strdup(&tmp_token[pos]);
-			}
-			result = get_env(&((*token)[1]));
-			if (result)
-			{
-				if (path)
-					(*token) = ft_strjoin(result, path);
+				tmp_token = split[i];
+				pos = pos_special_char(split[i]);
+				if (pos != -1)
+				{
+					*token = ft_substr(split[i], 0, pos);
+					path = ft_strdup(&tmp_token[pos]);
+				}
 				else
-					(*token) = result;
+					*token = split[i];
+				value = get_env(*token);
+				i++;
+				if (value)
+				{
+					if (path)
+					{
+						tmp_result = ft_strjoin(value, path);
+						result = ft_strjoin(result, tmp_result);
+						path = NULL;
+					}
+					else
+						result = ft_strjoin(result, value);
+				}
+				else
+				{	if(path)
+						result = ft_strjoin(result, path);
+						
+				}
 			}
-			else if(pos!=-1)
-				*token=path;
-			else
-				*token = tmp_token;
+			*token = result;
 		}
 	}
 }
-
-int get_char_position(char *buffer, char c)
+int	get_char_position(char *buffer, char c)
 {
 	int	i;
 
@@ -117,16 +151,14 @@ int	len_str_to_expand(char *str)
 	count = 0;
 	while (str[i])
 	{
-		if (ft_isalnum(str[i]))
+		if (ft_isalnum(str[i]) || str[i] == '_')
 			count++;
 		i++;
 	}
 	return (count + 1);
 }
 
-
-
-char *expand_with_quote(token_t *token)
+char	*expand_with_quote(token_t *token)
 {
 	int		i;
 	int		is_s_d_qoute;
@@ -135,6 +167,7 @@ char *expand_with_quote(token_t *token)
 	char	*before_dollar;
 	char	*after_dollar;
 
+	is_s_d_qoute = -1;
 	i = 0;
 	tmp = NULL;
 	is_s_d_qoute = 0;
@@ -156,12 +189,12 @@ char *expand_with_quote(token_t *token)
 				while (tmp[i] && tmp[i] != '$')
 					i++;
 				before_dollar = ft_substr(token->value, 0, i);
-				to_expand = ft_substr(token->value, get_char_position(token->value, '$'), len_str_to_expand(token->value));
+				to_expand = ft_substr(token->value,
+					get_char_position(token->value, '$'),
+					ft_strlen(token->value) - i);
 				expand(&to_expand);
 				before_dollar = ft_strjoin(before_dollar, to_expand);
-				after_dollar = ft_substr(tmp, i + len_str_to_expand(token->value), ft_strlen(tmp) - i + len_str_to_expand(token->value));
-				after_dollar = ft_strjoin(before_dollar, after_dollar);
-				return (after_dollar);
+				return (before_dollar);
 			}
 			else
 				return (token->value);
@@ -174,12 +207,14 @@ char *expand_with_quote(token_t *token)
 	return (token->value);
 }
 
-
-char **token_cmd_to_args(token_t *token_cmd)
+char	**token_cmd_to_args(token_t *token_cmd)
 {
-	token_t *tmp;
-	int		i=0;
-	char **tab = malloc(sizeof(char*) * (ft_lstsize_token(token_cmd) + 1));
+	token_t	*tmp;
+	int		i;
+	char	**tab;
+
+	i = 0;
+	tab = malloc(sizeof(char *) * (ft_lstsize_token(token_cmd) + 1));
 	if (token_cmd)
 	{
 		tmp = token_cmd;
@@ -198,13 +233,14 @@ char **token_cmd_to_args(token_t *token_cmd)
 		}
 	}
 	else
-		tab[0]=NULL;
-	return tab;
+		tab[0] = NULL;
+	return (tab);
 }
 
-void check_tild(token_t **token_cmd)
+void	check_tild(token_t **token_cmd)
 {
 	char	*result;
+	char	*value;
 
 	if (*token_cmd)
 	{
@@ -214,23 +250,24 @@ void check_tild(token_t **token_cmd)
 				(*token_cmd)->value = HOME;
 			if ((*token_cmd)->value[1] == ' ' || (*token_cmd)->value[1] == '/')
 			{
-				char *value=ft_strdup(&((*token_cmd))->value[1]);
-				result = ft_strjoin(HOME,value);
+				value = ft_strdup(&((*token_cmd))->value[1]);
+				result = ft_strjoin(HOME, value);
 				(*token_cmd)->value = ft_strdup(result);
 			}
 		}
 	}
 }
 
-
-token_t *cmd_args_file(token_t *token_cmd,  char **symb_file)
+token_t	*cmd_args_file(token_t *token_cmd, char **symb_file)
 {
 	int		flag;
 	token_t	*cmd_arg;
 	token_t	*symb_fl;
 	token_t	*prev;
+	token_t *tmp;
+	char	*result;
 
-	char	*result = ft_strdup("");
+	result = ft_strdup("");
 	flag = -1;
 	cmd_arg = NULL;
 	symb_fl = NULL;
@@ -241,27 +278,32 @@ token_t *cmd_args_file(token_t *token_cmd,  char **symb_file)
 			// red
 			if (token_cmd->type == 0 || token_cmd->type == 1)
 			{
-				ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
+				ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value,
+						token_cmd->type));
 				prev = token_cmd;
 				token_cmd = token_cmd->next;
 				if (token_cmd && token_cmd->type == prev->type)
 				{
-					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
+					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value,
+							token_cmd->type));
 					token_cmd = token_cmd->next;
 				}
 				while (token_cmd && token_cmd->type == 4)
 				{
-					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
+					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value,
+							token_cmd->type));
 					token_cmd = token_cmd->next;
 				}
-				while (token_cmd && (token_cmd->type == 3 || token_cmd->type == 7))
-				{//
+				while (token_cmd && (token_cmd->type == 3
+						|| token_cmd->type == 7))
+				{ //
 					check_tild(&token_cmd);
-					printf("%s\n",token_cmd->value);
+					// printf("%s\n",token_cmd->value);
 					expand(&token_cmd->value);
 					// remove_s_d_qoute(&token_cmd->value);
 					expand_with_quote(token_cmd);
-					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
+					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value,
+							token_cmd->type));
 					token_cmd = token_cmd->next;
 				}
 				flag = 0;
@@ -271,7 +313,8 @@ token_t *cmd_args_file(token_t *token_cmd,  char **symb_file)
 				while (token_cmd && token_cmd->type == 4)
 				{
 					remove_s_d_qoute(&token_cmd->value);
-					ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value, token_cmd->type));
+					ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value,
+							token_cmd->type));
 					token_cmd = token_cmd->next;
 				}
 			}
@@ -282,16 +325,14 @@ token_t *cmd_args_file(token_t *token_cmd,  char **symb_file)
 					check_tild(&token_cmd);
 					expand(&token_cmd->value);
 					remove_s_d_qoute(&token_cmd->value);
-					ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value, token_cmd->type));
+					ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value,
+							token_cmd->type));
 					token_cmd = token_cmd->next;
 				}
 				flag = 1;
 			}
 			else if (token_cmd)
 			{
-				token_t	*prev;
-				token_t *tmp;
-
 				if (token_cmd && (token_cmd->type == 5 || token_cmd->type == 6))
 				{
 					tmp = token_cmd;
@@ -309,18 +350,20 @@ token_t *cmd_args_file(token_t *token_cmd,  char **symb_file)
 				else
 					expand(&token_cmd->value);
 				if (flag == 0)
-					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
-				else if (flag == 1|| flag == -1)
-					ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value, token_cmd->type));
+					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value,
+							token_cmd->type));
+				else if (flag == 1 || flag == -1)
+					ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value,
+							token_cmd->type));
 				token_cmd = token_cmd->next;
 			}
 		}
-	*symb_file = tokens_cmd_to_string(symb_fl);
+		*symb_file = tokens_cmd_to_string(symb_fl);
 	}
 	return (cmd_arg);
 }
 
-t_command *insert_one_cmd(char **cmd_args, char *symb_file)
+t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 {
 	int			i;
 	int			flag;
@@ -336,7 +379,6 @@ t_command *insert_one_cmd(char **cmd_args, char *symb_file)
 	new->redir_in = malloc(sizeof(t_list));
 	lst_redir_in = NULL;
 	lst_redir_out = NULL;
-
 	if (cmd_args && *cmd_args)
 	{
 		new->args = copy_of_tab(cmd_args);
@@ -344,8 +386,8 @@ t_command *insert_one_cmd(char **cmd_args, char *symb_file)
 	}
 	else
 	{
-		new->args=malloc(sizeof(char*));
-		new->args[0] =ft_strdup("");
+		new->args = malloc(sizeof(char *));
+		new->args[0] = ft_strdup("");
 		new->cmd = ft_strdup("");
 	}
 	while (symb_file && symb_file[i])
@@ -381,7 +423,8 @@ t_command *insert_one_cmd(char **cmd_args, char *symb_file)
 		file = ft_strdup("");
 		while (symb_file[i] && symb_file[i] == ' ')
 			i++;
-		while (symb_file[i] && symb_file[i] != ' ' && symb_file[i] != '<' && symb_file[i] != '>' )
+		while (symb_file[i] && symb_file[i] != ' ' && symb_file[i] != '<'
+			&& symb_file[i] != '>')
 		{
 			file = ft_strjoin(file, char_to_string(symb_file[i]));
 			i++;
@@ -389,7 +432,7 @@ t_command *insert_one_cmd(char **cmd_args, char *symb_file)
 		if (flag == 0)
 		{
 			((t_red *)new->redir_out->content)->file_name = file;
-			ft_lstadd_back(&lst_redir_out,ft_lstnew(new->redir_out->content));
+			ft_lstadd_back(&lst_redir_out, ft_lstnew(new->redir_out->content));
 		}
 		else if (flag == 1)
 		{
@@ -398,18 +441,18 @@ t_command *insert_one_cmd(char **cmd_args, char *symb_file)
 		}
 		flag = -1;
 	}
-	new->redir_in =  lst_redir_in;
+	new->redir_in = lst_redir_in;
 	new->redir_out = lst_redir_out;
 	return (new);
 }
 
-t_list *store_one_cmd(token_t **tokens, char *symb)
+t_list	*store_one_cmd(token_t **tokens, char *symb)
 {
-	t_list		*lst;
-	char		*symb_file;
-	token_t 	*cmd_arg;
-	token_t		*tokens_cmd;
-	char **tab;
+	t_list	*lst;
+	char	*symb_file;
+	token_t	*cmd_arg;
+	token_t	*tokens_cmd;
+	char	**tab;
 
 	lst = NULL;
 	tokens_cmd = NULL;
@@ -420,7 +463,6 @@ t_list *store_one_cmd(token_t **tokens, char *symb)
 		{
 			cmd_arg = cmd_args_file(tokens_cmd, &symb_file);
 			tab = token_cmd_to_args(cmd_arg);
-
 			ft_lstadd_back(&lst, ft_lstnew(insert_one_cmd(tab, symb_file)));
 			symb_file = NULL;
 			tokens_cmd = tokens_of_one_command(tokens);
@@ -443,14 +485,16 @@ t_list *store_one_cmd(token_t **tokens, char *symb)
 	// 	// in files
 	// 	while (((t_red *)command->redir_in) != NULL)
 	// 	{
-	// 		printf("redir_in : %s , flag :%d\n",((t_red *)command->redir_in->content)->file_name
+	// 		printf("redir_in : %s ,
+			//	flag :%d\n",((t_red *)command->redir_in->content)->file_name
 	// 			, ((t_red *)command->redir_in->content)->flag);
 	// 		command->redir_in = command->redir_in->next;
 	// 	}
 	// 	// out files
 	// 	while (((t_red *)command->redir_out) != NULL)
 	// 	{
-	// 		printf("redir_out : %s , flag :%d\n",((t_red *)command->redir_out->content)->file_name
+	// 		printf("redir_out : %s ,
+				//flag :%d\n",((t_red *)command->redir_out->content)->file_name
 	// 			, ((t_red *)command->redir_out->content)->flag);
 	// 		command->redir_out = command->redir_out->next;
 	// 	}
@@ -490,12 +534,12 @@ t_list	*parser(char *line, int *flg_err)
 
 	lexer = init_lexer(line);
 	symb = ft_strdup("<>");
-	types = ft_strdup("<>| '\"$");
+	types = ft_strdup("<>| '\"");
 	token = get_all_tokens(lexer, types);
 	check_parsing_error(token, flg_err);
 	lst = store_one_cmd(&token, symb);
 	herdoc(lst);
-	if(*flg_err==1)
-	 	add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code),NULL);
+	if (*flg_err == 1)
+		add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code), NULL);
 	return (lst);
 }

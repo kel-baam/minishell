@@ -26,7 +26,6 @@ int	print_cmd_error(char *cmd, char *args, char *msg_err, int status_code)
 	}
 	if (args)
 	{
-
 		write(STDERR_FILENO, args, ft_strlen(args));
 		write(STDERR_FILENO, ": ", 2);
 	}
@@ -43,16 +42,15 @@ void	free_double_ptr(char **ptr)
 	i = 0;
 	if (ptr)
 	{
-		if(*ptr)
+		if (*ptr)
 		{
-
-		while (ptr[i])
-		{
-			free(ptr[i]);
-			ptr[i] = NULL;
-			i++;
-		}
-			//free(ptr);
+			while (ptr[i])
+			{
+				free(ptr[i]);
+				ptr[i] = NULL;
+				i++;
+			}
+			free(ptr);
 		}
 	}
 }

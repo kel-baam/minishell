@@ -21,7 +21,7 @@ int	ft_exit(t_command *cmd)
 
 	status = 127;
 	one_arg = 1;
-	printf("exit\n");
+
 	if (cmd->args[1])
 	{
 		if ((cmd->args[1] && is_num(cmd->args[1]) == -1)

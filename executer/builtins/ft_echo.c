@@ -38,7 +38,7 @@ int	ft_echo(t_command *command)
 	option = 0;
 	if (!command->args[1])
 		printf("\n");
-	while (command->args && check_option(command->args[i]) != -1)
+	while (command->args[i] && check_option(command->args[i]) != -1)
 	{
 		option = 1;
 		i++;
