@@ -37,7 +37,7 @@ void	store_herdoc_fds(t_list *commands_lst)
 	t_red		*red;
 
 	commands = (t_command *)commands_lst->content;
-	tmp_redir = commands->redir_in;
+	tmp_redir = commands->redir_in_out;
 	while (tmp_redir)
 	{
 		red = (t_red *)tmp_redir->content;
@@ -46,7 +46,7 @@ void	store_herdoc_fds(t_list *commands_lst)
 			if (pipe(fds) == -1)
 				print_cmd_error(commands->cmd, NULL, strerror(errno), 1);
 			exec_herdoc(red->file_name, fds[1]);
-			red->flag = fds[0];
+			red->fd_herdoc = fds[0];
 			close(fds[1]);
 		}
 		tmp_redir = tmp_redir->next;
