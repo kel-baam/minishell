@@ -61,14 +61,11 @@ char	*get_actual_path(char *cmd)
 		}
 		if (!access(cmd, X_OK))
 			return (ft_strdup(cmd));
-		else
+		else if(!access(cmd, X_OK))
 		{
-			print_cmd_error(cmd,NULL,strerror(errno),126);
-			exit(126);
+			print_cmd_error(cmd,NULL,strerror(errno),1);
+			exit(1);
 		}
 	}
-
-
 	return (get_right_path(cmd));
 }
-//minishell.c cmd not found

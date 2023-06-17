@@ -68,6 +68,7 @@ int	add_new_element(t_command *cmd)
 	i = 1;
 	while (cmd->args && cmd->args[i])
 	{
+		printf("test   %s\n", cmd->args[i]);
 		pos = find_egal_position(cmd->args[i], '=');
 		if (cmd->args[i] && pos >0 && cmd->args[i][pos - 1] == '+')
 			flag = 1;

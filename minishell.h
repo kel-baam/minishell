@@ -134,7 +134,7 @@ char				*ft_strchr(const char *s, int c);
 t_command			*store_one_command(token_t **token);
 char				**convert_tree_to_array(void);
 token_t				*cmd_args_file(token_t *token_cmd, char **symb_file);
-t_command *insert_one_cmd(char **cmd_args, char *symb_file);
+t_command			*insert_one_cmd(char **cmd_args, char *symb_file);
 t_red				*init_red(int flg);
 token_t				*tokens_of_one_command(token_t **token);
 char				*tokens_cmd_to_string(token_t *token);
@@ -152,7 +152,7 @@ void				exec_herdoc(char *del, int fd);
 void				herdoc(t_list *command_lst);
 token_t				*ft_lstlast_token(token_t *lst);
 void				ft_lstadd_back_token(token_t **lst, token_t *new);
-token_t			 	*tokens_of_one_command(token_t **token);
+token_t				*tokens_of_one_command(token_t **token);
 char				*tokens_cmd_to_string(token_t *token);
 int					number_of_tokens_before_pipe(token_t *token);
 token_t				*copy_of_list(token_t *original, int size);
@@ -167,10 +167,10 @@ int					qoute_error(token_t *token);
 int					pipe_error(token_t *tokens, token_t *prev);
 int					ft_isdigit(int c);
 int					ft_isalpha(int c);
-int ft_strcmp(char *s1,char *s2);
-char **copy_of_tab(char **str);
+int					ft_strcmp(char *s1, char *s2);
+char				**copy_of_tab(char **str);
 int					ft_isalnum(int c);
-
-
+void	free_red(t_list *redir_list);
+void	free_commands(t_list *commands);
 
 #endif

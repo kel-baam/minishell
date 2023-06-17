@@ -76,4 +76,7 @@ add _ on is_alnum
 --------kawtar errors---------
 bash: export: `34567': not a valid identifier
 cat | cat | cat |ls
+infiles
+outfiles
+$ we shoulld use split
 
