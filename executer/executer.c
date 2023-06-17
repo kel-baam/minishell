@@ -87,10 +87,10 @@ int	run_builtins(t_list *commands)
 				|| !ft_strcmp(tmp_command->cmd, "cd") || !ft_strcmp(tmp_command->cmd,"exit")))
 
 		{
-			if(get_inputfile_fd(&infile, tmp_command->redir_in)==1)
-					return 1;
-			if(get_outfile_fd(&outfile, tmp_command->redir_out)==1)
-					return 1;
+			//if(get_inputfile_fd(&infile, tmp_command->redir_in)==1)
+				//	return 1;
+		//	if(get_outfile_fd(&outfile, tmp_command->redir_out)==1)
+				//	return 1;
 			if(!ft_strcmp(tmp_command->cmd ,"exit"))
 					printf("exit\n");
 			g_data.status_code = execute_bultin(tmp_command, outfile);
@@ -127,8 +127,7 @@ void	executer(t_list *commands)
 		if (!pid)
 		{
 			signals_for_child();
-			get_inputfile_fd(&last_fd, tmp_command->redir_in) ;
-			get_outfile_fd(&fds[1], tmp_command->redir_out) ;
+			get_fds(tmp_command->redir_in_out,&last_fd,&fds[1]);
 			duplicate_fds(tmp, last_fd, fds);
 			execute_command(tmp_command, get_my_path(tmp_command));
 			exit(g_data.status_code);

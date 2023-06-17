@@ -117,8 +117,7 @@ void	expand(char **token)
 				}
 				else
 				{	if(path)
-						result = ft_strjoin(result, path);
-						
+						result = ft_strjoin(result, path);	
 				}
 			}
 			*token = result;
@@ -271,6 +270,7 @@ token_t	*cmd_args_file(token_t *token_cmd, char **symb_file)
 	flag = -1;
 	cmd_arg = NULL;
 	symb_fl = NULL;
+	char	*prev_str = ft_strdup("");
 	if (token_cmd)
 	{
 		while (token_cmd)
@@ -294,13 +294,13 @@ token_t	*cmd_args_file(token_t *token_cmd, char **symb_file)
 							token_cmd->type));
 					token_cmd = token_cmd->next;
 				}
-				while (token_cmd && (token_cmd->type == 3
-						|| token_cmd->type == 7))
+				while (token_cmd && (token_cmd->type == 3|| token_cmd->type == 7))
 				{ //
 					check_tild(&token_cmd);
-					// printf("%s\n",token_cmd->value);
+					prev_str = ft_strdup(token_cmd->value);
 					expand(&token_cmd->value);
-					// remove_s_d_qoute(&token_cmd->value);
+					if (token_cmd->value[0]=='\0')
+						token_cmd->value = prev_str;
 					expand_with_quote(token_cmd);
 					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value,
 							token_cmd->type));
@@ -320,15 +320,23 @@ token_t	*cmd_args_file(token_t *token_cmd, char **symb_file)
 			}
 			else if (token_cmd && token_cmd->type == 3)
 			{
-				while (token_cmd && token_cmd->type == 3)
+				tmp = token_cmd;
+				result = ft_strdup("");
+				while (tmp && (tmp->type == 3 || tmp->type == 5 || tmp->type == 6))
 				{
-					check_tild(&token_cmd);
-					expand(&token_cmd->value);
-					remove_s_d_qoute(&token_cmd->value);
-					ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value,
-							token_cmd->type));
-					token_cmd = token_cmd->next;
+					//  leak
+					result = ft_strjoin(result, expand_with_quote(tmp));
+					prev = tmp;
+					tmp = tmp->next;
+					token_cmd = prev;
+					token_cmd->value = result;
 				}
+				check_tild(&token_cmd);
+				expand(&token_cmd->value);
+				remove_s_d_qoute(&token_cmd->value);
+				ft_lstadd_back_token(&cmd_arg, init_token(token_cmd->value,
+						token_cmd->type));
+				token_cmd = token_cmd->next;
 				flag = 1;
 			}
 			else if (token_cmd)
@@ -366,19 +374,14 @@ token_t	*cmd_args_file(token_t *token_cmd, char **symb_file)
 t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 {
 	int			i;
-	int			flag;
 	char		*file;
 	t_command	*new;
-	t_list		*lst_redir_in;
-	t_list		*lst_redir_out;
+	t_list		*lst_redir;
 
 	i = 0;
-	flag = -1;
 	new = malloc(sizeof(t_command));
-	new->redir_out = malloc(sizeof(t_list));
-	new->redir_in = malloc(sizeof(t_list));
-	lst_redir_in = NULL;
-	lst_redir_out = NULL;
+	new->redir_in_out = malloc(sizeof(t_list));
+	lst_redir = NULL;
 	if (cmd_args && *cmd_args)
 	{
 		new->args = copy_of_tab(cmd_args);
@@ -394,29 +397,27 @@ t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 	{
 		if (symb_file[i] == '>')
 		{
-			flag = 0;
 			if (symb_file[i + 1] == '>')
 			{
-				new->redir_out->content = init_red(0);
+				new->redir_in_out->content = init_red(2);
 				i += 2;
 			}
 			else if (symb_file[i] == '>')
 			{
-				new->redir_out->content = init_red(1);
+				new->redir_in_out->content = init_red(3);
 				i++;
 			}
 		}
 		else if (symb_file[i] == '<')
 		{
-			flag = 1;
 			if (symb_file[i + 1] == '<')
 			{
-				new->redir_in->content = init_red(0);
+				new->redir_in_out->content = init_red(0);
 				i += 2;
 			}
 			else if (symb_file[i] == '<')
 			{
-				new->redir_in->content = init_red(1);
+				new->redir_in_out->content = init_red(1);
 				i++;
 			}
 		}
@@ -429,20 +430,10 @@ t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 			file = ft_strjoin(file, char_to_string(symb_file[i]));
 			i++;
 		}
-		if (flag == 0)
-		{
-			((t_red *)new->redir_out->content)->file_name = file;
-			ft_lstadd_back(&lst_redir_out, ft_lstnew(new->redir_out->content));
-		}
-		else if (flag == 1)
-		{
-			((t_red *)new->redir_in->content)->file_name = file;
-			ft_lstadd_back(&lst_redir_in, ft_lstnew(new->redir_in->content));
-		}
-		flag = -1;
+		((t_red *)new->redir_in_out->content)->file_name = file;
+		ft_lstadd_back(&lst_redir, ft_lstnew(new->redir_in_out->content));
 	}
-	new->redir_in = lst_redir_in;
-	new->redir_out = lst_redir_out;
+	new->redir_in_out = lst_redir;
 	return (new);
 }
 
@@ -482,26 +473,16 @@ t_list	*store_one_cmd(token_t **tokens, char *symb)
 	// 		i++;
 	// 	}
 	// 	printf("\n");
-	// 	// in files
-	// 	while (((t_red *)command->redir_in) != NULL)
+	// 	// in out files
+	// 	while (((t_red *)command->redir_in_out) != NULL)
 	// 	{
-	// 		printf("redir_in : %s ,
-			//	flag :%d\n",((t_red *)command->redir_in->content)->file_name
-	// 			, ((t_red *)command->redir_in->content)->flag);
-	// 		command->redir_in = command->redir_in->next;
-	// 	}
-	// 	// out files
-	// 	while (((t_red *)command->redir_out) != NULL)
-	// 	{
-	// 		printf("redir_out : %s ,
-				//flag :%d\n",((t_red *)command->redir_out->content)->file_name
-	// 			, ((t_red *)command->redir_out->content)->flag);
-	// 		command->redir_out = command->redir_out->next;
+	// 		printf("redir_in : %s flag :%d\n",((t_red *)command->redir_in_out->content)->file_name
+	// 			, ((t_red *)command->redir_in_out->content)->flag);
+	// 		command->redir_in_out = command->redir_in_out->next;
 	// 	}
 	// 	printf("\n------------------------------------------\n");
 	// 	lst = lst->next;
 	// }
-	// exit(1);
 	return (lst);
 }
 

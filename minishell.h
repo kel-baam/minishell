@@ -49,6 +49,7 @@ typedef struct t_red
 {
 	void			*file_name;
 	int				flag;
+	int             fd_herdoc;
 }					t_red;
 
 typedef struct s_command
@@ -56,8 +57,12 @@ typedef struct s_command
 	char			*cmd;
 	char			**args;
 	int				flg;
-	t_list			*redir_in;
-	t_list			*redir_out;
+	t_list			*redir_in_out; 
+	// << 0
+	// <  1
+
+	// >> 2
+	// >  3
 
 }					t_command;
 
@@ -144,8 +149,8 @@ char				*ft_strchr(const char *s, int c);
 t_list				*parser(char *line, int *flg_err);
 t_command			*store_one_command(token_t **token);
 char				**convert_tree_to_array(void);
-int					get_inputfile_fd(int *last_fd, t_list *redir_in);
-int					get_outfile_fd(int *fd, t_list *file_list);
+int	get_inputfile_fd(t_list *lst_redir,int *last_fd );
+int	get_outfile_fd(t_list *lst_redir,int *fd);
 void				duplicate_fds(t_list *tmp, int last_fd, int *fds);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void				exec_herdoc(char *del, int fd);
@@ -172,5 +177,6 @@ char				**copy_of_tab(char **str);
 int					ft_isalnum(int c);
 void	free_red(t_list *redir_list);
 void	free_commands(t_list *commands);
+void  get_fds(t_list *lst_files,int *read_fd,int *write_fd);
 
 #endif
