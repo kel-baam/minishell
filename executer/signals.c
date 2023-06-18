@@ -15,12 +15,14 @@
 void	prompt(int sig)
 {
 	(void)sig;
-	printf("heere\n");
 	g_data.status_code = 1;
 	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (!g_data.isChild)
+	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
 void	signals_for_parent(void)

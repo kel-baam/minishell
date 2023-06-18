@@ -52,11 +52,13 @@ int	main(int ac, char **av, char **env)
 				executer(commands);
 				add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code),
 					NULL);
-				 free_commands(commands);
+				 //free_commands(commands);
 			}
 		}
 		else
 			exit(g_data.status_code);
+
+		
 	}
 	return (0);
 }

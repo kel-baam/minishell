@@ -75,6 +75,7 @@ typedef struct s_data
 	t_node			*env_vars;
 	int				status_code;
 	int				count_envs;
+	int				isChild;
 	struct termios	new_term;
 	struct termios	old_term;
 
@@ -143,8 +144,10 @@ char				*ft_strchr(const char *s, int c);
 t_list				*parser(char *line);
 t_command			*store_one_command(token_t **token);
 char				**convert_tree_to_array(void);
-int					get_inputfile_fd(t_list *lst_redir, int *last_fd);
-int					get_outfile_fd(t_list *lst_redir, int *fd);
+int					get_inputfile_fd(t_list *lst_redir, int *last_fd,
+						int *tmp_read_fd);
+int					get_outfile_fd(t_list *lst_redir, int *fd,
+						int *tmp_write_fd);
 void				duplicate_fds(t_list *tmp, int last_fd, int *fds,
 						int tmp_fds);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
@@ -173,8 +176,8 @@ int					ft_isalnum(int c);
 void				free_red(t_list *redir_list);
 void				free_commands(t_list *commands);
 void				get_fds(t_list *lst_files, int *read_fd, int *write_fd);
-void my_free(char *value,char *key);
-void	init_value(int *pos, int *flag, int *i, int *status);
-int	check_err(char *key, char *cmd, int *i);
+void				my_free(char *value, char *key);
+void				init_value(int *pos, int *flag, int *i, int *status);
+int					check_err(char *arg,char *key, char *cmd);
 
 #endif

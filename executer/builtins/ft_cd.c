@@ -40,8 +40,6 @@ int	ft_cd(t_command *cmd)
 	char	old_pwd[1024];
 	char	current_pwd[1024];
 
-	if (cmd->args[1] && cmd->args[1][0] == '~')
-		cmd->args[1] = ft_strjoin(HOME, &cmd->args[1][1]);
 	if (cmd->args[1] && cmd->args[1][0] == '-')
 	{
 		if (get_old_position(&cmd->args[1], cmd->cmd) == 1)

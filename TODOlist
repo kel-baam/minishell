@@ -84,3 +84,4 @@ echo >
  export "test=ici"=coucou ; echo $test
 
 
+oldpwd not set in the first time

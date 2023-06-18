@@ -30,10 +30,11 @@ void	init_envs(char **envs)
 	{
 		pos = searching_for_char(envs[i], '=');
 		key = ft_substr(envs[i], 0, pos);
+		if (!ft_strcmp(key, "OLDPWD") && ++i)
+			continue ;
 		value = ft_substr(envs[i], pos + 1, ft_strlen(envs[i]));
 		add_node(&(g_data.env_vars), key, value, NULL);
-		ft_free(key);
-		ft_free(value);
+		my_free(value, key);
 		i++;
 	}
 	add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code), NULL);
