@@ -65,47 +65,22 @@ cat | cat | cat | cat | cat | ls
 "ls -la"
 export _i oo.9=o
 
-
-
-
 -------------segflt-------------------
-
-
 add _ on is_alnum
 
 --------kawtar errors---------
 bash: export: `34567': not a valid identifier
 cat | cat | cat |ls
- export "test=ici"=coucou
- export var="cat Makefile | grep >" ; echo $var
- ls | exit
- cat -e >test1 <test2
- export var="  truc"
- $hh
- export var= s\ -la ; l$var
- export var=at ; c$var Makefile
- export tab="hnjmkl"
-
-
-
----------karima errors-----------
-echo "12\""
-echo "bip | bip ; coyotte > < \" "
+env -i ./minishell
 echo $USER$var\$USER$USER\$USERtest$USER
- echo "$USER $HOME" MAKHDAMACH!!!!!!!!!!
-echo "" bonjour doesn't wooork
- export var="cat Makefile | grep >" ; echo $var
-echo bonjour > test\ 1
-export var="  truc"export var="  truc"
-echo "$tests""Makefile"
+unset HOME; cd ///// export HOME= ; cd!!!!!!
+$
+export "test=ici"=coucou ; echo $test !!! the problem in side of karima //after qoutes
 
-export var= s\ -la ; l$var
+-----new_errors
+export var=te"
+echo >
+ echo $USER$var\$USER$USER\$USERtest$USER
+ export "test=ici"=coucou ; echo $test
 
-echo $USER$USER
-echo "$USER$USER"
-echo "$USER $USER"
- echo kiki$USER
-
-export var=at ; c$var Makefile
-$hh
 

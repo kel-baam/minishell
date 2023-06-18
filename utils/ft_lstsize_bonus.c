@@ -24,6 +24,7 @@ int	ft_lstsize(t_list *lst)
 	}
 	return (len);
 }
+
 int	ft_lstsize_token(token_t *lst)
 {
 	int	len;
@@ -31,7 +32,7 @@ int	ft_lstsize_token(token_t *lst)
 	len = 0;
 	while (lst)
 	{
-		if(strcmp(lst->value," "))
+		if (lst->value && ft_strcmp(lst->value, " "))
 			len++;
 		lst = lst->next;
 	}
