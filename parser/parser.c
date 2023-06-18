@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:26:25 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/16 20:17:35 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/17 14:24:06 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,13 @@ void expand(char **token)
 	char	*tmp_token;
 	int		pos;
 	int		pos_eg;
+	// char	**splt;
 	result = NULL;
 	if (token)
 	{
 		if ((*token)[0] == '$')
 		{
+			/
 			tmp_token = (*token);
 			pos = find_egal_position((*token),'/');
 			pos_eg = find_egal_position((*token),'=');
@@ -75,6 +77,7 @@ void expand(char **token)
 				*token = ft_substr(*token, 0, pos);
 				path = ft_strdup(&tmp_token[pos]);
 			}
+			printf("%d\n",pos);
 			result = get_env(&((*token)[1]));
 			if (result)
 			{
@@ -165,6 +168,10 @@ char *expand_with_quote(token_t *token)
 			}
 			else
 				return (token->value);
+		}
+		else
+		{
+			expand(&token->value);
 		}
 	}
 	else
@@ -257,7 +264,6 @@ token_t *cmd_args_file(token_t *token_cmd,  char **symb_file)
 				while (token_cmd && (token_cmd->type == 3 || token_cmd->type == 7))
 				{//
 					check_tild(&token_cmd);
-					printf("%s\n",token_cmd->value);
 					expand(&token_cmd->value);
 					// remove_s_d_qoute(&token_cmd->value);
 					expand_with_quote(token_cmd);
@@ -292,6 +298,7 @@ token_t *cmd_args_file(token_t *token_cmd,  char **symb_file)
 				token_t	*prev;
 				token_t *tmp;
 
+					//printf("%s\n",token_cmd->value);
 				if (token_cmd && (token_cmd->type == 5 || token_cmd->type == 6))
 				{
 					tmp = token_cmd;
@@ -308,6 +315,7 @@ token_t *cmd_args_file(token_t *token_cmd,  char **symb_file)
 				}
 				else
 					expand(&token_cmd->value);
+
 				if (flag == 0)
 					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value, token_cmd->type));
 				else if (flag == 1|| flag == -1)
