@@ -55,7 +55,7 @@ void	free_double_ptr(char **ptr)
 	}
 }
 
-int	find_egal_position(char *str, char c)
+int	searching_for_char(char *str, char c)
 {
 	int	i;
 

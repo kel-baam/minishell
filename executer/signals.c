@@ -15,6 +15,7 @@
 void	prompt(int sig)
 {
 	(void)sig;
+	printf("heere\n");
 	g_data.status_code = 1;
 	printf("\n");
 	rl_on_new_line();
