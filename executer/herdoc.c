@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../minishell.h"
+
 void	exec_herdoc(char *del, int fd)
 {
 	char	*line;
@@ -19,11 +19,11 @@ void	exec_herdoc(char *del, int fd)
 	while (1)
 	{
 		line = readline(CYAN "herdoc >> " RESET);
-		if ( !line || !ft_strcmp(del, line))
+		if (!line || !ft_strcmp(del, line))
 			break ;
 		expand(&line);
-		if(line[0]=='$')
-			line=ft_strdup("");
+		if (line[0] == '$')
+			line = ft_strdup("");
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 	}

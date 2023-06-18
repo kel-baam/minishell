@@ -191,6 +191,7 @@ void check_parsing_error(token_t *tokens, int *flg_err)
 			else if (tokens->value[0] == '<')
 			{
 				*flg_err = redir_error(tokens , 0);
+
 				if (*flg_err)
 					break;
 			}

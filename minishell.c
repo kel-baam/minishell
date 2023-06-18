@@ -27,16 +27,14 @@ char	**convert_tree_to_array(void)
 
 int	main(int ac, char **av, char **env)
 {
-	t_list		*commands;
+	t_list	*commands;
+	char	*line;
+
 	(void)ac;
 	(void)av;
-	char		*line;
-	int			flg_err;
-
 	line = NULL;
 	initilizer(env);
 	signals_for_parent();
-		flg_err = 0;
 	while (1)
 	{
 		if (line)
@@ -48,13 +46,13 @@ int	main(int ac, char **av, char **env)
 			if (!ft_strlen(line) || !ft_strncmp(line, "\n", 2))
 				continue ;
 			add_history(line);
-			commands = parser(line, &flg_err);
+			commands = parser(line);
 			if (commands)
 			{
 				executer(commands);
 				add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code),
-						NULL);
-				//free_commands(commands);
+					NULL);
+				 free_commands(commands);
 			}
 		}
 		else

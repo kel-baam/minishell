@@ -82,26 +82,29 @@ void	expand(char **token)
 	result = ft_strdup("");
 	if (token)
 	{ 
-		pos_dollar=find_egal_position(*token,'$');
+		pos_dollar=searching_for_char(*token,'$');
 		if(pos_dollar!=-1)
 		{
 			result=ft_substr(*token,0,pos_dollar);
 			*token=ft_substr(*token,pos_dollar,ft_strlen(*token) - pos_dollar);
 		}
-		if ((*token)[0] == '$')
+		if ((*token)[0] == '$' && ft_strlen(*token)>1)
 		{
 			split = ft_split(*token, '$');
 			while (split[i])
 			{
 				tmp_token = split[i];
 				pos = pos_special_char(split[i]);
-				if (pos != -1)
+
+				if (pos != -1 && ft_strcmp(split[i],"?"))
 				{
 					*token = ft_substr(split[i], 0, pos);
 					path = ft_strdup(&tmp_token[pos]);
 				}
 				else
 					*token = split[i];
+				if(!ft_strcmp(split[i],"?"))
+					*token=split[i];
 				value = get_env(*token);
 				i++;
 				if (value)
@@ -122,6 +125,9 @@ void	expand(char **token)
 			}
 			*token = result;
 		}
+		else if( *token[0]=='$' && ft_strlen(*token)==1)
+			*token = ft_strdup("$");
+		
 	}
 }
 int	get_char_position(char *buffer, char c)
@@ -173,6 +179,7 @@ char	*expand_with_quote(token_t *token)
 	to_expand = NULL;
 	before_dollar = NULL;
 	after_dollar = NULL;
+	
 	if (token && ft_strchr(token->value, '$'))
 	{
 		if (token->value[0] == '"')
@@ -505,22 +512,25 @@ char	*remove_char_from_str(char *buffer, char c)
 	return (str);
 }
 
-t_list	*parser(char *line, int *flg_err)
+t_list	*parser(char *line)
 {
 	lexer_t	*lexer;
 	token_t	*token;
 	char	*symb;
 	char	*types;
 	t_list	*lst;
+	int 	flg_err=0;
 
 	lexer = init_lexer(line);
 	symb = ft_strdup("<>");
 	types = ft_strdup("<>| '\"");
 	token = get_all_tokens(lexer, types);
-	check_parsing_error(token, flg_err);
+	check_parsing_error(token, &flg_err);
+	if(flg_err==1)
+		return NULL;
 	lst = store_one_cmd(&token, symb);
 	herdoc(lst);
-	if (*flg_err == 1)
-		add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code), NULL);
+	//if (*flg_err == 1)
+		//add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code), NULL);
 	return (lst);
 }

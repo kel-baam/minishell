@@ -32,7 +32,7 @@ int	ft_lstsize_token(token_t *lst)
 	len = 0;
 	while (lst)
 	{
-		if (lst->value && strcmp(lst->value, " "))
+		if (lst->value && ft_strcmp(lst->value, " "))
 			len++;
 		lst = lst->next;
 	}

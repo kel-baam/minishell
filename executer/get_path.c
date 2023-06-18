@@ -11,6 +11,14 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	check_err_path(char *cmd)
+{
+	g_data.status_code = print_cmd_error(cmd, NULL, "No such file or directory",
+			127);
+	exit(g_data.status_code);
+}
+
 char	*get_right_path(char *cmd)
 {
 	int		i;
@@ -21,8 +29,7 @@ char	*get_right_path(char *cmd)
 	i = 0;
 	env = get_env("PATH");
 	if (!env)
-		g_data.status_code = print_cmd_error(cmd, NULL,
-				"No such file or directory", 127);
+		check_err_path(cmd);
 	paths = ft_split(env, ':');
 	absolute_path = NULL;
 	cmd = ft_strjoin("/", cmd);
@@ -45,25 +52,23 @@ char	*get_actual_path(char *cmd)
 	int	status;
 
 	status = 127;
-	if(ft_strchr(cmd, '/') && access(cmd, F_OK))
+	if (ft_strchr(cmd, '/') && access(cmd, F_OK))
 	{
-		print_cmd_error(cmd, NULL, strerror(errno),
-				status);
+		print_cmd_error(cmd, NULL, strerror(errno), status);
 		exit(status);
-
 	}
 	if (!access(cmd, F_OK))
 	{
-		if(opendir(cmd))
+		if (opendir(cmd))
 		{
-			print_cmd_error(cmd,NULL,"is a directory",126);
+			print_cmd_error(cmd, NULL, "is a directory", 126);
 			exit(126);
 		}
 		if (!access(cmd, X_OK))
 			return (ft_strdup(cmd));
-		else if(!access(cmd, X_OK))
+		else if (!access(cmd, X_OK))
 		{
-			print_cmd_error(cmd,NULL,strerror(errno),1);
+			print_cmd_error(cmd, NULL, strerror(errno), 1);
 			exit(1);
 		}
 	}
