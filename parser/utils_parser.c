@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:09:24 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/19 01:11:45 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:02:34 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,21 @@
 #include "lexer.h"
 #include "token.h"
 
+
+t_token	*ft_lstlast_token(t_token *lst)
+{
+	if (!lst)
+	{
+		printf("cc\\n");
+		return (NULL);
+	}
+	while (lst->next)
+	{
+		printf("%p\n", lst);
+		lst = lst->next;
+	}
+	return (lst);
+}
 
 void	ft_lstadd_back_token(t_token **lst, t_token *new)
 {

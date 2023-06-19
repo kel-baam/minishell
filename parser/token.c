@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 18:37:52 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/19 02:31:19 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:11:01 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 #include "token.h"
 #include "../minishell.h"
 
-t_token 	*init_token(char *value, int type)
+t_token	*init_token(char *value, int type)
 {
 	t_token *token;
-	token = malloc(sizeof(t_token));
-	token->value = ft_strdup(value);
+	token = calloc(1, sizeof(t_token));
+	token->value = malloc(sizeof(ft_strlen(value)));
+	token->value = value;
 	token->type = type;
 	return (token);
 }
@@ -103,7 +104,6 @@ t_token *get_all_tokens(t_lexer *lexer, char *types)
 	t_token *token;
 	t_token *head;
 
-	token = NULL;
 	head = NULL;
 	while (lexer->c != '\0')
 	{

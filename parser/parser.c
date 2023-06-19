@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:26:25 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/19 02:32:10 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:10:53 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -544,7 +544,7 @@ void function_free(void **to_free, int type)
 
 		while (*to_free != NULL)
 		{
-		/printf(" cc %p\n", ((t_token *)(*to_free))->value);
+		//printf(" cc %p\n", ((t_token *)(*to_free))->value);
 
 			lst_token = ft_lstlast_token((t_token *)(*to_free));
 			ft_free_test((void **)&((lst_token)->value));
@@ -559,33 +559,56 @@ void function_free(void **to_free, int type)
 
 t_list	*parser(char *line)
 {
-	int 		flg_err=0;
-	char		*symb;
-	char		*types;
-	t_list		*lst = NULL;;
-	t_lexer		*lexer;
-	t_token 	*token;
+	t_lexer	*lexer;
+	t_token	*token;
+	char	*symb;
+	char	*types;
+	t_list	*lst;
+	int 	flg_err=0;
 
 	lexer = init_lexer(line);
 	symb = ft_strdup("<>");
 	types = ft_strdup("<>| '\"");
 	token = get_all_tokens(lexer, types);
-	//lexer
-	function_free((void **)&lexer, 0);
-	//check_parsing_error(token, &flg_err);
+	check_parsing_error(token, &flg_err);
 	if(flg_err==1)
 		return NULL;
-	//lst = store_one_cmd(&token, symb);
+	lst = store_one_cmd(&token, symb);
+	herdoc(lst);
+
+
+
+
+
+
+
+	// int 		flg_err=0;
+	// char		*symb;
+	// char		*types;
+	// t_list		*lst = NULL;;
+	// t_lexer		*lexer;
+	// t_token 	*token;
+
+	// lexer = init_lexer(line);
+	// symb = ft_strdup("<>");
+	// types = ft_strdup("<>| '\"");
+	// token = get_all_tokens(lexer, types);
+	// //lexer
+	// function_free((void **)&lexer, 0);
+	// check_parsing_error(token, &flg_err);
+	// if(flg_err==1)
+	// 	return NULL;
+	// lst = store_one_cmd(&token, symb);
 	//symb
 	//function_free((void **)&symb, 1);
 	//types
 	//function_free((void **)&types, 1);
 	// token
 	//printf("before %p\n", token);
-	function_free((void **)&token, 2);
+	//function_free((void **)&token, 2);
 	//printf(" after %p\n", token);
 
-	herdoc(lst);
+	// herdoc(lst);
 	// if (*flg_err == 1)
 	// 	add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code), NULL);
 
