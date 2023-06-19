@@ -544,7 +544,7 @@ void function_free(void **to_free, int type)
 
 		while (*to_free != NULL)
 		{
-		/printf(" cc %p\n", ((t_token *)(*to_free))->value);
+		//printf(" cc %p\n", ((t_token *)(*to_free))->value);
 
 			lst_token = ft_lstlast_token((t_token *)(*to_free));
 			ft_free_test((void **)&((lst_token)->value));
