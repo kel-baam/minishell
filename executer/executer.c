@@ -104,7 +104,6 @@ void	executer(t_list *commands)
 {
 	int			fds[2];
 	t_list		*tmp;
-	// int			fd[1024];
 	int			pidd[1000];
 	int			i;
 	t_command	*tmp_command;
@@ -137,7 +136,6 @@ void	executer(t_list *commands)
 		else
 		{
 			pidd[i] = pid;
-			// fd[i] = fds[0];
 			if (last_fd != 0)
 				close(last_fd);
 			last_fd = fds[0];
