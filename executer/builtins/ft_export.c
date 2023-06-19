@@ -93,7 +93,7 @@ int	add_new_element(t_command *cmd)
 			value = ft_substr(cmd->args[i], pos + 1, ft_strlen(cmd->args[i]));
 		if (flag)
 			add_new_value(pos, cmd->args[i], &value, &key);
-		if (!check_err(cmd->args[i],key, cmd->cmd))
+		if (!check_err_export(cmd->args[i],key, cmd->cmd))
 			add_node(&(g_data.env_vars), key, value, NULL);
 		my_free(value, key);
 	}
