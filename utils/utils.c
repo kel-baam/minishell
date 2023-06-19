@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:30:15 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/16 19:21:20 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/18 20:09:01 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	free_node(t_node **node)
 	(*node)->value = NULL;
 	(*node)->parent = NULL;
 	(*node)->left = NULL;
-	(*node)->value = NULL;
+
 	ft_free(*node);
 	*node = NULL;
 }

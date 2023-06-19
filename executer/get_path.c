@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:29:26 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/16 18:09:22 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/16 21:41:03 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*get_right_path(char *cmd)
 	paths = ft_split(env, ':');
 	absolute_path = NULL;
 	cmd = ft_strjoin("/", cmd);
-	while (paths[i])
+	while (paths && paths[i])
 	{
 		absolute_path = ft_strjoin(paths[i], cmd);
 		if (!access(absolute_path, F_OK | X_OK))
