@@ -78,6 +78,7 @@ typedef struct s_data
 	int				status_code;
 	int				count_envs;
 	int				isChild;
+	char            *current_dir;
 	struct termios	new_term;
 	struct termios	old_term;
 
@@ -181,6 +182,7 @@ void				get_fds(t_list *lst_files, int *read_fd, int *write_fd);
 void				my_free(char *value, char *key);
 void				init_value(int *pos, int *flag, int *i, int *status);
 int					check_err_export(char *arg,char *key, char *cmd);
+char* get_working_dir();
 
 void my_free(char *value,char *key);
 void	init_value(int *pos, int *flag, int *i, int *status);

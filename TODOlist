@@ -82,6 +82,4 @@ export var=te"
 echo >
  echo $USER$var\$USER$USER\$USERtest$USER
  export "test=ici"=coucou ; echo $test
-
-
-oldpwd not set in the first time
+export ap+=l

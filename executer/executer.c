@@ -16,11 +16,12 @@ void	execute_command(t_command *tmp_command, char *path)
 {
 	char	**envs;
 	int		status;
+	//(void)outfile;
 
 	status = 127;
 	if (!is_bultin(tmp_command->cmd))
 	{
-		g_data.status_code = execute_bultin(tmp_command, 1);
+		g_data.status_code = execute_bultin(tmp_command,1);
 		return ;
 	}
 	else
@@ -124,6 +125,11 @@ void	executer(t_list *commands)
 			print_cmd_error(tmp_command->cmd, tmp_command->args[1],
 				strerror(errno), 1);
 		pid = fork();
+		if (pid == -1)
+		{
+			print_cmd_error(NULL,NULL," fork: Resource temporarily unavailable",1);
+			exit(g_data.status_code);
+		}
 		if (!pid)
 		{
 			tmp_write_pipe = fds[1];

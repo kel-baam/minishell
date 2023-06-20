@@ -28,7 +28,6 @@ t_token	*ft_lstlast_token(t_token *lst)
 void	ft_lstadd_back_token(t_token **lst, t_token *new)
 {
 	t_token 	*last_node;
-
 	if (lst)
 	{
 		if (!*lst)

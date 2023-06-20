@@ -31,7 +31,10 @@ void	init_envs(char **envs)
 		pos = searching_for_char(envs[i], '=');
 		key = ft_substr(envs[i], 0, pos);
 		if (!ft_strcmp(key, "OLDPWD") && ++i)
+		{
 			continue ;
+			ft_free(key);
+		}
 		value = ft_substr(envs[i], pos + 1, ft_strlen(envs[i]));
 		add_node(&(g_data.env_vars), key, value, NULL);
 		my_free(value, key);
@@ -43,5 +46,6 @@ void	init_envs(char **envs)
 void	initilizer(char **envs)
 {
 	ft_bzero(&g_data, sizeof(t_data));
+	get_working_dir();
 	init_envs(envs);
 }
