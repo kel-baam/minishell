@@ -83,3 +83,6 @@ echo >
  echo $USER$var\$USER$USER\$USERtest$USER
  export "test=ici"=coucou ; echo $test
 export ap+=l
+$ alone
+export " " karima
+ls " " seg
