@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 12:28:31 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/19 13:51:29 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/20 00:44:52 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ void check_parsing_error(t_token *tokens, int *flg_err)
 	prev = NULL;
 	if (tokens)
 	{
-		while (tokens->next)
+		while (tokens )
 		{
 			if (tokens->type == 3)
 				prev = tokens;

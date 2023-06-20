@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:35:45 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/18 19:00:43 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/19 01:06:07 by kel-baam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,13 @@ int	main(int ac, char **av, char **env)
 				executer(commands);
 				add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code),
 					NULL);
-				 free_commands(commands);
+				 //free_commands(commands);
 			}
 		}
 		else
 			exit(g_data.status_code);
 
+		
 	}
 	return (0);
 }
