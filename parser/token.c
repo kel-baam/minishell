@@ -15,11 +15,12 @@
 #include "token.h"
 #include "../minishell.h"
 
-t_token 	*init_token(char *value, int type)
+t_token	*init_token(char *value, int type)
 {
 	t_token *token;
-	token = malloc(sizeof(t_token));
-	token->value = ft_strdup(value);
+	token = calloc(1, sizeof(t_token));
+	token->value = malloc(sizeof(ft_strlen(value)));
+	token->value = value;
 	token->type = type;
 	return (token);
 }
@@ -108,6 +109,7 @@ t_token *get_all_tokens(t_lexer *lexer, char *types)
 	while (lexer->c != '\0')
 	{
 		token = get_one_token(lexer, types);
+		
 		if (token != NULL)
 			ft_lstadd_back_token(&head, token);
 	}
