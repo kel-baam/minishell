@@ -16,7 +16,6 @@ void	execute_command(t_command *tmp_command, char *path)
 {
 	char	**envs;
 	int		status;
-	//(void)outfile;
 
 	status = 127;
 	if (!is_bultin(tmp_command->cmd))
@@ -91,9 +90,9 @@ int	run_builtins(t_list *commands)
 				|| !ft_strcmp(tmp_command->cmd, "cd")
 				|| !ft_strcmp(tmp_command->cmd, "exit")))
 		{
-			get_fds(tmp_command->redir_in_out, &infile, &outfile);
 			if (!ft_strcmp(tmp_command->cmd, "exit"))
 				printf("exit\n");
+			get_fds(tmp_command->redir_in_out, &infile, &outfile);
 			g_data.status_code = execute_bultin(tmp_command, outfile);
 			return (g_data.status_code);
 		}

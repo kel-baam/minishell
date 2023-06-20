@@ -32,8 +32,8 @@ void	init_envs(char **envs)
 		key = ft_substr(envs[i], 0, pos);
 		if (!ft_strcmp(key, "OLDPWD") && ++i)
 		{
-			continue ;
 			ft_free(key);
+			continue ;
 		}
 		value = ft_substr(envs[i], pos + 1, ft_strlen(envs[i]));
 		add_node(&(g_data.env_vars), key, value, NULL);
