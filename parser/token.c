@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 18:37:52 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/20 15:36:54 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:50:45 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ t_token *get_all_tokens(t_lexer *lexer, char *types)
 	while (lexer->c != '\0')
 	{
 		token = get_one_token(lexer, types);
-
 		if (token != NULL)
 			ft_lstadd_back_token(&head, token);
 	}

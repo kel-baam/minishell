@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:26:25 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/20 15:36:42 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:00:53 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -555,13 +555,15 @@ t_list	*parser(char *line)
 	function_free((void **)&types, 1);
 	check_parsing_error(token, &flg_err);
 	if(flg_err==1)
+	{
+		function_free((void **)&symb, 1);
+		function_free((void **)&token, 2);
+		add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code), NULL);
 		return NULL;
+	}
 	lst = store_one_cmd(&token, symb);
-
 	function_free((void **)&symb, 1);
 	function_free((void **)&token, 2);
 	herdoc(lst);
-	if (flg_err == 1)
-		add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code), NULL);
 	return (lst);
 }

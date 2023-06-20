@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   initilizer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:28:10 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/05/18 16:28:12 by kel-baam         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:39:35 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../minishell.h"
 
+#include "../minishell.h"
 void	init_envs(char **envs)
 {
 	int		i;
@@ -32,8 +32,8 @@ void	init_envs(char **envs)
 		key = ft_substr(envs[i], 0, pos);
 		if (!ft_strcmp(key, "OLDPWD") && ++i)
 		{
-			continue ;
 			ft_free(key);
+			continue ;
 		}
 		value = ft_substr(envs[i], pos + 1, ft_strlen(envs[i]));
 		add_node(&(g_data.env_vars), key, value, NULL);
