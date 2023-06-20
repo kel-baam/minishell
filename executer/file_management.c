@@ -15,11 +15,9 @@
 int	get_outfile_fd(t_list *lst_redir, int *fd, int *tmp_write_fd)
 {
 	t_red	*tmp_redir;
-	t_red	*next_node;
+	// t_red	*next_node;
 
 	tmp_redir = (t_red *)(lst_redir->content);
-	if (lst_redir->next)
-		next_node = (t_red *)(lst_redir->next->content);
 	if (tmp_redir->flag == 3)
 	{
 		if (((char *)tmp_redir->file_name)[0] == '$')
@@ -40,11 +38,9 @@ int	get_outfile_fd(t_list *lst_redir, int *fd, int *tmp_write_fd)
 int	get_inputfile_fd(t_list *lst_redir, int *last_fd, int *tmp_read_fd)
 {
 	t_red	*tmp;
-	t_red	*next_node;
+	// t_red	*next_node;
 
 	tmp = (t_red *)lst_redir->content;
-	if (lst_redir->next)
-		next_node = (t_red *)lst_redir->next->content;
 	if (((char *)tmp->file_name)[0] == '$')
 		return (print_cmd_error(tmp->file_name, NULL, "ambiguous redirect", 1));
 	if (tmp->flag == 1)
@@ -90,11 +86,7 @@ void	get_fds(t_list *lst_files, int *read_fd, int *write_fd)
 
 void	duplicate_fds(t_list *tmp, int last_fd, int *fds, int tmp_write_pipe)
 {
-	t_command	*tmp_command;
-	t_red		*red;
 
-	tmp_command = (t_command *)tmp->content;
-	red = (t_red *)tmp_command->redir_in_out;
 	if (last_fd != STDIN_FILENO)
 	{
 		dup2(last_fd, STDIN_FILENO);

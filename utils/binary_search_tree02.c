@@ -72,3 +72,4 @@ void	remove_node(t_node **head, char *key)
 	free_node(&to_delete_node);
 	g_data.count_envs--;
 }
+//free

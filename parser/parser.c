@@ -58,7 +58,7 @@ int	pos_special_char(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (ft_isalnum(str[i]) == 0)
+		if (ft_isalnum(str[i]) == 0 && str[i] != '_') 
 			return (i);
 		i++;
 	}
@@ -86,13 +86,15 @@ void	expand(char **token)
 		if(pos_dollar!=-1)
 		{
 			result=ft_substr(*token,0,pos_dollar);
+			printf("%s\n",result);
 			*token=ft_substr(*token,pos_dollar,ft_strlen(*token) - pos_dollar);
 		}
-		if ((*token)[0] == '$' && ft_strlen(*token)>1)
+		if ((*token)[0] == '$')
 		{
 			split = ft_split(*token, '$');
 			while (split[i])
 			{
+				printf("|%s|\n",split[i]);
 				tmp_token = split[i];
 				pos = pos_special_char(split[i]);
 
@@ -100,6 +102,7 @@ void	expand(char **token)
 				{
 					*token = ft_substr(split[i], 0, pos);
 					path = ft_strdup(&tmp_token[pos]);
+					printf("path%s\n",path);
 				}
 				else
 					*token = split[i];
@@ -118,15 +121,17 @@ void	expand(char **token)
 					else
 						result = ft_strjoin(result, value);
 				}
-				else
+				else if (!value)
 				{	if(path)
-						result = ft_strjoin(result, path);
+							result = ft_strjoin(result, path);
+					else
+						result=ft_strjoin(result,ft_strdup("$"));
 				}
+
+				
 			}
 			*token = result;
 		}
-		else if( *token[0]=='$' && ft_strlen(*token)==1)
-			*token = ft_strdup("$");
 
 	}
 }
@@ -530,7 +535,6 @@ int	ft_free_test(void **ptr)
 
 void function_free(void **to_free, int type)
 {
-	t_token *lst_token;
 
 	//lexer;
 	if (!type)
@@ -541,18 +545,18 @@ void function_free(void **to_free, int type)
 	//token
 	if (type == 2)
 	{
-
-		while (*to_free != NULL)
-		{
-		//printf(" cc %p\n", ((t_token *)(*to_free))->value);
-
-			lst_token = ft_lstlast_token((t_token *)(*to_free));
-			ft_free_test((void **)&((lst_token)->value));
-			//ft_free_test((void **)(&lst_token));
-			//printf(" cc %p\n", lst_token);
-
-
-		}
+		t_token *next_node;
+	
+		t_token *tmp;
+		tmp=(t_token*)*to_free;
+		 while (tmp)
+		 {
+		 	next_node=(tmp)->next;
+			ft_free(((tmp)->value));
+		 	//ft_free_test((void **)(tmp));
+		 	//printf("cadre%p\n",lst_token);
+			tmp=next_node;
+		 }
 
 	}
 }
@@ -567,23 +571,23 @@ t_list	*parser(char *line)
 	t_token 	*token;
 
 	lexer = init_lexer(line);
-	symb = ft_strdup("<>");
+	symb = ft_strdup("<>"); 
 	types = ft_strdup("<>| '\"");
 	token = get_all_tokens(lexer, types);
 	//lexer
 	function_free((void **)&lexer, 0);
-	//check_parsing_error(token, &flg_err);
+	check_parsing_error(token, &flg_err);
 	if(flg_err==1)
 		return NULL;
-	//lst = store_one_cmd(&token, symb);
+	lst = store_one_cmd(&token, symb);
 	//symb
 	//function_free((void **)&symb, 1);
 	//types
 	//function_free((void **)&types, 1);
 	// token
-	//printf("before %p\n", token);
-	function_free((void **)&token, 2);
-	//printf(" after %p\n", token);
+	//printf("before %p\n", &token);
+	
+	//function_free((void **)&token, 2);
 
 	herdoc(lst);
 	// if (*flg_err == 1)

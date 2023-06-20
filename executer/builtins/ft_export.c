@@ -82,13 +82,13 @@ int	add_new_element(t_command *cmd)
 		test(cmd->args, &pos, &flag, i);
 		if (pos == -1)
 		{
-			key = cmd->args[i];
+			key = ft_strdup(cmd->args[i]);
 			value = ft_strdup("");
 		}
 		if (!flag && pos > 0)
 			key = ft_substr(cmd->args[i], 0, pos);
 		else
-			key = cmd->args[i];
+			key = ft_strdup(cmd->args[i]);
 		if (pos >= 0)
 			value = ft_substr(cmd->args[i], pos + 1, ft_strlen(cmd->args[i]));
 		if (flag)
