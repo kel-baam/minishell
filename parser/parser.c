@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:26:25 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/19 02:32:10 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:00:53 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	pos_special_char(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (ft_isalnum(str[i]) == 0 && str[i] != '_') 
+		if (ft_isalnum(str[i]) == 0 && str[i] != '_')
 			return (i);
 		i++;
 	}
@@ -128,7 +128,7 @@ void	expand(char **token)
 						result=ft_strjoin(result,ft_strdup("$"));
 				}
 
-				
+
 			}
 			*token = result;
 		}
@@ -275,18 +275,20 @@ void	check_tild(t_token **token_cmd)
 
 t_token 	*cmd_args_file(t_token *token_cmd, char **symb_file)
 {
-	int		flag;
+	int			flag;
+	char		*result;
+	char		*prev_str;
 	t_token 	*cmd_arg;
 	t_token 	*symb_fl;
 	t_token 	*prev;
-	t_token *tmp;
-	char	*result;
+	t_token		*tmp;
 
-	result = ft_strdup("");
+	// t_token		*to_free;
+
 	flag = -1;
 	cmd_arg = NULL;
 	symb_fl = NULL;
-	char	*prev_str = ft_strdup("");
+	prev_str = ft_strdup("");
 	if (token_cmd)
 	{
 		while (token_cmd)
@@ -297,7 +299,9 @@ t_token 	*cmd_args_file(t_token *token_cmd, char **symb_file)
 				ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value,
 						token_cmd->type));
 				prev = token_cmd;
+				// to_free = token_cmd;
 				token_cmd = token_cmd->next;
+				// function_free((void**)&to_free, 2);
 				if (token_cmd && token_cmd->type == prev->type)
 				{
 					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value,
@@ -343,9 +347,10 @@ t_token 	*cmd_args_file(t_token *token_cmd, char **symb_file)
 					//  leak
 					result = ft_strjoin(result, expand_with_quote(tmp));
 					prev = tmp;
-					tmp = tmp->next;
 					token_cmd = prev;
 					token_cmd->value = result;
+					// ft_free_test((void **)&result);
+					tmp = tmp->next;
 				}
 				check_tild(&token_cmd);
 				expand(&token_cmd->value);
@@ -456,26 +461,34 @@ t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 
 t_list	*store_one_cmd(t_token **tokens, char *symb)
 {
-	t_list	*lst;
-	char	*symb_file;
+	char		**tab;
+	char		*symb_file;
+	t_list		*lst;
 	t_token 	*cmd_arg;
 	t_token 	*tokens_cmd;
-	char	**tab;
+	t_token		*tmp_tokens;
 
 	lst = NULL;
 	tokens_cmd = NULL;
-	if (tokens && *tokens && symb)
+	tmp_tokens = *tokens;
+	if (tmp_tokens && symb)
 	{
-		tokens_cmd = tokens_of_one_command(tokens);
+		tokens_cmd = tokens_of_one_command(&tmp_tokens);
 		while (tokens_cmd)
 		{
 			cmd_arg = cmd_args_file(tokens_cmd, &symb_file);
+
 			tab = token_cmd_to_args(cmd_arg);
 			ft_lstadd_back(&lst, ft_lstnew(insert_one_cmd(tab, symb_file)));
-			symb_file = NULL;
-			tokens_cmd = tokens_of_one_command(tokens);
+			function_free((void **)tab, 3);
+			function_free((void **)&cmd_arg, 2);
+			function_free((void **)&symb_file, 1);
+			function_free((void **)&tokens_cmd, 2);
+			tokens_cmd = tokens_of_one_command(&tmp_tokens);
 		}
 	}
+	// printf("   %p\n",(*tokens));
+
 	// int i;	/// AFFICHAGE
 	// while (lst && lst->content)
 	// {
@@ -522,77 +535,35 @@ char	*remove_char_from_str(char *buffer, char c)
 	return (str);
 }
 
-int	ft_free_test(void **ptr)
-{
-	if (ptr && *ptr)
-	{
-		free(*ptr);
-		*ptr = 0;
-		//printf("jj %p\n",*ptr);
-	}
-	return (1);
-}
 
-void function_free(void **to_free, int type)
-{
 
-	//lexer;
-	if (!type)
-		ft_free_test((void **)&(((t_lexer *)(*to_free))->content)) && ft_free_test(to_free);
-	//tab
-	if (type == 1)
-		ft_free_test(to_free);
-	//token
-	if (type == 2)
-	{
-		t_token *next_node;
-	
-		t_token *tmp;
-		tmp=(t_token*)*to_free;
-		 while (tmp)
-		 {
-		 	next_node=(tmp)->next;
-			ft_free(((tmp)->value));
-		 	//ft_free_test((void **)(tmp));
-		 	//printf("cadre%p\n",lst_token);
-			tmp=next_node;
-		 }
-
-	}
-}
-
+// free lexer types symb token
 t_list	*parser(char *line)
 {
 	int 		flg_err=0;
 	char		*symb;
 	char		*types;
-	t_list		*lst = NULL;;
+	t_list		*lst;
 	t_lexer		*lexer;
 	t_token 	*token;
 
 	lexer = init_lexer(line);
-	symb = ft_strdup("<>"); 
+	symb = ft_strdup("<>");
 	types = ft_strdup("<>| '\"");
 	token = get_all_tokens(lexer, types);
-	//lexer
 	function_free((void **)&lexer, 0);
+	function_free((void **)&types, 1);
 	check_parsing_error(token, &flg_err);
 	if(flg_err==1)
+	{
+		function_free((void **)&symb, 1);
+		function_free((void **)&token, 2);
+		add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code), NULL);
 		return NULL;
+	}
 	lst = store_one_cmd(&token, symb);
-	//symb
-	//function_free((void **)&symb, 1);
-	//types
-	//function_free((void **)&types, 1);
-	// token
-	//printf("before %p\n", &token);
-	
-	//function_free((void **)&token, 2);
-
+	function_free((void **)&symb, 1);
+	function_free((void **)&token, 2);
 	herdoc(lst);
-	// if (*flg_err == 1)
-	// 	add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code), NULL);
-
-
 	return (lst);
 }

@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:31:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/19 01:07:53 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/20 01:11:25 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,5 +187,7 @@ char* get_working_dir();
 void my_free(char *value,char *key);
 void	init_value(int *pos, int *flag, int *i, int *status);
 int	check_err(char *key, char *cmd, int *i);
+void function_free(void **to_free, int type);
+int	ft_free_test(void **ptr);
 // t_token	*ft_lstlast_token(t_token *lst);
 #endif
