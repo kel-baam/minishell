@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:09:24 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/20 02:04:56 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/20 22:33:27 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_token 	*copy_of_list(t_token *org, int size)
 {
 	int			i;
 	t_token 	*copy;
-
+	//leak!!1
 	copy = NULL;
 	if (org)
 	{
@@ -100,16 +100,19 @@ t_token 	*tokens_of_one_command(t_token **token)
 char	*tokens_cmd_to_string(t_token *token)
 {
 	char *buffer;
+	char *to_free;
 
 	buffer = ft_strdup("");
 	if (token)
 	{
 		while (token)
 		{
+			to_free = buffer;
 			buffer = ft_strjoin(buffer, token->value);
+			function_free((void**)&to_free, 2);
 			token = token->next;
 		}
-		buffer = ft_strjoin(buffer, "\0");
+		return (ft_strjoin(buffer, "\0"));
 	}
-	return (buffer);
+	return (NULL);
 }
