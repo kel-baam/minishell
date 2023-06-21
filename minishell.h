@@ -96,7 +96,7 @@ char				**ft_split(char const *s, char c);
 char				*ft_strjoin(char const *s1, char const *s2);
 void				executer(t_list *command);
 t_list				*init_commands(void);
-int					ft_atoi(const char *str);
+int					ft_atoi(const char *str,int *flag);
 t_list				*ft_lstlast(t_list *lst);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 t_list				*ft_lstnew(void *content);

@@ -53,7 +53,6 @@ void	remove_s_d_qoute(char **buffer)
 		}
 	}
 }
-
 int	pos_special_char(char *str)
 {
 	int	i;
@@ -67,6 +66,61 @@ int	pos_special_char(char *str)
 	}
 	return (-1);
 }
+// int	pos_special_char(char c)
+// {
+// 		if (ft_isalnum(c) == 0 && c != '_') 
+// 			return (1);
+// 	return (-1);
+// }
+
+// void expand_words(char **str,char **result,)
+// {
+// 	int i=0;
+// 	int start;
+// 	char *key;
+
+// 		if(str[i]=='$')
+// 			{
+// 				start=i;
+// 				i++;
+// 				while(str[i]!='$' && pos_special_char(str[i] ==-1))
+// 					i++;
+// 			}
+// 			//else / =
+// 		key=ft_substr(*str,start+1,i);
+// 		if(key)
+// 			char *value=get_env(key);
+// 		if(value)
+// 		{
+// 			*result=ft_strdup(value);
+// 		}
+// 		else
+// 			result=ft_strdup("");
+// 		*str=ft_strdup(&*str[i]);
+		
+// }
+// void expand(char**token)
+// {
+// 	int i=0;
+// 	int pos_dollar;
+// 	char **result;
+// 	if(token)
+// 	{
+// 		pos_dollar=searching_for_char(*token,'$');
+//  		if(pos_dollar!=-1)
+//  		{
+// 			*result=ft_substr(*token,0,pos_dollar);
+// 			printf("result%s\n",result);
+// 			*token=ft_substr(*token,pos_dollar,ft_strlen(*token) - pos_dollar);
+// 		}
+// 		while(str[i])
+// 		{
+// 			str=expand_words(&str,result);
+			
+// 		}
+		
+// 	}
+// }
 
 void	expand(char **token)
 {
