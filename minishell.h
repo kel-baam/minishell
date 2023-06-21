@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:31:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/20 01:11:25 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/20 19:27:53 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_data
 
 t_data				g_data;
 
+char				**token_cmd_to_args(t_token *token_cmd);
 t_command			*read_cmds(t_command *data, char **av, int ac);
 int					ft_lstsize_token(t_token *lst);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
@@ -165,7 +166,7 @@ t_token 				*copy_of_list(t_token *original, int size);
 void				expand(char **token);
 void				exec_herdoc(char *del, int fd);
 void				herdoc(t_list *command_lst);
-void				check_parsing_error(t_token *tokens, int *flg_err);
+void check_parsing_error(t_token *tokens, int *flg_err);
 int					redir_out_error(t_token *token);
 int					redir_error(t_token *token, int type);
 int					redir_in_error(t_token *token);
