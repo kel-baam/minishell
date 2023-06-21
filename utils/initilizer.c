@@ -11,6 +11,14 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void store_status_code()
+{
+	char *status;
+	status=ft_itoa(g_data.status_code);
+	add_node(&(g_data.env_vars), "?", status, NULL);
+	ft_free(status);
+}
 void	init_envs(char **envs)
 {
 	int		i;
@@ -40,7 +48,8 @@ void	init_envs(char **envs)
 		my_free(value, key);
 		i++;
 	}
-	add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code), NULL);
+	 store_status_code();
+	
 }
 
 void	initilizer(char **envs)

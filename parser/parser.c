@@ -612,7 +612,7 @@ t_list	*parser(char *line)
 	{
 		function_free((void **)&symb, 1);
 		function_free((void **)&token, 2);
-		add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code), NULL);
+		store_status_code();
 		return NULL;
 	}
 	lst = store_one_cmd(&token, symb);

@@ -189,5 +189,5 @@ void	init_value(int *pos, int *flag, int *i, int *status);
 int	check_err(char *key, char *cmd, int *i);
 void function_free(void **to_free, int type);
 int	ft_free_test(void **ptr);
-// t_token	*ft_lstlast_token(t_token *lst);
+void store_status_code();
 #endif
