@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 01:09:19 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/20 01:52:23 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:47:33 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_free_test(void **ptr)
 	}
 	return (1);
 }
-
+ // 39 ls > out
 void function_free(void **to_free, int type)
 {
 	// t_token *lst_token;
@@ -47,7 +47,7 @@ void function_free(void **to_free, int type)
 		{
 			next = ((t_token *)(*to_free))->next;
 			ft_free_test((void **)&((t_token *)(*to_free))->value);
-			ft_free_test((void **)&(*to_free));
+			ft_free_test((void **)(to_free));
 			*to_free = next;
 		}
 	}
@@ -61,6 +61,9 @@ void function_free(void **to_free, int type)
 			ft_free_test((void **)&(to_free[i]));
 			i++;
 		}
+		ft_free_test((void **)to_free);
+		// printf("%p\n",to_free);
+
 	}
 
 }

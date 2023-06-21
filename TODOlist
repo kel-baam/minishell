@@ -83,3 +83,8 @@ echo >
  echo $USER$var\$USER$USER\$USERtest$USER
  export "test=ici"=coucou ; echo $test
 export ap+=l
+
+
+ // 39 ls > out
+ // 24 ls -la
+ // 13 ls
