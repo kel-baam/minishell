@@ -40,7 +40,7 @@ int	main(int ac, char **av, char **env)
 		 if (line)
 			ft_free(line);
 		tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
-		 line = readline(PERPOL " 🌸 beautiful as a shell : 🌸 $ " RESET);
+		 line = readline(" 🌸 beautiful as a shell : 🌸 $ ");
 		if (line)
 		{
 			if (!ft_strlen(line) || !ft_strncmp(line, "\n", 2))
