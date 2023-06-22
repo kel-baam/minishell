@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 02:33:18 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/22 03:38:17 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/22 15:08:19 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,7 @@ t_token	*cmd_args_file(t_token *token_cmd, char **symb_file)
 				flag = 1;
 
 			}
-			else
-			if (token_cmd)
+			else if (token_cmd)
 			{
 				if (token_cmd && (token_cmd->e_type == 5 || token_cmd->e_type == 6))
 				{

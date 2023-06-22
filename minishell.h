@@ -28,12 +28,9 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
-# define GREEN "\033[0;32m"
-# define RESET "\033[0m"
-# define PERPOL " \033[0;35m"
+# define MAX_PIPE 1000
 # define TABLE_SIZE 1024
-# define CYAN " \033[0;36m"
-# define HOME "/Users/kjarmoum"
+# define HOME "/Users/kel-baam"
 # include "parser/cmd.h"
 # include "parser/lexer.h"
 # include "parser/token.h"
@@ -106,7 +103,7 @@ int					print_cmd_error(char *cmd, char *args, char *msg_err,
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 char				*get_actual_path(char *cmd);
 void				free_double_ptr(char **ptr);
-void				initilizer(char **envs);
+char*	initilizer(char **envs,int ac,char **av);
 void				init_envs(char **envs);
 int					ft_env(int fd);
 int					searching_for_char(char *str, char c);

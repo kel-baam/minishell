@@ -30,14 +30,9 @@ int	main(int ac, char **av, char **env)
 	t_list	*commands;
 	char	*line;
 
-	(void)ac;
-	(void)av;
-	line = NULL;
-	initilizer(env);
-	signals_for_parent();
+	line = initilizer(env,ac,av);
 	while (1)
 	{
-		 if (line)
 			ft_free(line);
 		tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
 		 line = readline(" 🌸 beautiful as a shell : 🌸 $ ");
@@ -50,7 +45,6 @@ int	main(int ac, char **av, char **env)
 			if (commands)
 			{
 				executer(commands);
-				store_status_code();
 				free_commands(commands);
 			}
 		}
