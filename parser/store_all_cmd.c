@@ -1,11 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   store_all_cmd.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/22 03:08:32 by kjarmoum          #+#    #+#             */
+/*   Updated: 2023/06/22 05:31:59 by kjarmoum         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 #include "cmd.h"
 #include "lexer.h"
 #include "token.h"
-
-
-
-
 
 t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 {
@@ -15,7 +23,7 @@ t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 	t_command	*new;
 	t_list		*lst_redir;
 	char		*c_string;
-	
+
 
 	i = 0;
 	new = malloc(sizeof(t_command));
@@ -30,7 +38,7 @@ t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 		new->args=NULL ;
 		new->cmd = NULL;
 	}
-			
+
 	while (symb_file && symb_file[i])
 	{
 		new->redir_in_out = malloc(sizeof(t_list));
@@ -42,7 +50,7 @@ t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 				{
 					new->redir_in_out->content = init_red(2);
 					i += 2;
-				} 
+				}
 				else if (symb_file[i++] == '>')
 					new->redir_in_out->content = init_red(3);
 			}
@@ -57,7 +65,6 @@ t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 					new->redir_in_out->content = init_red(1);
 			}
 			file = ft_strdup("");
-			printf("%p\n",file);
 			while (symb_file[i] && symb_file[i] == ' ')
 				i++;
 			while (symb_file[i] && symb_file[i] != ' ' && symb_file[i] != '<'
@@ -70,11 +77,11 @@ t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 				function_free((void**)&to_free, 1);
 				i++;
 			}
-			
+
 			((t_red *)new->redir_in_out->content)->file_name = file;
 			ft_lstadd_back(&lst_redir, ft_lstnew(new->redir_in_out->content));
-		
-				
+
+
 		}
 	}
 	new->redir_in_out = lst_redir;
