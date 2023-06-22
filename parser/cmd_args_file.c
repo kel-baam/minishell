@@ -58,7 +58,7 @@ t_token	*cmd_args_file(t_token *token_cmd, char **symb_file)
 					expand(&token_cmd->value);
 
 					if (token_cmd->value[0]=='\0')
-						token_cmd->value = prev_str;
+						token_cmd->value = ft_strdup(prev_str);
 					function_free((void**)&prev_str, 1);
 					expand_with_quote(token_cmd);
 					ft_lstadd_back_token(&symb_fl, init_token(token_cmd->value,

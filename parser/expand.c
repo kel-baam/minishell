@@ -43,16 +43,14 @@ void	expand(char **token)
 		{
 			while (i < len)
 			{
-				if ((*token)[i] && (*token)[i + 1] && (*token)[i] == '$'
-					&& (*token)[i + 1] == '$')
+				if ((*token)[i] && (*token)[i + 1] && (*token)[i] == '$' && (*token)[i + 1] == '$')
 				{
 					i += 2;
 					flag = 1;
 				}
 				else
 				{
-					if (!ft_strcmp(*token, "$") || ((*token)[i] == '$'
-							&& !ft_isalnum((*token)[i + 1])))
+					if (!ft_strcmp(*token, "$") || ((*token)[i] == '$' && !ft_isalnum((*token)[i + 1]) && (*token)[i+1] != '?'))
 						store = ft_strjoin(store, "$");
 					if ((*token)[i] == '$')
 					{
@@ -62,14 +60,13 @@ void	expand(char **token)
 					else
 						flag = 1;
 					result = ft_strdup("");
-					while ((*token)[i] && (ft_isalnum((*token)[i])
-							|| (*token)[i] == '_'))
+					while ((*token)[i] && (ft_isalnum((*token)[i]) || (*token)[i] == '_' ||(*token)[i] == '?' ))
 					{
 						c_string = char_to_string((*token)[i]);
 						result = ft_strjoin(result, c_string);
 						i++;
 					}
-					if (ft_strlen(result) > 1)
+					if (ft_strlen(result) > 1 || !ft_strcmp(result,"?"))
 					{
 						if (!flag)
 							value = get_env(result);

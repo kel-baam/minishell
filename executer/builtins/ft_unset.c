@@ -24,10 +24,9 @@ int	ft_unset(t_command *command)
 		{
 			status = print_cmd_error(command->cmd, command->args[i],
 					"not a valid identifier", 1);
-			i++;
-			continue ;
 		}
-		remove_node(&(g_data.env_vars), command->args[i]);
+		else
+			remove_node(&(g_data.env_vars), command->args[i]);
 		i++;
 	}
 	return (status);
