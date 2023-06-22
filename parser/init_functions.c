@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 02:39:16 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/22 04:17:46 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:31:25 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,17 @@
 #include "lexer.h"
 #include "token.h"
 
-t_red	*init_red(int flg)
+t_red	*init_red(int flg, int *i)
 {
 	t_red	*red;
 
 	red = malloc(sizeof(t_red));
 	red->file_name = NULL;
 	red->flag = flg;
+	if (flg == 2 || flg == 0)
+		(*i) += 2;
+	if (flg == 1 || flg == 3)
+		(*i) += 1;
 	return (red);
 }
 

@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:31:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/22 06:01:49 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/22 22:53:13 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include "parser/cmd.h"
 # include "parser/lexer.h"
 # include "parser/token.h"
+#define MSG_ERR "syntax error near unexpected token `newline'"
 
 typedef struct t_list
 {
@@ -73,6 +74,7 @@ typedef struct s_data
 	int				status_code;
 	int				count_envs;
 	int				isChild;
+	int             count_herdoc;
 	char			*current_dir;
 	struct termios	new_term;
 	struct termios	old_term;
@@ -81,6 +83,16 @@ typedef struct s_data
 
 t_data				g_data;
 
+void	store_data_before_dollar(char **token, char **store);
+void	check_dollar(char *token, char **store, int *i, int *flag);
+void	string_to_expand(char *token, int *i, char **result);
+void	expand_result(char *result, int *flag, char **store);
+void	store_special_char(char *token, int *i, char **result, char **store);
+void	cmd_args_file_store_text(t_token **token_cmd, int *flag);
+void	cmd_args_file_redir_part1(t_token **token_cmd, t_token **symb_fl);
+void	cmd_args_file_redir_part2(t_token **token_cmd,
+	t_token **symb_fl, int *flag);
+void	cmd_args_file_store_spaces(t_token **token_cmd, t_token **cmd_arg);
 void				free_same_type(void **f1, void **f2, int type);
 t_token				*get_one_token_with_quote(t_lexer *lexer);
 char				**token_cmd_to_args(t_token *token_cmd);
@@ -137,7 +149,7 @@ t_command			*store_one_command(t_token **token);
 char				**convert_tree_to_array(void);
 t_token				*cmd_args_file(t_token *token_cmd, char **symb_file);
 t_command			*insert_one_cmd(char **cmd_args, char *symb_file);
-t_red				*init_red(int flg);
+t_red				*init_red(int flg, int *i);
 t_token				*tokens_of_one_command(t_token **token);
 char				*tokens_cmd_to_string(t_token *token);
 t_command			*insert_one_cmd(char **cmd_args, char *symb_file);
@@ -160,14 +172,13 @@ void				duplicate_fds(t_list *tmp, int last_fd, int *fds,
 						int tmp_fds);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void				exec_herdoc(char *del, int fd);
-void				herdoc(t_list *command_lst);
 void				ft_lstadd_back_token(t_token **lst, t_token *new);
 t_token				*tokens_of_one_command(t_token **token);
 int					number_of_tokens_before_pipe(t_token *token);
 t_token				*copy_of_list(t_token *original, int size);
 void				expand(char **token);
 void				exec_herdoc(char *del, int fd);
-void				herdoc(t_list *command_lst);
+int				herdoc(t_list *command_lst);
 void				check_parsing_error(t_token *tokens, int *flg_err);
 int					redir_out_error(t_token *token);
 int					redir_error(t_token *token, int type);
@@ -211,5 +222,9 @@ int					redir_in_error(t_token *token);
 int					redir_in_err_part2(t_token **token);
 void				redir_in_err_part1(t_token **token, int *flag);
 int					redir_out_error(t_token *token);
-int					edir_out_error_part2(t_token **token);
+int					redir_out_error_part2(t_token **token);
+t_command	*insert_one_cmd(char **cmd_args, char *symb_file);
+void	insert_one_cmd_join_file_name(char *symb_file, char **file, int *i);
+void	fill_redir(t_command **new, char symb_file, char next_symb, int *i);
+void	fill_args(t_command **new, char **cmd_args);
 #endif
