@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:26:25 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/22 15:08:39 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/22 23:11:06 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ t_list	*parser(char *line)
 {
 	int		flg_err;
 	char	*symb;
-	char	*types;
 	t_list	*lst;
 	t_lexer	*lexer;
 	t_token	*token;
@@ -72,9 +71,8 @@ t_list	*parser(char *line)
 	flg_err = 0;
 	lexer = init_lexer(line);
 	symb = ft_strdup("<>");
-	types = ft_strdup("<>| '\"");
-	token = get_all_tokens(lexer, types);
-	function_free((void **)&lexer, 0) && function_free((void **)&types, 1);
+	token = get_all_tokens(lexer);
+	function_free((void **)&lexer, 0);
 	check_parsing_error(token, &flg_err);
 	if (flg_err == 1)
 	{
@@ -84,8 +82,8 @@ t_list	*parser(char *line)
 		return (NULL);
 	}
 	lst = store_all_cmd(&token, symb);
-	function_free((void **)&symb, 1);
-	function_free((void **)&token, 2);
-	herdoc(lst);
+	(function_free((void **)&symb, 1)) && (function_free((void **)&token, 2));
+	if (herdoc(lst) == 2)
+		return (free_commands(lst), NULL);
 	return (lst);
 }

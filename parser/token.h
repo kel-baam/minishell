@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 18:39:02 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/22 03:15:41 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/22 20:09:04 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char		*char_to_string(char c);
 void		ft_lstadd_back_token(t_token **lst, t_token *new);
 t_token		*init_token(char *value, int type);
 t_token		*get_one_token(t_lexer *lexer, char *types);
-t_token		*get_all_tokens(t_lexer *lexer, char *types);
+t_token		*get_all_tokens(t_lexer *lexer);
 t_token		*tokens(t_token **token);
 t_token		*ft_lstlast_token(t_token *lst);
 
