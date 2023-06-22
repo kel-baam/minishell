@@ -143,11 +143,20 @@ t_command			*insert_one_cmd(char **cmd_args, char *symb_file);
 t_red				*init_red(int flg);
 t_token 			*tokens_of_one_command(t_token **token);
 char				*tokens_cmd_to_string(t_token *token);
+t_command	*insert_one_cmd(char **cmd_args, char *symb_file);
+void	expand(char **token);
+int	get_char_position(char *buffer, char c);
+int	len_str_to_expand(char *str);
+char	*expand_with_quote(t_token *token);
+void	check_tild(t_token **token_cmd);
+char	*remove_char_from_str(char *buffer, char c);
+void	remove_s_d_qoute(char **buffer);
 
 void				ft_bzero(void *s, size_t n);
 char				*ft_strchr(const char *s, int c);
 t_list				*parser(char *line);
-t_command			*store_one_command(t_token **token);
+t_list	*store_all_cmd(t_token **tokens, char *symb);
+
 char				**convert_tree_to_array(void);
 int					get_inputfile_fd(t_list *lst_redir, int *last_fd,
 						int *tmp_read_fd);
@@ -160,7 +169,7 @@ void				exec_herdoc(char *del, int fd);
 void				herdoc(t_list *command_lst);
 void				ft_lstadd_back_token(t_token **lst, t_token *new);
 t_token 				*tokens_of_one_command(t_token **token);
-char				*tokens_cmd_to_string(t_token *token);
+
 int					number_of_tokens_before_pipe(t_token *token);
 t_token 				*copy_of_list(t_token *original, int size);
 void				expand(char **token);

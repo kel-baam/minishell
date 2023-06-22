@@ -47,7 +47,8 @@ t_token 	*copy_of_list(t_token *org, int size)
 	//leak!!1
 	copy = NULL;
 	if (org)
-	{
+	{ 
+	
 		i = 0;
 		while (org && i < size)
 		{
@@ -58,6 +59,7 @@ t_token 	*copy_of_list(t_token *org, int size)
 		}
 	}
 	return (copy);
+
 }
 
 int	number_of_tokens_before_pipe(t_token *token)
@@ -101,18 +103,19 @@ char	*tokens_cmd_to_string(t_token *token)
 {
 	char *buffer;
 	char *to_free;
+	char *store;
 
-	buffer = ft_strdup("");
 	if (token)
 	{
+		buffer = ft_strdup("");
 		while (token)
 		{
 			to_free = buffer;
 			buffer = ft_strjoin(buffer, token->value);
-			function_free((void**)&to_free, 2);
+			function_free((void**)&to_free, 1);
 			token = token->next;
 		}
-		return (ft_strjoin(buffer, "\0"));
+		return (store = ft_strjoin(buffer, "\0"), function_free((void**)&buffer, 1), store);
 	}
 	return (NULL);
 }
