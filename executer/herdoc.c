@@ -18,7 +18,7 @@ void	exec_herdoc(char *del, int fd)
 
 	while (1)
 	{
-		line = readline(CYAN "herdoc >> " RESET);
+		line = readline("herdoc >> ");
 		if (!line || !ft_strcmp(del, line))
 			break ;
 		expand(&line);
