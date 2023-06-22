@@ -37,10 +37,10 @@ int	main(int ac, char **av, char **env)
 	signals_for_parent();
 	while (1)
 	{
-		if (line)
+		 if (line)
 			ft_free(line);
 		tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
-		line = readline(PERPOL " 🌸 beautiful as a shell : 🌸 $ " RESET);
+		 line = readline(PERPOL " 🌸 beautiful as a shell : 🌸 $ " RESET);
 		if (line)
 		{
 			if (!ft_strlen(line) || !ft_strncmp(line, "\n", 2))
@@ -50,15 +50,12 @@ int	main(int ac, char **av, char **env)
 			if (commands)
 			{
 				executer(commands);
-				add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code),
-					NULL);
-				 free_commands(commands);
+				store_status_code();
+				free_commands(commands);
 			}
 		}
-		else
+		 else
 			exit(g_data.status_code);
-
-		
 	}
 	return (0);
 }

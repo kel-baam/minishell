@@ -15,9 +15,6 @@ char* get_working_dir()
 {
 	char *path;
 	char *tmp;
-
-
-
 	tmp=g_data.current_dir;
 	path=getcwd(NULL, 1024);
 	if(path && *path)
