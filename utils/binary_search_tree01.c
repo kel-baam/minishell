@@ -82,3 +82,16 @@ t_node	*get_most_left(t_node *node)
 	}
 	return (tmp);
 }
+
+char	**convert_tree_to_array(void)
+{
+	int		p;
+	char	**envs;
+	char	**store;
+
+	p = 0;
+	envs = malloc(sizeof(char *) * (g_data.count_envs + 1));
+	store = store_envs(g_data.env_vars, envs, &p);
+	envs[p] = NULL;
+	return (envs);
+}

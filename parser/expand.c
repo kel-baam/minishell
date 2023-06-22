@@ -34,8 +34,7 @@ void	expand(char **token)
 		{
 			while (i < len)
 			{
-				if ((*token)[i] && (*token)[i + 1] && (*token)[i] == '$'
-					&& (*token)[i + 1] == '$')
+				if ((*token)[i] && (*token)[i + 1] && (*token)[i] == '$' && (*token)[i + 1] == '$')
 				{
 					i += 2;
 					flag = 1;

@@ -45,7 +45,7 @@ typedef struct t_list
 
 typedef struct t_red
 {
-	void			*file_name;
+	char			*file_name;
 	int				flag;
 	int				fd_herdoc;
 }					t_red;
@@ -164,12 +164,11 @@ void				ft_bzero(void *s, size_t n);
 t_list				*parser(char *line);
 t_list				*store_all_cmd(t_token **tokens, char *symb);
 char				**convert_tree_to_array(void);
-int					get_inputfile_fd(t_list *lst_redir, int *last_fd,
-					int *tmp_read_fd);
-int					get_outfile_fd(t_list *lst_redir, int *fd,
-						int *tmp_write_fd);
-void				duplicate_fds(t_list *tmp, int last_fd, int *fds,
-						int tmp_fds);
+// int	get_outfile_fd(t_list *lst_redir, int *fd, int *tmp_write_fd,int *is_out);
+void	duplicate_fds(t_list *tmp, int last_fd, int *fds, int is_out);
+
+
+
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void				exec_herdoc(char *del, int fd);
 void				ft_lstadd_back_token(t_token **lst, t_token *new);
@@ -192,7 +191,7 @@ char				**copy_of_tab(char **str);
 int					ft_isalnum(int c);
 void				free_red(t_list *redir_list);
 void				free_commands(t_list *commands);
-void				get_fds(t_list *lst_files, int *read_fd, int *write_fd);
+void	get_fds(t_list *lst_files, int *read_fd, int *write_fd, int *is_out);
 void				my_free(char *value, char *key);
 void				init_value(int *pos, int *flag, int *i, int *status);
 int					check_err_export(char *arg,char *key, char *cmd);

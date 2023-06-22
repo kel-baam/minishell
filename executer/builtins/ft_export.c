@@ -12,40 +12,11 @@
 
 #include "../../minishell.h"
 
-void	inorder_traversal(t_node *head, int fd)
-{
-	char	qoute;
-
-	if (head == NULL)
-		return ;
-	if (!ft_strncmp(head->key, "?", ft_strlen(head->key)))
-		return ;
-	qoute = '"';
-	inorder_traversal(head->left, fd);
-	if (!head->value)
-	{
-		write(fd, "declare -x ", 11);
-		write(fd, head->key, ft_strlen(head->key));
-		write(fd, "\n", 1);
-	}
-	else
-	{
-		write(fd, "declare -x ", 11);
-		write(fd, head->key, ft_strlen(head->key));
-		write(fd, "=", 1);
-		write(fd, &qoute, 1);
-		write(fd, head->value, ft_strlen(head->value));
-		write(fd, &qoute, 1);
-		write(fd, "\n", 1);
-	}
-	inorder_traversal(head->right, fd);
-}
-
 void	add_new_value(int pos, char *arg, char **value, char **key)
 {
 	char	*new_value;
 	char	*old_value;
-	char 	*tmp;
+	char	*tmp;
 
 	tmp = *key;
 	*key = ft_substr(arg, 0, pos - 1);
@@ -66,6 +37,12 @@ void	check_egal_pos(char **arg, int *pos, int *flag, int i)
 		*flag = 1;
 }
 
+void	case_pos_negative(char **key, char **value, char *arg)
+{
+	*key = ft_strdup(arg);
+	*value = ft_strdup("");
+}
+
 int	add_new_element(t_command *cmd)
 {
 	int		i;
@@ -74,16 +51,12 @@ int	add_new_element(t_command *cmd)
 	char	*value;
 	int		flag;
 
-	key = ft_strdup("");
 	init_value(&pos, &flag, &i, &g_data.status_code);
 	while (cmd->args && cmd->args[++i])
 	{
 		check_egal_pos(cmd->args, &pos, &flag, i);
 		if (pos == -1)
-		{
-			key = ft_strdup(cmd->args[i]);
-			value = ft_strdup("");
-		}
+			case_pos_negative(&key, &value, cmd->args[i]);
 		if (!flag && pos > 0)
 			key = ft_substr(cmd->args[i], 0, pos);
 		else
@@ -92,7 +65,7 @@ int	add_new_element(t_command *cmd)
 			value = ft_substr(cmd->args[i], pos + 1, ft_strlen(cmd->args[i]));
 		if (flag)
 			add_new_value(pos, cmd->args[i], &value, &key);
-		if (!check_err_export(cmd->args[i],key, cmd->cmd))
+		if (!check_err_export(cmd->args[i], key, cmd->cmd))
 			add_node(&(g_data.env_vars), key, value, NULL);
 		my_free(value, key);
 	}
