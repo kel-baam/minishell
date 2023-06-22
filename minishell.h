@@ -197,4 +197,7 @@ int	check_err(char *key, char *cmd, int *i);
 void function_free(void **to_free, int type);
 int	ft_free_test(void **ptr);
 void store_status_code();
+char	*get_my_path(t_command *tmp_command);
+void	execute_command(t_command *tmp_command, char *path);
+void	closing_pipe(t_list *commands, int *pidd, int i);
 #endif

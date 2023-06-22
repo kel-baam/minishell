@@ -12,30 +12,17 @@
 
 #include "minishell.h"
 
-char	**convert_tree_to_array(void)
-{
-	int		p;
-	char	**envs;
-	char	**store;
-
-	p = 0;
-	envs = malloc(sizeof(char *) * (g_data.count_envs + 1));
-	store = store_envs(g_data.env_vars, envs, &p);
-	envs[p] = NULL;
-	return (envs);
-}
-
 int	main(int ac, char **av, char **env)
 {
 	t_list	*commands;
 	char	*line;
 
-	line = initilizer(env,ac,av);
+	line = initilizer(env, ac, av);
 	while (1)
 	{
-			ft_free(line);
+		ft_free(line);
 		tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
-		 line = readline(" 🌸 beautiful as a shell : 🌸 $ ");
+		line = readline(" 🌸 beautiful as a shell : 🌸 $ >");
 		if (line)
 		{
 			if (!ft_strlen(line) || !ft_strncmp(line, "\n", 2))
@@ -48,7 +35,7 @@ int	main(int ac, char **av, char **env)
 				free_commands(commands);
 			}
 		}
-		 else
+		else
 			exit(g_data.status_code);
 	}
 	return (0);

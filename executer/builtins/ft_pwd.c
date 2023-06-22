@@ -11,19 +11,21 @@
 /* ************************************************************************** */
 #include "../../minishell.h"
 
-char* get_working_dir()
+char	*get_working_dir(void)
 {
-	char *path;
-	char *tmp;
-	tmp=g_data.current_dir;
-	path=getcwd(NULL, 1024);
-	if(path && *path)
+	char	*path;
+	char	*tmp;
+
+	tmp = g_data.current_dir;
+	path = getcwd(NULL, 1024);
+	if (path && *path)
 	{
-	 g_data.current_dir=path;
-	 ft_free(tmp);
+		g_data.current_dir = path;
+		ft_free(tmp);
 	}
-	return g_data.current_dir;
+	return (g_data.current_dir);
 }
+
 int	ft_pwd(char *cmd, int fd)
 {
 	char	*buff;
@@ -31,7 +33,7 @@ int	ft_pwd(char *cmd, int fd)
 
 	(void)cmd;
 	status = 0;
-	buff=get_working_dir();
+	buff = get_working_dir();
 	write(fd, buff, ft_strlen(buff));
 	write(fd, "\n", 1);
 	return (status);
