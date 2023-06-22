@@ -12,29 +12,32 @@
 
 #include "../minishell.h"
 
-void store_status_code()
+void	store_status_code(void)
 {
-	char *status;
-	status=ft_itoa(g_data.status_code);
+	char	*status;
+
+	status = ft_itoa(g_data.status_code);
 	add_node(&(g_data.env_vars), "?", status, NULL);
 	ft_free(status);
 }
-void add_essential_envs()
+
+void	add_essential_envs(void)
 {
 	add_node(&(g_data.env_vars), "SHLVL", "1", NULL);
-	add_node(&(g_data.env_vars), "PWD",get_working_dir() , NULL);
+	add_node(&(g_data.env_vars), "PWD", get_working_dir(), NULL);
 	add_node(&(g_data.env_vars), "_", "/usr/bin/env", NULL);
 }
+
 void	init_envs(char **envs)
 {
 	int		i;
 	char	*key;
 	char	*value;
 	int		pos;
-	
+
 	i = -1;
 	if (!*envs)
-		 add_essential_envs();
+		add_essential_envs();
 	while (envs[++i])
 	{
 		pos = searching_for_char(envs[i], '=');
@@ -48,10 +51,10 @@ void	init_envs(char **envs)
 		add_node(&(g_data.env_vars), key, value, NULL);
 		my_free(value, key);
 	}
-	 store_status_code();	
+	store_status_code();
 }
 
-char*	initilizer(char **envs,int ac,char **av)
+char	*initilizer(char **envs, int ac, char **av)
 {
 	(void)ac;
 	(void)av;
@@ -59,5 +62,5 @@ char*	initilizer(char **envs,int ac,char **av)
 	get_working_dir();
 	init_envs(envs);
 	signals_for_parent();
-	return NULL;
+	return (NULL);
 }

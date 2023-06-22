@@ -184,6 +184,17 @@ void				free_commands(t_list *commands);
 void				get_fds(t_list *lst_files, int *read_fd, int *write_fd);
 void				my_free(char *value, char *key);
 void				init_value(int *pos, int *flag, int *i, int *status);
+int					check_err_export(char *arg,char *key, char *cmd);
+char* get_working_dir();
+
+void my_free(char *value,char *key);
+void	init_value(int *pos, int *flag, int *i, int *status);
+int	check_err(char *key, char *cmd, int *i);
+int	ft_free_test(void **ptr);
+void store_status_code();
+char	*get_my_path(t_command *tmp_command);
+void	execute_command(t_command *tmp_command, char *path);
+void	closing_pipe(t_list *commands, int *pidd, int i);
 int					check_err_export(char *arg, char *key, char *cmd);
 char				*get_working_dir();
 void				my_free(char *value, char *key);
