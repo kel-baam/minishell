@@ -229,7 +229,7 @@ void expand(char **token)
 				
 				else
 				{
-					if(!ft_strcmp(*token, "$") ||   ((*token)[i] == '$'  && !ft_isalnum((*token)[i+1])))
+					if(!ft_strcmp(*token, "$") ||   ((*token)[i] == '$'  && !ft_isalnum((*token)[i+1]) && (*token)[i+1]!='?'))
 						store  = ft_strjoin(store ,"$");
 					if((*token)[i]=='$')
 					{
@@ -239,13 +239,13 @@ void expand(char **token)
 					else 
 						flag=1;
 					result = ft_strdup("");
-					while ((*token)[i] && (ft_isalnum((*token)[i]) || (*token)[i] == '_'))
+					while ((*token)[i] && (ft_isalnum((*token)[i]) || (*token)[i] == '_' || (*token)[i]=='?') )
 					{
 						c_string = char_to_string((*token)[i]);
 						result = ft_strjoin(result, c_string);
 						i++;
 					}
-					if (ft_strlen(result) > 1)
+					if (ft_strlen(result) > 1 || !ft_strcmp(result,"?"))
 					{
 						if(!flag)
 							value = get_env(result);
@@ -261,8 +261,6 @@ void expand(char **token)
 					{
 						while ((*token)[i] && !ft_isalnum((*token)[i]) && (*token)[i] != '_' &&  (*token)[i]!= '$')
 						{
-
-							printf("|%c|\n",(*token)[i]);
 							c_string = char_to_string((*token)[i]);
 							result = ft_strjoin(result, c_string);
 							i++;
@@ -442,13 +440,13 @@ t_list	*parser(char *line)
 	function_free((void **)&types, 1);
 
 	check_parsing_error(token, &flg_err);
-	// if(flg_err==1)
-	// {
-	// 	function_free((void **)&symb, 1);
-	// 	function_free((void **)&token, 2);
-	// 	add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code), NULL);
-	// 	return NULL;
-	// }
+	if(flg_err==1)
+	{
+		function_free((void **)&symb, 1);
+		function_free((void **)&token, 2);
+		add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code), NULL);
+		return NULL;
+	}
 	lst = store_all_cmd(&token, symb);
 
 	function_free((void **)&symb, 1);

@@ -19,9 +19,9 @@ void	prompt(int sig)
 	printf("\n");
 	if (!g_data.isChild)
 	{
-		// rl_on_new_line();
-		//  rl_replace_line("", 0);
-		// rl_redisplay();
+		rl_on_new_line();
+		 rl_replace_line("", 0);
+		rl_redisplay();
 	}
 }
 

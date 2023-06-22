@@ -54,10 +54,8 @@ int	ft_cd(t_command *cmd)
 			return (1);
 		path=ft_strdup(home);
 	}
-	
 	if (chdir(path) != 0)
 		return (print_cmd_error(cmd->cmd, cmd->args[1], strerror(errno), 1));
-	
 	old_pwd=get_env("PWD");
 	add_node(&g_data.env_vars, "OLDPWD", old_pwd, NULL);
 	if(old_pwd)

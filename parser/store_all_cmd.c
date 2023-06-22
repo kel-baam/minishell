@@ -57,7 +57,6 @@ t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 					new->redir_in_out->content = init_red(1);
 			}
 			file = ft_strdup("");
-			printf("%p\n",file);
 			while (symb_file[i] && symb_file[i] == ' ')
 				i++;
 			while (symb_file[i] && symb_file[i] != ' ' && symb_file[i] != '<'
