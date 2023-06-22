@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:35:45 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/19 01:06:07 by kel-baam         ###   ########.fr       */
+/*   Updated: 2023/06/22 20:02:28 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int ac, char **av, char **env)
 	{
 		ft_free(line);
 		tcsetattr(STDIN_FILENO, TCSANOW, &(g_data.new_term));
-		line = readline(" 🌸 beautiful as a shell : 🌸 $ >");
+		line = readline(" 🌸 beautiful as a shell : 🌸 $ ");
 		if (line)
 		{
 			if (!ft_strlen(line) || !ft_strncmp(line, "\n", 2))

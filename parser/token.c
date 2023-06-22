@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 18:37:52 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/22 04:17:38 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/22 20:07:59 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,14 @@ t_token	*get_one_token(t_lexer *lexer, char *types)
 	return (get_one_token_text(lexer, types));
 }
 
-t_token	*get_all_tokens(t_lexer *lexer, char *types)
+t_token	*get_all_tokens(t_lexer *lexer)
 {
+	char	*types;
 	t_token	*head;
 	t_token	*token;
 
 	head = NULL;
+	types = ft_strdup("<>| '\"");
 	while (lexer->c != '\0')
 	{
 		token = get_one_token(lexer, types);
@@ -63,5 +65,6 @@ t_token	*get_all_tokens(t_lexer *lexer, char *types)
 			ft_lstadd_back_token(&head, token);
 	}
 	ft_lstadd_back_token(&head, NULL);
+	function_free((void **)&types, 1);
 	return (head);
 }

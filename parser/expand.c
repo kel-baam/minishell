@@ -5,39 +5,30 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/22 02:33:12 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/22 04:00:12 by kjarmoum         ###   ########.fr       */
+/*   Created: 2023/06/22 22:29:23 by kjarmoum          #+#    #+#             */
+/*   Updated: 2023/06/22 23:06:55 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
 #include "cmd.h"
 #include "lexer.h"
 #include "token.h"
+#include "../minishell.h"
 
 void	expand(char **token)
 {
-	int i;
-	char *result;
-	char *c_string;
-	char *value;
-	char *store;
-	int flag;
-	int len;
-	int pos_dollar;
+	int		i;
+	int		len;
+	int		flag;
+	char	*store;
+	char	*result;
 
-	flag = 0;
 	i = 0;
+	flag = 0;
 	store = ft_strdup("");
 	if (token && *token)
 	{
-		pos_dollar = searching_for_char(*token, '$');
-		if (pos_dollar != -1)
-		{
-			store = ft_substr(*token, 0, pos_dollar);
-			*token = ft_substr(*token, pos_dollar, ft_strlen(*token)
-					- pos_dollar);
-		}
+		store_data_before_dollar(token, &store);
 		len = ft_strlen(*token);
 		if ((*token)[i] == '$')
 		{
@@ -51,47 +42,13 @@ void	expand(char **token)
 				}
 				else
 				{
-					if (!ft_strcmp(*token, "$") || ((*token)[i] == '$'
-							&& !ft_isalnum((*token)[i + 1])))
-						store = ft_strjoin(store, "$");
-					if ((*token)[i] == '$')
-					{
-						i++;
-						flag = 0;
-					}
-					else
-						flag = 1;
+					check_dollar(*token, &store, &i, &flag);
 					result = ft_strdup("");
-					while ((*token)[i] && (ft_isalnum((*token)[i])
-							|| (*token)[i] == '_'))
-					{
-						c_string = char_to_string((*token)[i]);
-						result = ft_strjoin(result, c_string);
-						i++;
-					}
+					string_to_expand(*token, &i, &result);
 					if (ft_strlen(result) > 1)
-					{
-						if (!flag)
-							value = get_env(result);
-						else
-							value = ft_strdup(result);
-						if (value)
-							store = ft_strjoin(store, value);
-						else
-							store = ft_strjoin(store, ft_strdup(""));
-						flag = 0;
-					}
+						expand_result(result, &flag, &store);
 					else
-					{
-						while ((*token)[i] && !ft_isalnum((*token)[i])
-							&& (*token)[i] != '_' && (*token)[i] != '$')
-						{
-							c_string = char_to_string((*token)[i]);
-							result = ft_strjoin(result, c_string);
-							i++;
-						}
-						store = ft_strjoin(store, result);
-					}
+						store_special_char(*token, &i, &result, &store);
 				}
 				result = NULL;
 			}

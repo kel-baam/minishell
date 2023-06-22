@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 06:00:36 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/22 06:10:19 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/22 20:13:24 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "lexer.h"
 #include "token.h"
 #include "../minishell.h"
-
-
 
 int	redir_out_error_part2(t_token **token)
 {
@@ -53,9 +51,7 @@ int	redir_out_error(t_token *token)
 			while (token && token->e_type == 4)
 				token = token->next;
 			if (!token)
-				return (print_cmd_error(NULL, NULL,
-						"syntax error near unexpected token `newline'",
-						258), 1);
+				return (print_cmd_error(NULL, NULL, MSG_ERR, 258), 1);
 			return (0);
 		}
 		if (token && token->e_type == 1)
@@ -66,7 +62,7 @@ int	redir_out_error(t_token *token)
 				|| token->e_type == 1 || token->e_type == 2))
 			return (redir_out_error_part2(&token));
 		if (!token)
-			return (print_cmd_error(NULL, NULL, "syntax error near unexpected token `newline'", 258), 1);
+			return (print_cmd_error(NULL, NULL, MSG_ERR, 258), 1);
 	}
 	return (0);
 }
