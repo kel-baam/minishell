@@ -49,6 +49,7 @@ t_token	*get_one_token_with_quote(t_lexer *lexer)
 	buffer = ft_strjoin(buffer, c_string);
 	free_same_type((void **)&c_string, (void **)&to_free, 1);
 	lexer_advance(lexer);
+
 	return (ret = init_token(buffer, token_s_qoute)
 		, ft_free_test((void **)&buffer), ret);
 }

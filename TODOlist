@@ -84,12 +84,10 @@ echo >
  export "test=ici"=coucou ; echo $test
 export ap+=l
 
-<<<<<<< HEAD
 
 ----------segflt-----
 ls > $dfghjkl
 
 
 echo "jsksksk"jsjsj"ksks"
-=======
->>>>>>> 454cca5fd7920440225f7c91e0513538f1bcb05b
+/// l"s"/////

@@ -44,10 +44,10 @@ t_token	*get_one_token(t_lexer *lexer, char *types)
 		return (token = init_token(" ", token_space),
 			lexer_advance(lexer), ft_free_test((void **)&buffer), token);
 	if (lexer->c == '\"' || lexer->c == '\'')
-		return (get_one_token_with_quote(lexer));
+		return (ft_free_test((void **)&buffer), get_one_token_with_quote(lexer));
 	if (lexer->c == '$')
-		return (get_one_token_with_dollar(lexer));
-	return (get_one_token_text(lexer, types));
+		return (ft_free_test((void **)&buffer), get_one_token_with_dollar(lexer));
+	return (ft_free_test((void **)&buffer),get_one_token_text(lexer, types));
 }
 
 t_token	*get_all_tokens(t_lexer *lexer)
@@ -66,5 +66,6 @@ t_token	*get_all_tokens(t_lexer *lexer)
 	}
 	ft_lstadd_back_token(&head, NULL);
 	function_free((void **)&types, 1);
+
 	return (head);
 }

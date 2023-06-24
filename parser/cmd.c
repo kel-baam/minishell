@@ -73,6 +73,7 @@ t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 	char		*file;
 	t_list		*lst_redir;
 	t_command	*new;
+	// t_list   *to_free;
 
 	i = 0;
 	new = malloc(sizeof(t_command));
@@ -80,6 +81,7 @@ t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 	fill_args(&new, cmd_args);
 	while (symb_file && symb_file[i])
 	{
+		printf("%d\n", i);
 		new->redir_in_out = malloc(sizeof(t_list));
 		if (new->redir_in_out)
 		{

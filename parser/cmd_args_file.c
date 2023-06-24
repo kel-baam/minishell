@@ -21,7 +21,7 @@ void	cmd_args_file_store_quoted_text(t_token **token_cmd)
 	t_token		*prev;
 	char		*to_free;
 	char		*result;
-
+		
 	tmp = (*token_cmd);
 	result = ft_strdup("");
 	while (tmp && (tmp->e_type == 5 || tmp->e_type == 6))
@@ -34,12 +34,15 @@ void	cmd_args_file_store_quoted_text(t_token **token_cmd)
 	}
 	function_free((void **)&(*token_cmd)->value, 1);
 	(*token_cmd) = prev;
-	(*token_cmd)->value = result;
+	(*token_cmd)->value = ft_strdup(result);
+	function_free((void **)&result, 1);
+	//here
 }
 
 void	cmd_args_file_last(t_token **token_cmd,
 		t_token **cmd_arg, t_token **symb_fl, int *flag)
 {
+
 	if ((*token_cmd) && ((*token_cmd)->e_type == 5
 			|| (*token_cmd)->e_type == 6))
 		cmd_args_file_store_quoted_text(&(*token_cmd));
@@ -57,6 +60,8 @@ void	cmd_args_file_last(t_token **token_cmd,
 void	cmd_args_file_body(t_token **token_cmd, t_token **cmd_arg,
 		t_token **symb_fl, int *flag)
 {
+		
+	
 	if ((*token_cmd)->e_type == 0 || (*token_cmd)->e_type == 1)
 	{
 		cmd_args_file_redir_part1(&(*token_cmd), symb_fl);
@@ -64,7 +69,8 @@ void	cmd_args_file_body(t_token **token_cmd, t_token **cmd_arg,
 	}
 	else if ((*token_cmd) && (*token_cmd)->e_type == 4)
 		cmd_args_file_store_spaces(&(*token_cmd), cmd_arg);
-	else if ((*token_cmd) && (*token_cmd)->e_type == 3)
+	else if ((*token_cmd) && ((*token_cmd)->e_type == 3  
+		|| (*token_cmd)->e_type == 5  || (*token_cmd)->e_type == 6))
 	{
 		cmd_args_file_store_text(&(*token_cmd), flag);
 		ft_lstadd_back_token(cmd_arg, init_token((*token_cmd)->value,
@@ -73,6 +79,7 @@ void	cmd_args_file_body(t_token **token_cmd, t_token **cmd_arg,
 	}
 	else if ((*token_cmd))
 		cmd_args_file_last(&(*token_cmd), cmd_arg, symb_fl, flag);
+	
 }
 
 t_token	*cmd_args_file(t_token *token_cmd, char **symb_file)

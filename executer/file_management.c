@@ -15,9 +15,10 @@
 int	get_outfile_fd(t_list *lst_redir, int *fd, int *is_out)
 {
 	t_red	*tmp_redir;
-	int tmp_fd = *fd;
+	int		tmp_fd ;
 
 	*is_out = 1;
+	tmp_fd = *fd;
 	tmp_redir = (t_red *)(lst_redir->content);
 	if (tmp_redir->flag == 3)
 	{
@@ -39,7 +40,9 @@ int	get_outfile_fd(t_list *lst_redir, int *fd, int *is_out)
 int	get_inputfile_fd(t_list *lst_redir, int *last_fd)
 {
 	t_red	*tmp;
-	int tmp_fd = *last_fd;
+	int		tmp_fd;
+
+	tmp_fd = *last_fd;
 	tmp = (t_red *)lst_redir->content;
 	if (((char *)tmp->file_name)[0] == '$')
 		return (print_cmd_error(tmp->file_name, NULL, "ambiguous redirect", 1));
@@ -50,7 +53,6 @@ int	get_inputfile_fd(t_list *lst_redir, int *last_fd)
 				strerror(errno), 1));
 	if (!tmp->flag)
 		*last_fd = tmp->fd_herdoc;
-	
 	if (tmp_fd != STDIN_FILENO)
 		close(tmp_fd);
 	return (0);
@@ -61,7 +63,6 @@ void	get_fds(t_list *lst_files, int *read_fd, int *write_fd, int *is_out)
 	t_list	*tmp_redir;
 	t_red	*tmp;
 
-
 	tmp_redir = lst_files;
 	while (tmp_redir)
 	{
@@ -71,11 +72,10 @@ void	get_fds(t_list *lst_files, int *read_fd, int *write_fd, int *is_out)
 			if (get_inputfile_fd(tmp_redir, read_fd) == 1)
 				exit(g_data.status_code);
 		}
-		else
 		if (tmp->flag == 2 || tmp->flag == 3)
 		{
 			if (get_outfile_fd(tmp_redir, write_fd, is_out) == 1)
-				exit(g_data.status_code);			
+				exit(g_data.status_code);	
 		}
 		tmp_redir = tmp_redir->next;
 	}
@@ -83,7 +83,6 @@ void	get_fds(t_list *lst_files, int *read_fd, int *write_fd, int *is_out)
 
 void	duplicate_fds(t_list *tmp, int last_fd, int *fds, int is_out)
 {
-	// printf("%d  %d %d\n",last_fd,fds[0],fds[1]);
 	if (last_fd != STDIN_FILENO)
 	{
 		dup2(last_fd, STDIN_FILENO);
