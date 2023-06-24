@@ -27,7 +27,7 @@ void	remove_s_d_qoute(char **buffer)
 			to_free = *buffer;
 			(*buffer)++;
 			tmp = malloc(sizeof(char) * ft_strlen(*buffer));
-			if (ft_strlen(*buffer) == 2)
+			if (ft_strlen(*buffer) == 2 && (*buffer)[2] == ' ')
 				ft_strlcpy(tmp, *buffer, ft_strlen(*buffer) - 1);
 			else
 				ft_strlcpy(tmp, *buffer, ft_strlen(*buffer));
@@ -72,17 +72,21 @@ t_list	*parser(char *line)
 	lexer = init_lexer(line);
 	symb = ft_strdup("<>");
 	token = get_all_tokens(lexer);
+
 	function_free((void **)&lexer, 0);
 	check_parsing_error(token, &flg_err);
 	if (flg_err == 1)
 	{
 		function_free((void **)&symb, 1);
 		function_free((void **)&token, 2);
-		add_node(&(g_data.env_vars), "?", ft_itoa(g_data.status_code), NULL);
+		store_status_code();
 		return (NULL);
 	}
+	t_token *tmp;
+	tmp = token;
 	lst = store_all_cmd(&token, symb);
-	(function_free((void **)&symb, 1)) && (function_free((void **)&token, 2));
+	function_free((void **)&tmp, 2);
+	(function_free((void **)&symb, 1));
 	if (herdoc(lst) == 2)
 		return (free_commands(lst), NULL);
 	return (lst);

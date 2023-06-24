@@ -93,7 +93,7 @@ void	executer(t_list *commands)
 	last_fd = STDIN_FILENO;
 	if (run_builtins(tmp) >= 0)
 		return ;
-	g_data.isChild = 1;
+	g_data.is_child = 1;
 	while (tmp)
 	{
 		pidd[i] = execuet_pipe(tmp, &last_fd);
@@ -101,4 +101,7 @@ void	executer(t_list *commands)
 		tmp = tmp->next;
 	}
 	closing_pipe(commands, pidd, i);
+	
 }
+
+

@@ -47,7 +47,7 @@ int	function_free(void **to_free, int type)
 	if (type == 2)
 	{
 		while (*to_free)
-			function_free_token(to_free);
+			function_free_token((void **)to_free);
 	}
 	if (type == 3)
 	{

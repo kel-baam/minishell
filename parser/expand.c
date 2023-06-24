@@ -22,12 +22,13 @@ void	expand(char **token)
 	int		flag;
 	char	*store;
 	char	*result;
+	// char	*to_free;
 
 	i = 0;
 	flag = 0;
-	store = ft_strdup("");
-	if (token && *token)
+	if (token && *token && ft_strchr(*token,'$'))
 	{
+		//store = ft_strdup("");
 		store_data_before_dollar(token, &store);
 		len = ft_strlen(*token);
 		if ((*token)[i] == '$')
@@ -45,12 +46,14 @@ void	expand(char **token)
 					result = ft_strdup("");
 					string_to_expand(*token, &i, &result);
 					if (ft_strlen(result) > 1)
-						expand_result(result, &flag, &store);
+						expand_result(&result, &flag, &store);
 					else
 						store_special_char(*token, &i, &result, &store);
 				}
-				result = NULL;
+				function_free((void **)&result, 1); 
 			}
+			function_free((void **)token, 1);
+			
 			*token = store;
 		}
 	}

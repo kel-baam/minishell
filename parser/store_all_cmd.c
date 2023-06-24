@@ -22,7 +22,7 @@ void	store_all_cmd_free_part(t_list **lst,
 
 	tab = token_cmd_to_args(cmd_arg);
 	ft_lstadd_back(lst, ft_lstnew(insert_one_cmd(tab, *symb_file)));
-	function_free((void **)tab, 3);
+	free_double_ptr(tab);
 }
 
 t_list	*store_all_cmd(t_token **tokens, char *symb)
@@ -34,6 +34,7 @@ t_list	*store_all_cmd(t_token **tokens, char *symb)
 	t_token		*to_free;
 
 	lst = NULL;
+	symb_file = NULL;
 	if (*tokens && symb)
 	{
 		tokens_cmd = tokens_of_one_command(tokens);
@@ -41,12 +42,20 @@ t_list	*store_all_cmd(t_token **tokens, char *symb)
 		{
 			cmd_arg = cmd_args_file(tokens_cmd, &symb_file);
 			store_all_cmd_free_part(&lst, &symb_file, cmd_arg);
-			function_free((void **)&symb_file, 1);
-			free_same_type((void **)&cmd_arg, (void **)&tokens_cmd, 2);
+
+			printf("%p %p %p\n",cmd_arg,tokens_cmd, symb_file);
+			
+			function_free((void **)&cmd_arg, 2);
+			function_free ((void **)&tokens_cmd, 2);
+			ft_free_test((void**)&symb_file);
+
+			printf("%p %p %p\n",cmd_arg,tokens_cmd, symb_file);
 			to_free = tokens_cmd;
 			tokens_cmd = tokens_of_one_command(tokens);
-			function_free((void **)&to_free, 2);
 		}
+
+			function_free((void **)&to_free,2);
+
 	}
 	return (lst);
 }
