@@ -24,9 +24,10 @@ void	add_new_value(int pos, char *arg, char **value, char **key)
 	old_value = get_env(*key);
 	new_value = ft_substr(arg, pos + 1, ft_strlen(arg));
 	if (!old_value)
-		old_value = ft_strdup("");
+		old_value = "";
 	tmp = *value;
 	*value = ft_strjoin(old_value, new_value);
+	ft_free(new_value);
 	ft_free(tmp);
 }
 
@@ -59,13 +60,13 @@ int	add_new_element(t_command *cmd)
 			case_pos_negative(&key, &value, cmd->args[i]);
 		if (!flag && pos > 0)
 			key = ft_substr(cmd->args[i], 0, pos);
-		else
+		else if(flag)
 			key = ft_strdup(cmd->args[i]);
 		if (pos >= 0)
 			value = ft_substr(cmd->args[i], pos + 1, ft_strlen(cmd->args[i]));
 		if (flag)
 			add_new_value(pos, cmd->args[i], &value, &key);
-		if (!check_err_export(cmd->args[i], key, cmd->cmd))
+;		if (!check_err_export(cmd->args[i], key, cmd->cmd))
 			add_node(&(g_data.env_vars), key, value, NULL);
 		my_free(value, key);
 	}

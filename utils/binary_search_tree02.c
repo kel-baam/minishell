@@ -15,23 +15,31 @@ void	add_child_to_parent(t_node *node, t_node *child_node)
 {
 	t_node	*node_parent;
 
-	node_parent = node->parent;
-	if (node_parent)
+	if(node)
 	{
-		if (node_parent->right == node)
-			node_parent->right = child_node;
-		else
-			node_parent->left = child_node;
+		node_parent = node->parent;
+		if (node_parent)
+		{
+			if (node_parent->right == node)
+				node_parent->right = child_node;
+			else
+				node_parent->left = child_node;
+		}
 	}
-}
+	}
 
-void	switch_nodes(t_node *node_1, t_node *node_2)
+void	switch_nodes(t_node *min_node, t_node *to_delete_node)
 {
-	add_child_to_parent(node_1, NULL);
-	node_1->parent = node_2->parent;
-	node_1->left = node_2->left;
-	node_1->right = node_2->right;
-	add_child_to_parent(node_2, node_1);
+	if(min_node)
+	{
+		add_child_to_parent(min_node,min_node->right);
+		min_node->left = to_delete_node->left;
+		min_node->right = to_delete_node->right;
+		min_node->parent = to_delete_node->parent;
+		add_child_to_parent(to_delete_node->left, min_node);
+		add_child_to_parent(to_delete_node->right, min_node);
+		add_child_to_parent(to_delete_node, min_node);
+	}
 }
 
 t_node	*link_two_nodes(t_node **to_delete_node, t_node *child_node)

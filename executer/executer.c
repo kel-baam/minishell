@@ -101,7 +101,4 @@ void	executer(t_list *commands)
 		tmp = tmp->next;
 	}
 	closing_pipe(commands, pidd, i);
-	
 }
-
-

@@ -42,20 +42,13 @@ t_list	*store_all_cmd(t_token **tokens, char *symb)
 		{
 			cmd_arg = cmd_args_file(tokens_cmd, &symb_file);
 			store_all_cmd_free_part(&lst, &symb_file, cmd_arg);
-
-			printf("%p %p %p\n",cmd_arg,tokens_cmd, symb_file);
-			
 			function_free((void **)&cmd_arg, 2);
 			function_free ((void **)&tokens_cmd, 2);
 			ft_free_test((void**)&symb_file);
-
-			printf("%p %p %p\n",cmd_arg,tokens_cmd, symb_file);
 			to_free = tokens_cmd;
 			tokens_cmd = tokens_of_one_command(tokens);
 		}
-
-			function_free((void **)&to_free,2);
-
+		function_free((void **)&to_free,2);
 	}
 	return (lst);
 }
