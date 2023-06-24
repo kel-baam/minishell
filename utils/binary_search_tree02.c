@@ -34,6 +34,21 @@ void	switch_nodes(t_node *node_1, t_node *node_2)
 	add_child_to_parent(node_2, node_1);
 }
 
+t_node	*link_two_nodes(t_node **to_delete_node, t_node *child_node)
+{
+	t_node	*new_root;
+
+	add_child_to_parent(*to_delete_node, child_node);
+	new_root = child_node;
+	return (new_root);
+}
+
+void	free_(t_node *to_delete_node)
+{
+	free_node(&to_delete_node);
+	g_data.count_envs--;
+}
+
 void	remove_node(t_node **head, char *key)
 {
 	t_node	*to_delete_node;
@@ -47,20 +62,11 @@ void	remove_node(t_node **head, char *key)
 			&& !ft_strncmp(to_delete_node->key, "?", 1)))
 		return ;
 	if (to_delete_node->right == NULL && to_delete_node->left == NULL)
-	{
-		add_child_to_parent(to_delete_node, NULL);
-		new_root = NULL;
-	}
+		new_root = link_two_nodes(&to_delete_node, NULL);
 	else if (to_delete_node->right == NULL)
-	{
-		add_child_to_parent(to_delete_node, to_delete_node->left);
-		new_root = to_delete_node->left;
-	}
+		new_root = link_two_nodes(&to_delete_node, to_delete_node->left);
 	else if (to_delete_node->left == NULL)
-	{
-		add_child_to_parent(to_delete_node, to_delete_node->right);
-		new_root = to_delete_node->right;
-	}
+		new_root = link_two_nodes(&to_delete_node, to_delete_node->right);
 	else
 	{
 		min_node = get_most_left(to_delete_node->right);
@@ -69,19 +75,5 @@ void	remove_node(t_node **head, char *key)
 	}
 	if (*head == to_delete_node)
 		*head = new_root;
-	free_node(&to_delete_node);
-	g_data.count_envs--;
-}
-
-char	**convert_tree_to_array(void)
-{
-	int		p;
-	char	**envs;
-	char	**store;
-
-	p = 0;
-	envs = malloc(sizeof(char *) * (g_data.count_envs + 1));
-	store = store_envs(g_data.env_vars, envs, &p);
-	envs[p] = NULL;
-	return (envs);
+	free_(to_delete_node);
 }

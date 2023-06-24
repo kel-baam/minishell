@@ -17,7 +17,7 @@ void	prompt(int sig)
 	(void)sig;
 	g_data.status_code = 1;
 	printf("\n");
-	if (!g_data.isChild)
+	if (!g_data.is_child)
 	{
 		rl_on_new_line();
 		rl_replace_line("", 0);

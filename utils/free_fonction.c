@@ -12,30 +12,54 @@
 
 #include "../minishell.h"
 
+// void	free_red(t_list *redir_list)
+// {
+	
+// 	t_list	*next;
+// 	t_red	*tmp_red;
+	
+// 	next=NULL;
+// 	tmp_red=NULL;
+// 	while (redir_list)
+// 	{
+// 		tmp_red = (t_red *)redir_list->content;
+// 		if (tmp_red)
+// 			ft_free(tmp_red->file_name);
+// 		next = redir_list->next;
+// 		ft_free(redir_list);
+// 		redir_list = next;
+// 	}
+// }
+
 void	free_red(t_list *redir_list)
 {
-	t_list	*tmp_redir_list;
+	
 	t_list	*next;
 	t_red	*tmp_red;
-
-	tmp_redir_list = redir_list;
-	while (tmp_redir_list)
+	
+	next=NULL;
+	tmp_red=NULL;
+	while (redir_list)
 	{
-		tmp_red = (t_red *)tmp_redir_list->content;
-		if (tmp_red)
+		tmp_red = (t_red *)redir_list->content;
+		if(tmp_red)
 			ft_free(tmp_red->file_name);
-		next = tmp_redir_list->next;
-		ft_free(tmp_redir_list);
-		tmp_redir_list = next;
+		ft_free(tmp_red);
+		next = redir_list->next;
+		ft_free(redir_list);
+		redir_list = next;
 	}
 }
 
+
 void	free_commands(t_list *commands)
 {
-	t_list		*tmp_commands;
+	t_list		*tmp_commands; 
 	t_command	*cmd;
 	t_list		*next;
 
+	
+	tmp_commands =NULL;
 	tmp_commands = commands;
 	while (tmp_commands)
 	{

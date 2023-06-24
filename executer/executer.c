@@ -17,7 +17,9 @@ int	run_builtins(t_list *commands)
 	t_command	*tmp_command;
 	int			infile;
 	int			outfile;
+	int			is_out;
 
+	is_out = 0;
 	tmp_command = (t_command *)commands->content;
 	infile = 0;
 	outfile = 1;
@@ -30,7 +32,7 @@ int	run_builtins(t_list *commands)
 		{
 			if (!ft_strcmp(tmp_command->cmd, "exit"))
 				printf("exit\n");
-			get_fds(tmp_command->redir_in_out, &infile, &outfile);
+			get_fds(tmp_command->redir_in_out, &infile, &outfile, &is_out);
 			g_data.status_code = execute_bultin(tmp_command, outfile);
 			return (g_data.status_code);
 		}
@@ -40,14 +42,14 @@ int	run_builtins(t_list *commands)
 
 void	execute_child(t_list *lst_command, int last_fd, int *fds)
 {
-	int			pipe_out_fd;
 	t_command	*command;
+	int			is_out;
 
-	pipe_out_fd = fds[1];
+	is_out = 0;
 	command = (t_command *)lst_command->content;
 	signals_for_child();
-	get_fds(command->redir_in_out, &last_fd, &fds[1]);
-	duplicate_fds(lst_command, last_fd, fds, pipe_out_fd);
+	get_fds(command->redir_in_out, &last_fd, &fds[1], &is_out);
+	duplicate_fds(lst_command, last_fd, fds, is_out);
 	execute_command(command, get_my_path(command));
 	exit(g_data.status_code);
 }
@@ -91,7 +93,7 @@ void	executer(t_list *commands)
 	last_fd = STDIN_FILENO;
 	if (run_builtins(tmp) >= 0)
 		return ;
-	g_data.isChild = 1;
+	g_data.is_child = 1;
 	while (tmp)
 	{
 		pidd[i] = execuet_pipe(tmp, &last_fd);
@@ -99,4 +101,7 @@ void	executer(t_list *commands)
 		tmp = tmp->next;
 	}
 	closing_pipe(commands, pidd, i);
+	
 }
+
+

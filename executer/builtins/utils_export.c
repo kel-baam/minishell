@@ -12,6 +12,35 @@
 
 #include "../../minishell.h"
 
+void	inorder_traversal(t_node *head, int fd)
+{
+	char	qoute;
+
+	if (head == NULL)
+		return ;
+	if (!ft_strncmp(head->key, "?", ft_strlen(head->key)))
+		return ;
+	qoute = '"';
+	inorder_traversal(head->left, fd);
+	if (!head->value)
+	{
+		write(fd, "declare -x ", 11);
+		write(fd, head->key, ft_strlen(head->key));
+		write(fd, "\n", 1);
+	}
+	else
+	{
+		write(fd, "declare -x ", 11);
+		write(fd, head->key, ft_strlen(head->key));
+		write(fd, "=", 1);
+		write(fd, &qoute, 1);
+		write(fd, head->value, ft_strlen(head->value));
+		write(fd, &qoute, 1);
+		write(fd, "\n", 1);
+	}
+	inorder_traversal(head->right, fd);
+}
+
 int	check_err_export(char *arg, char *key, char *cmd)
 {
 	if (is_valid_key(key) == -1)

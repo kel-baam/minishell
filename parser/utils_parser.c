@@ -82,6 +82,7 @@ t_token	*tokens_of_one_command(t_token **token)
 	int			count_token;
 	t_token		*tokens_cmd;
 
+	//here were leaks but i didn't understand why
 	i = 0;
 	tokens_cmd = NULL;
 	if (token && *token)

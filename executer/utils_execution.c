@@ -34,7 +34,7 @@ void	closing_pipe(t_list *commands, int *pidd, int i)
 		}
 		else
 			g_data.status_code = WEXITSTATUS(status);
-		g_data.isChild = 0;
+		g_data.is_child = 0;
 		store_status_code();
 	}
 }
