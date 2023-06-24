@@ -36,13 +36,11 @@ void	cmd_args_file_store_quoted_text(t_token **token_cmd)
 	(*token_cmd) = prev;
 	(*token_cmd)->value = ft_strdup(result);
 	function_free((void **)&result, 1);
-	//here
 }
 
 void	cmd_args_file_last(t_token **token_cmd,
 		t_token **cmd_arg, t_token **symb_fl, int *flag)
 {
-
 	if ((*token_cmd) && ((*token_cmd)->e_type == 5
 			|| (*token_cmd)->e_type == 6))
 		cmd_args_file_store_quoted_text(&(*token_cmd));
@@ -60,8 +58,6 @@ void	cmd_args_file_last(t_token **token_cmd,
 void	cmd_args_file_body(t_token **token_cmd, t_token **cmd_arg,
 		t_token **symb_fl, int *flag)
 {
-		
-	
 	if ((*token_cmd)->e_type == 0 || (*token_cmd)->e_type == 1)
 	{
 		cmd_args_file_redir_part1(&(*token_cmd), symb_fl);
@@ -79,7 +75,6 @@ void	cmd_args_file_body(t_token **token_cmd, t_token **cmd_arg,
 	}
 	else if ((*token_cmd))
 		cmd_args_file_last(&(*token_cmd), cmd_arg, symb_fl, flag);
-	
 }
 
 t_token	*cmd_args_file(t_token *token_cmd, char **symb_file)
@@ -94,9 +89,7 @@ t_token	*cmd_args_file(t_token *token_cmd, char **symb_file)
 	if (token_cmd)
 	{
 		while (token_cmd)
-		{
 			cmd_args_file_body(&token_cmd, &cmd_arg, &symb_fl, &flag);
-		}
 		*symb_file = tokens_cmd_to_string(symb_fl);
 		function_free((void **)&symb_fl, 2);
 	}

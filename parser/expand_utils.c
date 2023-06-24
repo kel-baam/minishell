@@ -24,7 +24,6 @@ void	store_data_before_dollar(char **token, char **store)
 	if (pos_dollar != -1 && pos_dollar != 0)
 	{
 		to_free = *token;
-		printf("%p\n",to_free);
 		*store = ft_substr(*token, 0, pos_dollar);
 		*token = ft_substr(*token, pos_dollar, ft_strlen(*token)
 				- pos_dollar);
@@ -32,12 +31,12 @@ void	store_data_before_dollar(char **token, char **store)
 	}
 	else
 		*store = ft_strdup("");
-
 }
 
 void	check_dollar(char *token, char **store, int *i, int *flag)
 {
 	char *to_free;
+
 	if (!ft_strcmp(token, "$") || (token[*i] == '$'
 			&& !ft_isalnum(token[(*i) + 1]) && token[(*i) + 1] != '?'))
 	{
@@ -64,7 +63,7 @@ void	string_to_expand(char *token, int *i, char **result)
 	{
 		to_free = *result;
 		c_string = char_to_string(token[*i]);
-		*result =  ft_strjoin(*result, c_string); 
+		*result =  ft_strjoin(*result, c_string);
 		function_free((void **)&c_string, 1);
 		function_free((void **)&to_free, 1);
 		(*i)++;
@@ -110,7 +109,6 @@ void	store_special_char(char *token, int *i, char **result, char **store)
 		function_free((void **)&to_free, 1);
 		(*i)++;
 	}
-	printf("res%p\n",*result);
 	to_free = *store;
 	*store = ft_strjoin(*store, *result);
 	function_free((void **)&to_free, 1);

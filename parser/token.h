@@ -19,14 +19,14 @@ typedef struct s_token
 	char			*value;
 	enum
 	{
-		red_input, //0
-		red_output, //1
-		token_pipe, //2
-		token_text, //3
-		token_space, //4
-		token_s_qoute, //5
-		token_d_qoute, //6
-		token_dollar //7
+		red_input,
+		red_output,
+		token_pipe,
+		token_text,
+		token_space,
+		token_s_qoute,
+		token_d_qoute,
+		token_dollar
 	} e_type;
 	struct s_token	*next;
 }					t_token;

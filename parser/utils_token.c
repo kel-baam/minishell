@@ -48,7 +48,6 @@ char	*tokens_cmd_to_string(t_token *token)
 	char	*to_free;
 	char	*store;
 
-	
 	if (token)
 	{
 		buffer = ft_strdup("");
