@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 03:08:32 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/22 20:00:34 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 00:53:10 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,13 @@ t_list	*store_all_cmd(t_token **tokens, char *symb)
 		{
 			cmd_arg = cmd_args_file(tokens_cmd, &symb_file);
 			store_all_cmd_free_part(&lst, &symb_file, cmd_arg);
-
-			printf("%p %p %p\n",cmd_arg,tokens_cmd, symb_file);
-			
-			function_free((void **)&cmd_arg, 2);
-			function_free ((void **)&tokens_cmd, 2);
-			ft_free_test((void**)&symb_file);
-
-			printf("%p %p %p\n",cmd_arg,tokens_cmd, symb_file);
+			free_same_type((void **)&tokens_cmd, (void **)&cmd_arg, 2);
+			ft_free_test((void **)&symb_file);
 			to_free = tokens_cmd;
 			tokens_cmd = tokens_of_one_command(tokens);
 		}
-
-			function_free((void **)&to_free,2);
-
+		function_free((void **)&to_free, 2);
+		function_free((void **)tokens, 2);
 	}
 	return (lst);
 }

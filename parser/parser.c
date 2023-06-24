@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:26:25 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/22 23:11:06 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 00:43:16 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ t_list	*parser(char *line)
 	lexer = init_lexer(line);
 	symb = ft_strdup("<>");
 	token = get_all_tokens(lexer);
-
 	function_free((void **)&lexer, 0);
 	check_parsing_error(token, &flg_err);
 	if (flg_err == 1)

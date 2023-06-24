@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:09:24 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/22 03:16:44 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 00:31:37 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ t_token	*tokens_of_one_command(t_token **token)
 	int			count_token;
 	t_token		*tokens_cmd;
 
-	//here were leaks but i didn't understand why
 	i = 0;
 	tokens_cmd = NULL;
 	if (token && *token)

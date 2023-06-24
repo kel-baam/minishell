@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 17:02:55 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/22 22:05:41 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 00:43:24 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 	char		*file;
 	t_list		*lst_redir;
 	t_command	*new;
-	// t_list   *to_free;
 
 	i = 0;
 	new = malloc(sizeof(t_command));
@@ -81,7 +80,6 @@ t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 	fill_args(&new, cmd_args);
 	while (symb_file && symb_file[i])
 	{
-		printf("%d\n", i);
 		new->redir_in_out = malloc(sizeof(t_list));
 		if (new->redir_in_out)
 		{
@@ -93,6 +91,7 @@ t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 			((t_red *)new->redir_in_out->content)->file_name = file;
 			ft_lstadd_back(&lst_redir, ft_lstnew(new->redir_in_out->content));
 		}
+		ft_free(new->redir_in_out);
 	}
 	new->redir_in_out = lst_redir;
 	return (new);
