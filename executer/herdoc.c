@@ -21,7 +21,10 @@ void	exec_herdoc(char *del, int fd)
 		line = readline("herdoc >> ");
 		printf("%s\n",del);
 		if (!line || !ft_strcmp(del, line))
+		{
+			ft_free(line);
 			break ;
+		}
 		expand(&line);
 		if (line[0] == '$')
 			line = ft_strdup("");
