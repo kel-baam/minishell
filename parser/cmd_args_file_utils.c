@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:42:10 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/22 19:57:50 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 02:52:58 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void	cmd_args_file_redir_part2(t_token **token_cmd,
 	{
 		check_tild(&(*token_cmd));
 		prev_str = ft_strdup((*token_cmd)->value);
-		expand(&(*token_cmd)->value);
+
+		//expand(&(*token_cmd)->value);
 		expand_with_quote((*token_cmd));
 		if ((*token_cmd)->value[0] == '\0')
 		{
-			//function_free((void **)(*token_cmd)->value, 1);
 			(*token_cmd)->value = ft_strdup(prev_str);
 		}
 		function_free((void **)&prev_str, 1);

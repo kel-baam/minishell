@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 23:26:25 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/22 23:11:06 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 01:32:41 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,26 +62,23 @@ void	check_tild(t_token **token_cmd)
 
 t_list	*parser(char *line)
 {
-	int		flg_err;
 	char	*symb;
 	t_list	*lst;
 	t_lexer	*lexer;
+	t_token	*tmp;
 	t_token	*token;
 
-	flg_err = 0;
 	lexer = init_lexer(line);
 	symb = ft_strdup("<>");
 	token = get_all_tokens(lexer);
 	function_free((void **)&lexer, 0);
-	check_parsing_error(token, &flg_err);
-	if (flg_err == 1)
+	if (check_parsing_error(token) == 1)
 	{
 		function_free((void **)&symb, 1);
 		function_free((void **)&token, 2);
 		store_status_code();
 		return (NULL);
 	}
-	t_token *tmp;
 	tmp = token;
 	lst = store_all_cmd(&token, symb);
 	function_free((void **)&tmp, 2);

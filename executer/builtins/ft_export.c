@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:27:09 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/22 15:14:56 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 01:52:48 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ int	add_new_element(t_command *cmd)
 			case_pos_negative(&key, &value, cmd->args[i]);
 		if (!flag && pos > 0)
 			key = ft_substr(cmd->args[i], 0, pos);
-		else if(flag)
+		else if (flag)
 			key = ft_strdup(cmd->args[i]);
 		if (pos >= 0)
 			value = ft_substr(cmd->args[i], pos + 1, ft_strlen(cmd->args[i]));
 		if (flag)
 			add_new_value(pos, cmd->args[i], &value, &key);
-;		if (!check_err_export(cmd->args[i], key, cmd->cmd))
+		if (!check_err_export(cmd->args[i], key, cmd->cmd))
 			add_node(&(g_data.env_vars), key, value, NULL);
 		my_free(value, key);
 	}
