@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:36:11 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/16 15:51:46 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 02:48:41 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	get_inputfile_fd(t_list *lst_redir, int *last_fd)
 
 	tmp_fd = *last_fd;
 	tmp = (t_red *)lst_redir->content;
-	if (((char *)tmp->file_name)[0] == '$')
+	if (((char *)tmp->file_name)[0] == '$' && tmp->flag == 1)
 		return (print_cmd_error(tmp->file_name, NULL, "ambiguous redirect", 1));
 	if (tmp->flag == 1)
 		*(last_fd) = open(tmp->file_name, O_RDONLY, 0644);
@@ -75,7 +75,7 @@ void	get_fds(t_list *lst_files, int *read_fd, int *write_fd, int *is_out)
 		if (tmp->flag == 2 || tmp->flag == 3)
 		{
 			if (get_outfile_fd(tmp_redir, write_fd, is_out) == 1)
-				exit(g_data.status_code);	
+				exit(g_data.status_code);
 		}
 		tmp_redir = tmp_redir->next;
 	}

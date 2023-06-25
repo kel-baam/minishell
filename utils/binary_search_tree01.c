@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   binary_search_tree01.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kel-baam <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 16:27:40 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/05/18 16:27:43 by kel-baam         ###   ########.fr       */
+/*   Updated: 2023/06/25 01:31:30 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../minishell.h"
 
 t_node	*new_node(char *key, char *value)
@@ -60,7 +61,7 @@ t_node	*get_node(t_node *head, char *key)
 
 	if (!head || !key)
 		return (NULL);
-	cmp = strcmp(key, head->key);
+	cmp = ft_strcmp(key, head->key);
 	if (!cmp)
 		return (head);
 	if (cmp > 0)

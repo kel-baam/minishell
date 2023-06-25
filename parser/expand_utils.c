@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 22:06:28 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/22 22:57:18 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 02:01:52 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "token.h"
 #include "../minishell.h"
 
-void	store_data_before_dollar(char **token, char **store)
+void	store_data_before_dollar(char **token, char **store, int *len)
 {
 	int		pos_dollar;
 	char	*to_free;
@@ -31,18 +31,19 @@ void	store_data_before_dollar(char **token, char **store)
 	}
 	else
 		*store = ft_strdup("");
+	*len = ft_strlen(*token);
 }
 
 void	check_dollar(char *token, char **store, int *i, int *flag)
 {
-	char *to_free;
+	char	*to_free;
 
 	if (!ft_strcmp(token, "$") || (token[*i] == '$'
 			&& !ft_isalnum(token[(*i) + 1]) && token[(*i) + 1] != '?'))
 	{
 		to_free = *store;
 		*store = ft_strjoin(*store, "$");
-		function_free((void **)to_free, 1);
+		function_free((void **)&to_free, 1);
 	}
 	if (token[*i] == '$')
 	{
@@ -63,7 +64,7 @@ void	string_to_expand(char *token, int *i, char **result)
 	{
 		to_free = *result;
 		c_string = char_to_string(token[*i]);
-		*result =  ft_strjoin(*result, c_string);
+		*result = ft_strjoin(*result, c_string);
 		function_free((void **)&c_string, 1);
 		function_free((void **)&to_free, 1);
 		(*i)++;

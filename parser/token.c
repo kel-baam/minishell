@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 18:37:52 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/22 20:07:59 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 01:03:42 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ t_token	*get_one_token(t_lexer *lexer, char *types)
 		return (token = init_token(" ", token_space),
 			lexer_advance(lexer), ft_free_test((void **)&buffer), token);
 	if (lexer->c == '\"' || lexer->c == '\'')
-		return (ft_free_test((void **)&buffer), get_one_token_with_quote(lexer));
+		return (ft_free_test((void **)&buffer),
+			get_one_token_with_quote(lexer));
 	if (lexer->c == '$')
-		return (ft_free_test((void **)&buffer), get_one_token_with_dollar(lexer));
+		return (ft_free_test((void **)&buffer),
+			get_one_token_with_dollar(lexer));
 	return (ft_free_test((void **)&buffer), get_one_token_text(lexer, types));
 }
 
