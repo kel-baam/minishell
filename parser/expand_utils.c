@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 22:06:28 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/25 01:04:05 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 02:01:52 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "token.h"
 #include "../minishell.h"
 
-void	store_data_before_dollar(char **token, char **store)
+void	store_data_before_dollar(char **token, char **store, int *len)
 {
 	int		pos_dollar;
 	char	*to_free;
@@ -31,6 +31,7 @@ void	store_data_before_dollar(char **token, char **store)
 	}
 	else
 		*store = ft_strdup("");
+	*len = ft_strlen(*token);
 }
 
 void	check_dollar(char *token, char **store, int *i, int *flag)

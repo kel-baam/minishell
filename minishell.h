@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:31:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/22 22:53:13 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 02:04:03 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <termios.h>
 # include <unistd.h>
 # define MAX_PIPE 1000
-# define TABLE_SIZE 1024 
+# define TABLE_SIZE 1024
 # define HOME "/Users/kel-baam"
 # include "parser/cmd.h"
 # include "parser/lexer.h"
@@ -74,7 +74,7 @@ typedef struct s_data
 	int				status_code;
 	int				count_envs;
 	int				is_child;
-	int             count_herdoc;
+	int				count_herdoc;
 	char			*current_dir;
 	struct termios	new_term;
 	struct termios	old_term;
@@ -83,16 +83,21 @@ typedef struct s_data
 
 t_data				g_data;
 
-void				store_data_before_dollar(char **token, char **store);
+void				store_data_before_dollar(char **token,
+						char **store, int *len);
 void				check_dollar(char *token, char **store, int *i, int *flag);
 void				string_to_expand(char *token, int *i, char **result);
 void				expand_result(char **result, int *flag, char **store);
-void				store_special_char(char *token, int *i, char **result, char **store);
+void				store_special_char(char *token, int *i, char **result,
+						char **store);
 void				cmd_args_file_store_text(t_token **token_cmd, int *flag);
-void				cmd_args_file_redir_part1(t_token **token_cmd, t_token **symb_fl);
+void				cmd_args_file_redir_part1(t_token **token_cmd,
+						t_token **symb_fl);
 void				cmd_args_file_redir_part2(t_token **token_cmd,
-						t_token**symb_fl, int *flag);
-void			     cmd_args_file_store_spaces(t_token **token_cmd, t_token **cmd_arg);
+						t_token **symb_fl,
+						int *flag);
+void				cmd_args_file_store_spaces(t_token **token_cmd,
+						t_token **cmd_arg);
 void				free_same_type(void **f1, void **f2, int type);
 t_token				*get_one_token_with_quote(t_lexer *lexer);
 char				**token_cmd_to_args(t_token *token_cmd);
@@ -104,6 +109,7 @@ char				*ft_strdup(const char *s1);
 char				**ft_split(char const *s, char c);
 char				*ft_strjoin(char const *s1, char const *s2);
 void				executer(t_list *command);
+int					check_parsing_error(t_token *tokens);
 t_list				*init_commands(void);
 int					ft_atoi(const char *str, int *flag);
 t_list				*ft_lstlast(t_list *lst);
@@ -115,7 +121,7 @@ int					print_cmd_error(char *cmd, char *args, char *msg_err,
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 char				*get_actual_path(char *cmd);
 void				free_double_ptr(char **ptr);
-char				*initilizer(char **envs,int ac,char **av);
+char				*initilizer(char **envs, int ac, char **av);
 void				init_envs(char **envs);
 int					ft_env(int fd);
 int					searching_for_char(char *str, char c);
@@ -163,7 +169,8 @@ void				ft_bzero(void *s, size_t n);
 t_list				*parser(char *line);
 t_list				*store_all_cmd(t_token **tokens, char *symb);
 char				**convert_tree_to_array(void);
-void				duplicate_fds(t_list *tmp, int last_fd, int *fds, int is_out);
+void				duplicate_fds(t_list *tmp, int last_fd, int *fds,
+						int is_out);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void				exec_herdoc(char *del, int fd);
 void				ft_lstadd_back_token(t_token **lst, t_token *new);
@@ -173,7 +180,6 @@ t_token				*copy_of_list(t_token *original, int size);
 void				expand(char **token);
 void				exec_herdoc(char *del, int fd);
 int					herdoc(t_list *command_lst);
-void				check_parsing_error(t_token *tokens, int *flg_err);
 int					redir_out_error(t_token *token);
 int					redir_error(t_token *token, int type);
 int					redir_in_error(t_token *token);
@@ -186,21 +192,21 @@ char				**copy_of_tab(char **str);
 int					ft_isalnum(int c);
 void				free_red(t_list *redir_list);
 void				free_commands(t_list *commands);
-void				get_fds(t_list *lst_files, int *read_fd, int *write_fd, int *is_out);
+void				get_fds(t_list *lst_files, int *read_fd, int *write_fd,
+						int *is_out);
 void				my_free(char *value, char *key);
 void				init_value(int *pos, int *flag, int *i, int *status);
-int					check_err_export(char *arg,char *key, char *cmd);
-char 				*get_working_dir();
-void 				my_free(char *value,char *key);
+int					check_err_export(char *arg, char *key, char *cmd);
+void				my_free(char *value, char *key);
 void				init_value(int *pos, int *flag, int *i, int *status);
 int					check_err(char *key, char *cmd, int *i);
 int					ft_free_test(void **ptr);
-void 				store_status_code();
+void				store_status_code(void);
 char				*get_my_path(t_command *tmp_command);
 void				execute_command(t_command *tmp_command, char *path);
 void				closing_pipe(t_list *commands, int *pidd, int i);
 int					check_err_export(char *arg, char *key, char *cmd);
-char				*get_working_dir();
+char				*get_working_dir(void);
 void				my_free(char *value, char *key);
 void				init_value(int *pos, int *flag, int *i, int *status);
 int					check_err(char *key, char *cmd, int *i);
@@ -217,7 +223,9 @@ void				redir_in_err_part1(t_token **token, int *flag);
 int					redir_out_error(t_token *token);
 int					redir_out_error_part2(t_token **token);
 t_command			*insert_one_cmd(char **cmd_args, char *symb_file);
-void				insert_one_cmd_join_file_name(char *symb_file, char **file, int *i);
-void				fill_redir(t_command **new, char symb_file, char next_symb, int *i);
+void				insert_one_cmd_join_file_name(char *symb_file, char **file,
+						int *i);
+void				fill_redir(t_command **new, char symb_file, char next_symb,
+						int *i);
 void				fill_args(t_command **new, char **cmd_args);
 #endif

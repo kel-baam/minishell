@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 17:02:55 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/25 00:43:24 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 01:52:31 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,14 @@ void	insert_one_cmd_join_file_name(char *symb_file, char **file, int *i)
 	}
 }
 
+void	insert_one_command_p(t_command **new,
+		t_list **lst_redir, char **cmd_args)
+{
+	*new = malloc(sizeof(t_command));
+	*lst_redir = NULL;
+	fill_args(new, cmd_args);
+}
+
 t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 {
 	int			i;
@@ -75,9 +83,7 @@ t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 	t_command	*new;
 
 	i = 0;
-	new = malloc(sizeof(t_command));
-	lst_redir = NULL;
-	fill_args(&new, cmd_args);
+	insert_one_command_p(&new, &lst_redir, cmd_args);
 	while (symb_file && symb_file[i])
 	{
 		new->redir_in_out = malloc(sizeof(t_list));

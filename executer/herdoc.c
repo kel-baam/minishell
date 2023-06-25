@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 17:55:58 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/24 21:35:47 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 02:52:29 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	exec_herdoc(char *del, int fd)
 	while (1)
 	{
 		line = readline("herdoc >> ");
+		printf("%s\n",del);
 		if (!line || !ft_strcmp(del, line))
 			break ;
 		expand(&line);
@@ -62,12 +63,14 @@ int	herdoc(t_list *command_lst)
 	tmp_command_lst = command_lst;
 	if (g_data.count_herdoc > 16)
 		return (print_cmd_error(NULL, NULL,
-			"maximum here-document count exceeded", 2));
+				"maximum here-document count exceeded", 2));
 	else
+	{
 		while (tmp_command_lst)
 		{
 			store_herdoc_fds(tmp_command_lst);
 			tmp_command_lst = tmp_command_lst->next;
 		}
+	}
 	return (0);
 }

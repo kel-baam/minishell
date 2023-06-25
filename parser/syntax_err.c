@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 12:28:31 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/22 06:01:10 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 01:35:34 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,31 +87,30 @@ int	redir_error(t_token *token, int type)
 	return (0);
 }
 
-void	check_parsing_error(t_token *tokens, int *flg_err)
+int	check_parsing_error(t_token *tokens)
 {
+	int		flg_err;
 	t_token	*prev;
 
 	prev = NULL;
-	if (tokens)
+	while (tokens)
 	{
-		while (tokens)
-		{
-			if (tokens->e_type == 3)
-				prev = tokens;
-			(tokens->value[0] == '|') && (*flg_err = pipe_error(tokens, prev));
-			if (*flg_err)
-				break ;
-			(tokens->value[0] == '<') && (*flg_err = redir_error(tokens, 0));
-			if (*flg_err)
-				break ;
-			(tokens->value[0] == '>') && (*flg_err = redir_error(tokens, 1));
-			if (*flg_err)
-				break ;
-			(tokens->e_type == 5 || tokens->e_type == 6)
-				&& (*flg_err = qoute_error(tokens));
-			if (*flg_err)
-				break ;
-			tokens = tokens->next;
-		}
+		if (tokens->e_type == 3)
+			prev = tokens;
+		(tokens->value[0] == '|') && (flg_err = pipe_error(tokens, prev));
+		if (flg_err)
+			return (flg_err);
+		(tokens->value[0] == '<') && (flg_err = redir_error(tokens, 0));
+		if (flg_err)
+			return (flg_err);
+		(tokens->value[0] == '>') && (flg_err = redir_error(tokens, 1));
+		if (flg_err)
+			return (flg_err);
+		(tokens->e_type == 5 || tokens->e_type == 6)
+			&& (flg_err = qoute_error(tokens));
+		if (flg_err)
+			return (flg_err);
+		tokens = tokens->next;
 	}
+	return (0);
 }
