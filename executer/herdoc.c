@@ -62,7 +62,7 @@ int	herdoc(t_list *command_lst)
 	tmp_command_lst = command_lst;
 	if (g_data.count_herdoc > 16)
 		return (print_cmd_error(NULL, NULL,
-		"maximum here-document count exceeded", 2));
+			"maximum here-document count exceeded", 2));
 	else
 		while (tmp_command_lst)
 		{

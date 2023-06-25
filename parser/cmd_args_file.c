@@ -89,9 +89,7 @@ t_token	*cmd_args_file(t_token *token_cmd, char **symb_file)
 	if (token_cmd)
 	{
 		while (token_cmd)
-		{
 			cmd_args_file_body(&token_cmd, &cmd_arg, &symb_fl, &flag);
-		}
 		*symb_file = tokens_cmd_to_string(symb_fl);
 		function_free((void **)&symb_fl, 2);
 	}
