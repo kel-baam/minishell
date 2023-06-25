@@ -58,9 +58,9 @@ int	add_new_element(t_command *cmd)
 		check_egal_pos(cmd->args, &pos, &flag, i);
 		if (pos == -1)
 			case_pos_negative(&key, &value, cmd->args[i]);
-		if (!flag && pos > 0)
+		if (!flag && pos >= 0)
 			key = ft_substr(cmd->args[i], 0, pos);
-		else if (flag)
+		else if (flag && pos>=0)
 			key = ft_strdup(cmd->args[i]);
 		if (pos >= 0)
 			value = ft_substr(cmd->args[i], pos + 1, ft_strlen(cmd->args[i]));

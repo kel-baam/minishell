@@ -20,7 +20,7 @@ void	prompt(int sig)
 	if (!g_data.is_child)
 	{
 		rl_on_new_line();
-		//rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
