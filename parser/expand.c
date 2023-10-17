@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 22:29:23 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/25 02:21:32 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 04:41:59 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ typedef struct s_expand
 	char	*result;
 }	t_expand;
 
-
-void norm_function(t_expand *exp, char **token)
+void	norm_function(t_expand *exp, char **token)
 {
 	if (!expand_advance_index(&(exp)->i, &(exp)->flag, *token))
 	{
@@ -47,14 +46,14 @@ void norm_function(t_expand *exp, char **token)
 		if (ft_strlen((exp)->result) > 1 || !ft_strcmp((exp)->result, "?"))
 			expand_result(&(exp)->result, &(exp)->flag, &(exp)->store);
 		else
-			store_special_char(*token, &(exp)->i, &(exp)->result, &(exp)->store);
+			store_special_char(*token, &(exp)->i, &(exp)->result,
+				&(exp)->store);
 	}
 }
 
-
 void	expand(char **token)
 {
-	t_expand exp;
+	t_expand	exp;
 
 	exp.i = 0;
 	exp.flag = 0;

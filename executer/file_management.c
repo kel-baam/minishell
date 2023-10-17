@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_management.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: kel-baam <kel-baam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 10:36:11 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/25 02:48:41 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/10/17 18:01:49 by kel-baam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ void	duplicate_fds(t_list *tmp, int last_fd, int *fds, int is_out)
 	{
 		dup2(fds[1], STDOUT_FILENO);
 		close(fds[1]);
+		close(fds[0]);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 17:02:55 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/25 01:52:31 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 06:36:30 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,10 @@ t_command	*insert_one_cmd(char **cmd_args, char *symb_file)
 			while (symb_file[i] && symb_file[i] == ' ')
 				i++;
 			insert_one_cmd_join_file_name(symb_file, &file, &i);
-			((t_red *)new->redir_in_out->content)->file_name = file;
+			((t_red *)new->redir_in_out->content)->file_name = ft_strdup(file);
 			ft_lstadd_back(&lst_redir, ft_lstnew(new->redir_in_out->content));
 		}
+		ft_free(file);
 		ft_free(new->redir_in_out);
 	}
 	new->redir_in_out = lst_redir;

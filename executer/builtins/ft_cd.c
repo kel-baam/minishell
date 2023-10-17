@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:04:48 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/16 15:06:40 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 06:37:56 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,8 @@ int	ft_cd(t_command *cmd)
 
 	path = ft_strdup(cmd->args[1]);
 	if (path && path[0] == '-' && ft_strlen(path) == 1)
-	{
 		if (get_old_position(&path, cmd->cmd) == 1)
 			return (1);
-	}
 	if (!path)
 	{
 		home = get_home_positin(cmd->cmd);
@@ -57,7 +55,8 @@ int	ft_cd(t_command *cmd)
 		path = ft_strdup(home);
 	}
 	if (chdir(path) != 0)
-		return (print_cmd_error(cmd->cmd, cmd->args[1], strerror(errno), 1));
+		return (ft_free(path), print_cmd_error(cmd->cmd, cmd->args[1],
+				strerror(errno), 1));
 	old_pwd = get_env("PWD");
 	add_node(&g_data.env_vars, "OLDPWD", old_pwd, NULL);
 	if (old_pwd)
