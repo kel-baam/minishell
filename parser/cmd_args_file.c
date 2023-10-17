@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 02:33:18 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/25 00:30:47 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 06:36:14 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ void	cmd_args_file_last(t_token **token_cmd,
 			|| (*token_cmd)->e_type == 6))
 		cmd_args_file_store_quoted_text(&(*token_cmd));
 	else
+	{
 		expand(&(*token_cmd)->value);
+	}
 	if ((*flag) == 0)
 		ft_lstadd_back_token(symb_fl, init_token((*token_cmd)->value,
 				(*token_cmd)->e_type));

@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:31:33 by kel-baam          #+#    #+#             */
-/*   Updated: 2023/06/25 02:04:03 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 05:34:06 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include <unistd.h>
 # define MAX_PIPE 1000
 # define TABLE_SIZE 1024
-# define HOME "/Users/kel-baam"
+# define HOME "/Users/kjarmoum"
 # include "parser/cmd.h"
 # include "parser/lexer.h"
 # include "parser/token.h"

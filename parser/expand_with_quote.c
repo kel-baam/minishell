@@ -6,7 +6,7 @@
 /*   By: kjarmoum <kjarmoum@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 02:36:24 by kjarmoum          #+#    #+#             */
-/*   Updated: 2023/06/25 03:02:46 by kjarmoum         ###   ########.fr       */
+/*   Updated: 2023/06/25 04:40:49 by kjarmoum         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,8 @@ char	*expand_with_quote(t_token *token)
 
 	i = 0;
 	is_s_d_qoute = -1;
-	if (token && ft_strchr(token->value, '$')
-		&& token->value[0] == '"' && token->value[ft_strlen(token->value) - 1] == '"')
+	if (token && ft_strchr(token->value, '$') && g_data.count_herdoc > 1)
 	{
-		printf("token %s\n",token->value);
-
 		if (token->value[0] == '"')
 			is_s_d_qoute = 2;
 		else if (token->value[0] == '\'')
@@ -69,11 +66,6 @@ char	*expand_with_quote(t_token *token)
 			expand(&token->value);
 	}
 	else
-	{
-		printf("cc\n");
 		remove_s_d_qoute(&token->value);
-		printf("%s\n",token->value);
-
-	}
 	return (token->value);
 }
